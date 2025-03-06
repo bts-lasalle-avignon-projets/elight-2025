@@ -138,6 +138,21 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ![Page d'accueil](images/page-de-guide-d-utilisation-module-de-gestion.png)
 
+### IHM - Module de suoervision
+
+#### Page d'accueil
+
+![Page d'accueil](images/page-d-acceuil-module-de-supervision.png)
+
+#### Page d'information de salle
+
+![Page d'accueil](images/page-info-salle-module-de-supervision.png)
+
+#### Page d'édition de salle
+
+![Page d'accueil](images/page-d-edition-de-salle-module-de-supervision.png)
+
+
 ## Changelog
 
 > TODO
