@@ -6,10 +6,10 @@
 
 ## Description
 
-Le **module de gestion eLight** offre un contrôle précis et efficace des systèmes d'éclairage au sein de diverses salles. Grâce à une interface intuitive, il permet à l'utilisateur de :
+Le **module de gestion eLight** offre un contrôle précis et efficace des systèmes d'éclairage au sein d'une salle. Grâce à une interface intuitive, il permet à l'utilisateur de :
 
 - Créer, modifier et supprimer des **scénarios d'éclairage**.
-- Visualiser en temps réel la **consommation d'énergie** des segments d'éclairage.
+- Visualiser en temps réel la **consommation d'énergie** des segments d'éclairage de la salle.
 
 ## Prérequis
 
