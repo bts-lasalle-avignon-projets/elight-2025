@@ -138,7 +138,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ![Page d'accueil](images/page-de-guide-d-utilisation-module-de-gestion.png)
 
-### IHM - Module de suoervision
+### IHM - Module de supervision
 
 #### Page d'accueil
 
