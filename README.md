@@ -10,11 +10,18 @@
     - [Itérations 3](#itérations-3)
     - [Itérations 4](#itérations-4)
   - [Recette](#recette)
-    - [Recette - Module de Gestion par salle](#recette---module-de-gestion-par-salle)
-    - [Recette - Module de Supervision](#recette---module-de-supervision)
+    - [Recette - Module de gestion par salle](#recette---module-de-gestion-par-salle)
+    - [Recette - Module de supervision](#recette---module-de-supervision)
   - [Diagrammes](#diagrammes)
+    - [Diagrammes de cas d'utilisation - Module de gestion par salle](#diagrammes-de-cas-dutilisation---module-de-gestion-par-salle)
+    - [Diagrammes de cas d'utilisation - Module de supervision](#diagrammes-de-cas-dutilisation---module-de-supervision)
   - [Base de données](#base-de-données)
   - [Utilisation](#utilisation)
+  - [Maquettes](#maquettes)
+    - [IHM - Module de gestion par salle](#ihm---module-de-gestion-par-salle)
+      - [Page d'accueil](#page-daccueil)
+      - [Page gestion des scénarios](#page-gestion-des-scénarios)
+      - [Page guide d'utilisation](#page-guide-dutilisation)
   - [Changelog](#changelog)
   - [Documentation](#documentation)
   - [Créateurs](#créateurs)
@@ -59,44 +66,92 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ## Recette
 
-### Recette - Module de Gestion par salle
+### Recette - Module de gestion par salle
 
-| Objectif | À faire | En cours | Achevé |
-|----------|---------|----------|--------|
-| Consultation des segments de la salle | ☐ | ☐ | ☐ |
-| Création des scénarios d’éclairage | ☐ | ☐ | ☐ |
-| Suppression des scénarios d’éclairage | ☐ | ☐ | ☐ |
-| Mise à jour des scénarios d’éclairage | ☐ | ☐ | ☐ |
-| Sélectionner un scénario pour la salle | ☐ | ☐ | ☐ |
-| Synchronisation avec la base de données centrale | ☐ | ☐ | ☐ |
-| Réception de la trame via le WIFI | ☐ | ☐ | ☐ |
-| Envoi de la trame via le WIFI | ☐ | ☐ | ☐ |
+- [ ] La salle à gérer est paramétrable
+- [ ] L’état générale de la salle est consultable
+- [ ] Les segments de la salle et leur état sont visualisables
+- [ ] Un scénario est sélectionnable pour la salle
+- [ ] La création d’un scénario pour la salle est possible
+- [ ] La gestion des scénarios est possible
+- [ ] La synchronisation des scénarios avec la BDD centrale est possible
+- [ ] La liaison sans fil est opérationnelle
 
-### Recette - Module de Supervision
+**Production attendue :**
 
-| Objectif | À faire | En cours | Achevé |
-|----------|---------|----------|--------|
-| Paramétrage des salles | ☐ | ☐ | ☐ |
-| Consultation de l'état des salles | ☐ | ☐ | ☐ |
-| Création des scénarios d’éclairage | ☐ | ☐ | ☐ |
-| Suppression des scénarios d’éclairage | ☐ | ☐ | ☐ |
-| Mise à jour des scénarios d’éclairage | ☐ | ☐ | ☐ |
-| Suivi et historique de la consommation | ☐ | ☐ | ☐ |
-| Synchronisation avec la base de données centrale | ☐ | ☐ | ☐ |
-| Réception de la trame via le WIFI | ☐ | ☐ | ☐ |
-| Envoi de la trame via le WIFI | ☐ | ☐ | ☐ |
+- [ ] Une application informatique fonctionnelle ;
+- [ ] Un modèle UML complet de la partie à développer ;
+- [ ] Le code source commenté de l'application ;
+- [ ] Les documentations associées au module.
+
+### Recette - Module de supervision
+
+- [ ] L’état de n’importe quelle salle est affichable
+- [ ] L’édition des informations associées à une salle est possible
+- [ ] L‘état de n’importe quel segment est affichable
+- [ ] L’assignation d’un segment à une salle est possible
+- [ ] Tous les scénarios d’éclairage sont gérables
+- [ ] La consommation d’éclairage est visible à l’instant T
+- [ ] L’historique des consommations d’éclairage est visualisable
+- [ ] La liaison sans fil est opérationnelle
+
+**Production attendue :**
+
+- [ ] Une application informatique fonctionnelle ;
+- [ ] Un modèle UML complet de la partie à développer ;
+- [ ] Le code source commenté de l'application ;
+- [ ] Les documentations associées au module.
 
 ## Diagrammes
 
-> TODO
+### Diagrammes de cas d'utilisation - Module de gestion par salle
+
+![Diagramme de cas d'utilisation](images/diagramme-cas-dutilisation-module-de-gestion.png)
+
+### Diagrammes de cas d'utilisation - Module de supervision
+
+![Diagramme de cas d'utilisation](images/diagramme-cas-dutilisation-module-de-supervision.png)
 
 ## Base de données
+
+![Schéma de la base de données](images/diagramme-de-la-base-de-donnees.png)
 
 > TODO
 
 ## Utilisation
 
 > TODO
+
+## Maquettes
+
+### IHM - Module de gestion par salle
+
+#### Page d'accueil
+
+![Page d'accueil](images/page-d-accueil-module-de-gestion.png)
+
+#### Page gestion des scénarios
+
+![Page d'accueil](images/page-des-scenarios-module-de-gestion.png)
+
+#### Page guide d'utilisation
+
+![Page d'accueil](images/page-de-guide-d-utilisation-module-de-gestion.png)
+
+### IHM - Module de supervision
+
+#### Page d'accueil
+
+![Page d'accueil](images/page-d-acceuil-module-de-supervision.png)
+
+#### Page d'information de salle
+
+![Page d'accueil](images/page-info-salle-module-de-supervision.png)
+
+#### Page d'édition de salle
+
+![Page d'accueil](images/page-d-edition-de-salle-module-de-supervision.png)
+
 
 ## Changelog
 
