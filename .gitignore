@@ -1,0 +1,58 @@
+# Fichiers temporaires
+*.bak
+*.swp
+*.swo
+*.swn
+*.~*
+
+# Fichiers de compilation
+*.pro.user
+*.pro.user.*
+Makefile*
+CMakeLists.txt.user
+*.moc
+*.qmake.stash
+*.qmake.cache
+*.obj
+*.o
+*.a
+*.so
+*.lo
+*.la
+*.dll
+*.exe
+*.out
+*.app
+
+# Répertoires de build
+build/
+debug/
+release/
+debug_static/
+release_static/
+*_debug/
+*_release/
+cmake-build-*/
+
+# Dossiers spécifiques aux IDE
+.idea/
+.vscode/
+*.user
+*.userprefs
+
+# Fichiers Qt Creator
+*.creator*
+*.kdev4
+*.qmake
+*.pro.user
+
+# Fichiers de configuration de l'IDE
+*.vscode/
+*.vs/
+
+# Caches de qt
+qtc_*
+
+# Fichiers temporaires et autres fichiers générés
+*.log
+*.dSYM/
