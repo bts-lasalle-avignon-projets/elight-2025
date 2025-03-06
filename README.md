@@ -1,8 +1,37 @@
-# README - Projet eLight 💡
+# Projet eLight 💡
+
+- [Projet eLight 💡](#projet-elight-)
+  - [Présentation](#présentation)
+    - [Module de gestion par salle](#module-de-gestion-par-salle)
+    - [Module de supervision](#module-de-supervision)
+  - [Itérations](#itérations)
+    - [Itération 1](#itération-1)
+    - [Itérations 2](#itérations-2)
+    - [Itérations 3](#itérations-3)
+    - [Itérations 4](#itérations-4)
+  - [Recette](#recette)
+    - [Recette - Module de Gestion par salle](#recette---module-de-gestion-par-salle)
+    - [Recette - Module de Supervision](#recette---module-de-supervision)
+  - [Diagrammes](#diagrammes)
+  - [Base de données](#base-de-données)
+  - [Utilisation](#utilisation)
+  - [Changelog](#changelog)
+  - [Documentation](#documentation)
+  - [Créateurs](#créateurs)
+
+---
 
 ## Présentation
 
 Le projet eLight vise à optimiser l'éclairage des structures telles que les supermarchés, entrepôts et salles de classe en ajustant la lumière en fonction des besoins réels des occupants. Grâce à des capteurs de luminosité et un contrôle intelligent, il permet de réaliser des économies d'énergie tout en garantissant un confort visuel optimal.
+
+### Module de gestion par salle
+
+Ce module permet au client de gérer l’éclairage d’une salle. Il peut ainsi choisir un scénario d’éclairage, visualiser la consommation en cours, créer un nouveau scénario pour sa salle et gérer les scénarios existants. Il envoie des instructions aux modules contrôleur de segment.
+
+### Module de supervision
+
+Ce module permet au client de superviser toutes les salles équipées de système elight. Il peut visualiser les états de tous les segments, gérer les scénarios de toutes les salles, gérer les attributions de segment à une salle, suivre la consommation de toute l’installation à l’instant T et visualiser l’historique des consommations pour toute l’installation.
 
 ## Itérations
 
@@ -73,6 +102,11 @@ Le projet eLight vise à optimiser l'éclairage des structures telles que les su
 
 > TODO
 
-## Créateurs
+## Documentation
 
 > TODO
+
+## Créateurs
+
+- **[Soria Bonet Enzo](https://github.com/esoriabonet)** : *Module de gestion par salle*
+- **[Blondel Joshua](https://github.com/JBLONDEL04)** : *Module de supervision*
