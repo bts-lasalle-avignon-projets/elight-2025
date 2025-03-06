@@ -10,11 +10,18 @@
     - [Itérations 3](#itérations-3)
     - [Itérations 4](#itérations-4)
   - [Recette](#recette)
-    - [Module de Gestion par salle](#module-de-gestion-par-salle-1)
-    - [Module de Supervision](#module-de-supervision-1)
+    - [Recette - Module de gestion par salle](#recette---module-de-gestion-par-salle)
+    - [Recette - Module de supervision](#recette---module-de-supervision)
   - [Diagrammes](#diagrammes)
+    - [Diagrammes de cas d'utilisation - Module de gestion par salle](#diagrammes-de-cas-dutilisation---module-de-gestion-par-salle)
+    - [Diagrammes de cas d'utilisation - Module de supervision](#diagrammes-de-cas-dutilisation---module-de-supervision)
   - [Base de données](#base-de-données)
   - [Utilisation](#utilisation)
+  - [Maquettes](#maquettes)
+    - [IHM - Module de gestion par salle](#ihm---module-de-gestion-par-salle)
+      - [Page d'accueil](#page-daccueil)
+      - [Page gestion des scénarios](#page-gestion-des-scénarios)
+      - [Page guide d'utilisation](#page-guide-dutilisation)
   - [Changelog](#changelog)
   - [Documentation](#documentation)
   - [Créateurs](#créateurs)
@@ -59,7 +66,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ## Recette
 
-### Module de Gestion par salle
+### Recette - Module de gestion par salle
 
 - [ ] La salle à gérer est paramétrable
 - [ ] L’état générale de la salle est consultable
@@ -77,7 +84,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 - [ ] Le code source commenté de l'application ;
 - [ ] Les documentations associées au module.
 
-### Module de Supervision
+### Recette - Module de supervision
 
 - [ ] L’état de n’importe quelle salle est affichable
 - [ ] L’édition des informations associées à une salle est possible
@@ -97,15 +104,39 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ## Diagrammes
 
-> TODO
+### Diagrammes de cas d'utilisation - Module de gestion par salle
+
+![Diagramme de cas d'utilisation](images/diagramme-cas-dutilisation-module-de-gestion.png)
+
+### Diagrammes de cas d'utilisation - Module de supervision
+
+![Diagramme de cas d'utilisation](images/diagramme-cas-dutilisation-module-de-supervision.png)
 
 ## Base de données
+
+![Schéma de la base de données](images/diagramme-de-la-base-de-donnees.png)
 
 > TODO
 
 ## Utilisation
 
 > TODO
+
+## Maquettes
+
+### IHM - Module de gestion par salle
+
+#### Page d'accueil
+
+![Page d'accueil](images/page-d-accueil-module-de-gestion.png)
+
+#### Page gestion des scénarios
+
+![Page d'accueil](images/page-des-scenarios-module-de-gestion.png)
+
+#### Page guide d'utilisation
+
+![Page d'accueil](images/page-de-guide-d-utilisation-module-de-gestion.png)
 
 ## Changelog
 
