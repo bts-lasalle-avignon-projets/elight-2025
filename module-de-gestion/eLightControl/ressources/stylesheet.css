@@ -1,0 +1,23 @@
+ELightControl {
+    background-color: #FFFFFF;
+}
+
+QFrame#separateurMenuNavigation {
+    background-color: #000000;
+    border-radius: 4px;
+    border: 2px solid;
+}
+
+QFrame#separateurPageAccueil {
+    background-color: #000000;
+    border-radius: 4px;
+    border: 2px solid;
+}
+
+QPushButton {
+    background-color: #ffef82;
+}
+
+QPushButton:hover {
+    background-color: #ffc55a;
+}
