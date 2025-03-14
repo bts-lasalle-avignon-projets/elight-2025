@@ -10,7 +10,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     communicationbasededonnees.cpp \
     communicationsegments.cpp \
-    interfacehommemachine.cpp \
     main.cpp \
     elightcontrol.cpp \
     menunavigation.cpp \
@@ -23,7 +22,6 @@ HEADERS += \
     communicationbasededonnees.h \
     communicationsegments.h \
     elightcontrol.h \
-    interfacehommemachine.h \
     menunavigation.h \
     pageaccueil.h \
     pagegestionscenario.h \
