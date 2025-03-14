@@ -38,6 +38,7 @@ class ELightControl : public QWidget
     ~ELightControl();
 
   private:
+    QStackedWidget* pageEmpilees;
 };
 
 #endif // ELIGHTCONTROL_H
