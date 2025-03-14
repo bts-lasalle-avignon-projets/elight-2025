@@ -2,13 +2,9 @@ ELightControl {
     background-color: #FFFFFF;
 }
 
-QFrame#separateurMenuNavigation {
-    background-color: #000000;
-    border-radius: 4px;
-    border: 2px solid;
-}
-
-QFrame#separateurPageAccueil {
+QFrame#separateurMenuNavigation,
+QFrame#separateurPageAccueil,
+QFrame#separateurGestionScenarios {
     background-color: #000000;
     border-radius: 4px;
     border: 2px solid;
