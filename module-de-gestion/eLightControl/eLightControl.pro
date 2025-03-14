@@ -10,13 +10,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     communicationbasededonnees.cpp \
     communicationsegments.cpp \
+    interfacehommemachine.cpp \
     main.cpp \
-    elightcontrol.cpp
+    elightcontrol.cpp \
+    menunavigation.cpp \
+    pageaccueil.cpp \
+    pagegestionscenario.cpp \
+    pageguide.cpp \
+    pageparametres.cpp
 
 HEADERS += \
     communicationbasededonnees.h \
     communicationsegments.h \
-    elightcontrol.h
+    elightcontrol.h \
+    interfacehommemachine.h \
+    menunavigation.h \
+    pageaccueil.h \
+    pagegestionscenario.h \
+    pageguide.h \
+    pageparametres.h
 
 # Les defines pour la version release (sans debug)
 #CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI
