@@ -24,30 +24,6 @@
 #define VERSION "1.0"
 
 /**
- * @def GAUCHE
- * @brief La position des boutons dans un layout en grille
- */
-#define GAUCHE 0
-
-/**
- * @def DROITE
- * @brief La position des boutons dans un layout en grille
- */
-#define DROITE 1
-
-/**
- * @def HAUT
- * @brief La position des boutons dans un layout en grille
- */
-#define HAUT 0
-
-/**
- * @def BAS
- * @brief La position des boutons dans un layout en grille
- */
-#define BAS 1
-
-/**
  * @class ELightControl
  * @brief Déclaration de la classe ELightControl
  * @details Cette classe gère l'interface graphique de l'application
