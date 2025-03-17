@@ -36,6 +36,30 @@
 #define STYLE_APPLICATION "stylesheet.css"
 
 /**
+ * @def PAGE_ACCUEIL
+ * @brief Index de la page d'accueil
+ */
+#define PAGE_ACCUEIL 0
+
+/**
+ * @def PAGE_GESTION
+ * @brief Index de la page de gestion des scenarios
+ */
+#define PAGE_GESTION 1
+
+/**
+ * @def PAGE_GUIDE
+ * @brief Index de la page de guide
+ */
+#define PAGE_GUIDE 2
+
+/**
+ * @def PAGE_PARAMETRES
+ * @brief Index de la page des paramètres
+ */
+#define PAGE_PARAMETRES 3
+
+/**
  * @class ELightControl
  * @brief Déclaration de la classe ELightControl
  * @details Cette classe gère l'interface graphique de l'application
@@ -51,8 +75,8 @@ class ELightControl : public QWidget
 
   private:
     QStackedWidget* pageEmpilees;
-
-    void chargerFeuilleStyle();
+    void            chargerFeuilleStyle();
+    void            clicBoutonChangerPage(const int index);
 };
 
 #endif // ELIGHTCONTROL_H
