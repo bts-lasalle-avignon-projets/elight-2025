@@ -8,6 +8,10 @@ class PageAccueil : public QWidget
     Q_OBJECT
   public:
     explicit PageAccueil(QWidget* parent = nullptr);
+    QPushButton* getBoutonGererScenarios();
+
+  private:
+    QPushButton* boutonGererScenarios;
 
   signals:
 };

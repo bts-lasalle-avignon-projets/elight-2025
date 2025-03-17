@@ -5,8 +5,8 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
 {
     QFrame* separateurPageAccueil = new QFrame(this);
 
-    QLabel*      titreScenarioActif   = new QLabel(this);
-    QPushButton* boutonGererScenarios = new QPushButton(this);
+    QLabel* titreScenarioActif = new QLabel(this);
+    boutonGererScenarios       = new QPushButton(this);
 
     QLabel* texteScenarioActif     = new QLabel(this);
     QLabel* nomScenarioActif       = new QLabel(this);
@@ -47,10 +47,13 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     QHBoxLayout* layoutSegments            = new QHBoxLayout;
 
     layoutVerticalPageAccueil->addLayout(layoutEnteteScenarioActif);
+    layoutVerticalPageAccueil->addStretch();
     layoutVerticalPageAccueil->addLayout(layoutScenarioActif);
+    layoutVerticalPageAccueil->addStretch();
     layoutVerticalPageAccueil->addLayout(layoutSelectionScenario);
     layoutVerticalPageAccueil->addWidget(separateurPageAccueil);
     layoutVerticalPageAccueil->addLayout(layoutEnteteSegments);
+    layoutVerticalPageAccueil->addStretch();
     layoutVerticalPageAccueil->addLayout(layoutSegments);
 
     layoutEnteteScenarioActif->addWidget(titreScenarioActif);
@@ -65,4 +68,9 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     layoutSelectionScenario->addWidget(boutonConfirmerSelectionScenario);
 
     layoutEnteteSegments->addWidget(titreSegments);
+}
+
+QPushButton* PageAccueil::getBoutonGererScenarios()
+{
+    return boutonGererScenarios;
 }
