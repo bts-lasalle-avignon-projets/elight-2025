@@ -35,29 +35,11 @@
  */
 #define STYLE_APPLICATION "stylesheet.css"
 
-/**
- * @def PAGE_ACCUEIL
- * @brief Index de la page d'accueil
- */
-#define PAGE_ACCUEIL 0
-
-/**
- * @def PAGE_GESTION
- * @brief Index de la page de gestion des scenarios
- */
-#define PAGE_GESTION 1
-
-/**
- * @def PAGE_GUIDE
- * @brief Index de la page de guide
- */
-#define PAGE_GUIDE 2
-
-/**
- * @def PAGE_PARAMETRES
- * @brief Index de la page des paramètres
- */
-#define PAGE_PARAMETRES 3
+class MenuNavigation;
+class PageAccueil;
+class PageGestionScenario;
+class PageGuide;
+class PageParametres;
 
 /**
  * @class ELightControl
@@ -73,10 +55,34 @@ class ELightControl : public QWidget
     ELightControl(QWidget* parent = nullptr);
     ~ELightControl();
 
+    /**
+     * @enum Page
+     * @brief Définit les index des différentes pages
+     *
+     */
+    enum Page
+    {
+        ACCUEIL = 0,
+        GESTION,
+        GUIDE,
+        PARAMETRES,
+        NB_PAGES
+    };
+
   private:
-    QStackedWidget* pageEmpilees;
-    void            chargerFeuilleStyle();
-    void            clicBoutonChangerPage(const int index);
+    QStackedWidget* pageEmpilees;   //!< la pile de pages de la fenêtre
+    MenuNavigation* menuNavigation; //!< composition du menu de navigation
+    PageAccueil*    pageAccueil;    //!< composition de la page Accueil
+    PageGestionScenario*
+      pageGestionScenarios; //!< composition de la page Gestion des scénarios
+    PageGuide*      pageGuide;      //!< composition de la page Guide
+    PageParametres* pageParametres; //!< composition de la page Parametres
+
+    void creerPages();
+    void gererNavigation();
+    void personnaliserFenetre();
+    void chargerFeuilleStyle();
+    void changerPage(Page page);
 };
 
 #endif // ELIGHTCONTROL_H
