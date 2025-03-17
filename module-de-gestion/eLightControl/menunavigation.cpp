@@ -33,6 +33,7 @@ MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
     QGridLayout* layoutBoutonsMenuDeNavigation = new QGridLayout;
 
     layoutMenuDeNavigation->addWidget(labelLogoeLight);
+    layoutMenuDeNavigation->addStretch();
     layoutMenuDeNavigation->addLayout(layoutBoutonsMenuDeNavigation);
 
     layoutBoutonsMenuDeNavigation->addWidget(boutonAccueil, HAUT, GAUCHE);
