@@ -56,10 +56,63 @@ ELightControl::ELightControl(QWidget* parent) : QWidget(parent)
     layoutHorizontalPrincipal->addWidget(separateurMenuNavigation);
     layoutHorizontalPrincipal->addWidget(pageEmpilees);
 
-    pageEmpilees->setCurrentIndex(0);
     this->adjustSize();
 
+    pageEmpilees->setCurrentIndex(PAGE_ACCUEIL);
     chargerFeuilleStyle();
+
+    connect(menuNavigation->getBoutonAccueil(),
+            &QPushButton::clicked,
+            this,
+            [=] {
+                clicBoutonChangerPage(PAGE_ACCUEIL);
+            });
+
+    connect(menuNavigation->getBoutonGestionScenarios(),
+            &QPushButton::clicked,
+            this,
+            [=] {
+                clicBoutonChangerPage(PAGE_GESTION);
+            });
+
+    connect(menuNavigation->getBoutonGuide(), &QPushButton::clicked, this, [=] {
+        clicBoutonChangerPage(PAGE_GUIDE);
+    });
+
+    connect(menuNavigation->getBoutonParametres(),
+            &QPushButton::clicked,
+            this,
+            [=] {
+                clicBoutonChangerPage(PAGE_PARAMETRES);
+            });
+
+    connect(pageAccueil->getBoutonGererScenarios(),
+            &QPushButton::clicked,
+            this,
+            [=] {
+                clicBoutonChangerPage(PAGE_GESTION);
+            });
+
+    connect(pageGestionScenarios->getBoutonRetourGestionScenario(),
+            &QPushButton::clicked,
+            this,
+            [=] {
+                clicBoutonChangerPage(PAGE_ACCUEIL);
+            });
+
+    connect(pageGuide->getBoutonRetourGuide(),
+            &QPushButton::clicked,
+            this,
+            [=] {
+                clicBoutonChangerPage(PAGE_ACCUEIL);
+            });
+
+    connect(pageParametres->getBoutonRetourParametre(),
+            &QPushButton::clicked,
+            this,
+            [=] {
+                clicBoutonChangerPage(PAGE_ACCUEIL);
+            });
 }
 
 ELightControl::~ELightControl()
@@ -77,4 +130,9 @@ void ELightControl::chargerFeuilleStyle()
         QString     style = in.readAll();
         this->setStyleSheet(style);
     }
+}
+
+void ELightControl::clicBoutonChangerPage(const int index)
+{
+    pageEmpilees->setCurrentIndex(index);
 }
