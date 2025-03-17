@@ -28,6 +28,11 @@ HEADERS += \
     pageguide.h \
     pageparametres.h
 
+COPIES += ressources
+ressources.files = ressources
+ressources.path = $$OUT_PWD/
+ressources.base = $$PWD/
+
 # Les defines pour la version release (sans debug)
 #CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI
 # Les defines pour la version debug

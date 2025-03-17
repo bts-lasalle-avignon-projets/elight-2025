@@ -26,7 +26,6 @@ ELightControl::ELightControl(QWidget* parent) : QWidget(parent)
     qDebug() << Q_FUNC_INFO << this;
 
     setWindowTitle(QString(APPLICATION) + QString(" v") + QString(VERSION));
-    QString cheminRessources = "../" + QString(APPLICATION) + "/ressources/";
 
 #ifdef RASPBERRY_PI
     showFullScreen();
@@ -41,8 +40,6 @@ ELightControl::ELightControl(QWidget* parent) : QWidget(parent)
     PageGuide*      pageGuide      = new PageGuide(pageEmpilees);
     PageParametres* pageParametres = new PageParametres(pageEmpilees);
 
-    /* ---------- ----------- */
-
     separateurMenuNavigation->setFrameShape(QFrame::VLine);
     separateurMenuNavigation->setFrameShadow(QFrame::Sunken);
     separateurMenuNavigation->setObjectName("separateurMenuNavigation");
@@ -53,31 +50,31 @@ ELightControl::ELightControl(QWidget* parent) : QWidget(parent)
     pageEmpilees->addWidget(pageGuide);
     pageEmpilees->addWidget(pageParametres);
 
-    /* ---------- ----------- */
-
     QHBoxLayout* layoutHorizontalPrincipal = new QHBoxLayout(this);
-
-    /* ---------- ----------- */
 
     layoutHorizontalPrincipal->addWidget(menuNavigation);
     layoutHorizontalPrincipal->addWidget(separateurMenuNavigation);
     layoutHorizontalPrincipal->addWidget(pageEmpilees);
 
-    /* ---------- ----------- */
-
     pageEmpilees->setCurrentIndex(0);
     this->adjustSize();
 
-    QFile styleFile(cheminRessources + "stylesheet.css");
+    chargerFeuilleStyle();
+}
+
+ELightControl::~ELightControl()
+{
+    qDebug() << Q_FUNC_INFO << this;
+}
+
+void ELightControl::chargerFeuilleStyle()
+{
+    QString cheminRessources = "./" + QString(CHEMIN_RESSOURCES) + "/";
+    QFile   styleFile(cheminRessources + QString(STYLE_APPLICATION));
     if(styleFile.open(QFile::ReadOnly))
     {
         QTextStream in(&styleFile);
         QString     style = in.readAll();
         this->setStyleSheet(style);
     }
-}
-
-ELightControl::~ELightControl()
-{
-    qDebug() << Q_FUNC_INFO << this;
 }

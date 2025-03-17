@@ -1,10 +1,11 @@
 #include "menunavigation.h"
+#include "elightcontrol.h"
 
 MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
 {
     QLabel* labelLogoeLight  = new QLabel(this);
-    QString cheminRessources = "../" + QString(APPLICATION) + "/ressources/";
-    QPixmap logoeLight(cheminRessources + "logoeLight.png");
+    QString cheminRessources = "./" + QString(CHEMIN_RESSOURCES) + "/";
+    QPixmap logoeLight(cheminRessources + QString(LOGO_APPLICATION));
 
     boutonAccueil          = new QPushButton(this);
     boutonGestionScenarios = new QPushButton(this);
@@ -23,8 +24,8 @@ MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
     boutonParametres->setText("Paramètres");
     boutonParametres->setFixedHeight(boutonParametres->width());
 
-    labelLogoeLight->setPixmap(logoeLight.scaled(200,
-                                                 200,
+    labelLogoeLight->setPixmap(logoeLight.scaled(LARGEUR_LOGO,
+                                                 HAUTEUR_LOGO,
                                                  Qt::KeepAspectRatio,
                                                  Qt::SmoothTransformation));
 

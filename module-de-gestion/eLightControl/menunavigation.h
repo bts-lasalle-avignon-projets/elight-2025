@@ -4,6 +4,24 @@
 #include <QtWidgets>
 
 /**
+ * @def LOGO_APPLICATION
+ * @brief Le logo de l'application eLight
+ */
+#define LOGO_APPLICATION "logoeLight.png"
+
+/**
+ * @def LARGEUR_LOGO
+ * @brief La largeur du logo en pixels
+ */
+#define LARGEUR_LOGO 200
+
+/**
+ * @def HAUTEUR_LOGO
+ * @brief La hauteur du logo en pixels
+ */
+#define HAUTEUR_LOGO 200
+
+/**
  * @def GAUCHE
  * @brief La position des boutons dans un layout en grille
  */
