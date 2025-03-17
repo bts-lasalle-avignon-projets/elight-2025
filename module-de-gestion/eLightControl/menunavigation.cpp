@@ -42,3 +42,20 @@ MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
     layoutBoutonsMenuDeNavigation->addWidget(boutonGuide, BAS, GAUCHE);
     layoutBoutonsMenuDeNavigation->addWidget(boutonParametres, BAS, DROITE);
 }
+
+QPushButton* MenuNavigation::getBoutonAccueil()
+{
+    return boutonAccueil;
+}
+QPushButton* MenuNavigation::getBoutonGestionScenarios()
+{
+    return boutonGestionScenarios;
+}
+QPushButton* MenuNavigation::getBoutonGuide()
+{
+    return boutonGuide;
+}
+QPushButton* MenuNavigation::getBoutonParametres()
+{
+    return boutonParametres;
+}
