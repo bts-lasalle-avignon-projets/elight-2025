@@ -2,8 +2,8 @@
 
 PageGestionScenario::PageGestionScenario(QWidget* parent) : QWidget(parent)
 {
-    QLabel*      titreCreationScenario       = new QLabel(this);
-    QPushButton* boutonRetourGestionScenario = new QPushButton(this);
+    QLabel* titreCreationScenario = new QLabel(this);
+    boutonRetourGestionScenario   = new QPushButton(this);
 
     QLabel*      texteEnregistrerScenario      = new QLabel(this);
     QLabel*      nomEnregistrerScenario        = new QLabel(this);
@@ -71,9 +71,11 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) : QWidget(parent)
 
     layoutVerticalPageGestionScenario->addLayout(layoutEnteteCreationScenario);
     layoutVerticalPageGestionScenario->addLayout(layoutCreationScenario);
+    layoutVerticalPageGestionScenario->addStretch();
     layoutVerticalPageGestionScenario->addWidget(separateurGestionScenarios);
     layoutVerticalPageGestionScenario->addLayout(
       layoutEnteteModificationCreationScenario);
+    layoutVerticalPageGestionScenario->addStretch();
     layoutVerticalPageGestionScenario->addLayout(layoutListeScenarios);
     layoutVerticalPageGestionScenario->addLayout(layoutModifierScenario);
 
@@ -107,4 +109,9 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) : QWidget(parent)
     layoutModifierScenarioIntensite->addWidget(
       nouvelleIntensiteModifierScenario);
     layoutModifierScenarioIntensite->addWidget(boiteNouvelleIntensite);
+}
+
+QPushButton* PageGestionScenario::getBoutonRetourGestionScenario()
+{
+    return boutonRetourGestionScenario;
 }
