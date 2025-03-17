@@ -24,6 +24,18 @@
 #define VERSION "1.0"
 
 /**
+ * @def CHEMIN_RESSOURCES
+ * @brief Le chemin vers les fichiers ressources de l'application eLight
+ */
+#define CHEMIN_RESSOURCES "ressources"
+
+/**
+ * @def STYLE_APPLICATION
+ * @brief La feuille de style de l'application eLight
+ */
+#define STYLE_APPLICATION "stylesheet.css"
+
+/**
  * @class ELightControl
  * @brief Déclaration de la classe ELightControl
  * @details Cette classe gère l'interface graphique de l'application
@@ -38,6 +50,9 @@ class ELightControl : public QWidget
     ~ELightControl();
 
   private:
+    QStackedWidget* pageEmpilees;
+
+    void chargerFeuilleStyle();
 };
 
 #endif // ELIGHTCONTROL_H

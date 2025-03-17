@@ -11,12 +11,27 @@ SOURCES += \
     communicationbasededonnees.cpp \
     communicationsegments.cpp \
     main.cpp \
-    elightcontrol.cpp
+    elightcontrol.cpp \
+    menunavigation.cpp \
+    pageaccueil.cpp \
+    pagegestionscenario.cpp \
+    pageguide.cpp \
+    pageparametres.cpp
 
 HEADERS += \
     communicationbasededonnees.h \
     communicationsegments.h \
-    elightcontrol.h
+    elightcontrol.h \
+    menunavigation.h \
+    pageaccueil.h \
+    pagegestionscenario.h \
+    pageguide.h \
+    pageparametres.h
+
+COPIES += ressources
+ressources.files = ressources
+ressources.path = $$OUT_PWD/
+ressources.base = $$PWD/
 
 # Les defines pour la version release (sans debug)
 #CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI
