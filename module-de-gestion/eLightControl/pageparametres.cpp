@@ -1,9 +1,9 @@
 #include "pageparametres.h"
-#include <QtWidgets>
 
 PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
 {
     QLabel* titreParametres = new QLabel(this);
+    boutonRetourParametres  = new QPushButton(this);
 
     QLabel*      texteNomDeSalle  = new QLabel(this);
     QLineEdit*   boiteNomDeSalle  = new QLineEdit(this);
@@ -14,6 +14,7 @@ PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
     QPushButton* boutonValiderIp = new QPushButton(this);
 
     titreParametres->setText("<h1>Paramètres</h1>");
+    boutonRetourParametres->setText("RETOUR");
 
     texteNomDeSalle->setText("Nom de la salle : ");
     boiteNomDeSalle->setPlaceholderText("...");
@@ -30,10 +31,12 @@ PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
     QHBoxLayout* layoutIp     = new QHBoxLayout();
 
     layoutVertical->addLayout(layoutEntete);
+    layoutVertical->addStretch();
     layoutVertical->addLayout(layoutSalle);
     layoutVertical->addLayout(layoutIp);
 
     layoutEntete->addWidget(titreParametres);
+    layoutEntete->addWidget(boutonRetourParametres);
 
     layoutSalle->addWidget(texteNomDeSalle);
     layoutSalle->addWidget(boiteNomDeSalle);
@@ -42,4 +45,9 @@ PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
     layoutIp->addWidget(texteIp);
     layoutIp->addWidget(boiteIp);
     layoutIp->addWidget(boutonValiderIp);
+}
+
+QPushButton* PageParametres::getBoutonRetourParametre() const
+{
+    return boutonRetourParametres;
 }

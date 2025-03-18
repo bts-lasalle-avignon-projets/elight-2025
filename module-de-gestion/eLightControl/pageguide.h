@@ -1,16 +1,19 @@
 #ifndef PAGEGUIDE_H
 #define PAGEGUIDE_H
 
-#include <QWidget>
+#include <QtWidgets>
 
 class PageGuide : public QWidget
 {
     Q_OBJECT
-public:
-    explicit PageGuide(QWidget *parent = nullptr);
+  public:
+    explicit PageGuide(QWidget* parent = nullptr);
+    QPushButton* getBoutonRetourGuide() const;
 
-signals:
+  private:
+    QPushButton* boutonRetourGuide;
 
+  signals:
 };
 
 #endif // PAGEGUIDE_H

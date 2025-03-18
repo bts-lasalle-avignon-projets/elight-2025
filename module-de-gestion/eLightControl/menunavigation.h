@@ -52,6 +52,12 @@ class MenuNavigation : public QWidget
     Q_OBJECT
   public:
     explicit MenuNavigation(QWidget* parent = nullptr);
+    QPushButton* getBoutonAccueil() const;
+    QPushButton* getBoutonGestionScenarios() const;
+    QPushButton* getBoutonGuide() const;
+    QPushButton* getBoutonParametres() const;
+
+  private:
     QPushButton* boutonAccueil;
     QPushButton* boutonGestionScenarios;
     QPushButton* boutonGuide;

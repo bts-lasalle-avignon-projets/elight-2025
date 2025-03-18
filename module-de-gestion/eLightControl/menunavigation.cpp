@@ -33,6 +33,7 @@ MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
     QGridLayout* layoutBoutonsMenuDeNavigation = new QGridLayout;
 
     layoutMenuDeNavigation->addWidget(labelLogoeLight);
+    layoutMenuDeNavigation->addStretch();
     layoutMenuDeNavigation->addLayout(layoutBoutonsMenuDeNavigation);
 
     layoutBoutonsMenuDeNavigation->addWidget(boutonAccueil, HAUT, GAUCHE);
@@ -41,4 +42,24 @@ MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
                                              DROITE);
     layoutBoutonsMenuDeNavigation->addWidget(boutonGuide, BAS, GAUCHE);
     layoutBoutonsMenuDeNavigation->addWidget(boutonParametres, BAS, DROITE);
+}
+
+QPushButton* MenuNavigation::getBoutonAccueil() const
+{
+    return boutonAccueil;
+}
+
+QPushButton* MenuNavigation::getBoutonGestionScenarios() const
+{
+    return boutonGestionScenarios;
+}
+
+QPushButton* MenuNavigation::getBoutonGuide() const
+{
+    return boutonGuide;
+}
+
+QPushButton* MenuNavigation::getBoutonParametres() const
+{
+    return boutonParametres;
 }
