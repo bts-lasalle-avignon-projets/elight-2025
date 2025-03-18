@@ -18,7 +18,7 @@ PageGuide::PageGuide(QWidget* parent) : QWidget(parent)
     layoutEntetePage->addWidget(boutonRetourGuide);
 }
 
-QPushButton* PageGuide::getBoutonRetourGuide()
+QPushButton* PageGuide::getBoutonRetourGuide() const
 {
     return boutonRetourGuide;
 }

@@ -111,7 +111,7 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) : QWidget(parent)
     layoutModifierScenarioIntensite->addWidget(boiteNouvelleIntensite);
 }
 
-QPushButton* PageGestionScenario::getBoutonRetourGestionScenario()
+QPushButton* PageGestionScenario::getBoutonRetourGestionScenario() const
 {
     return boutonRetourGestionScenario;
 }

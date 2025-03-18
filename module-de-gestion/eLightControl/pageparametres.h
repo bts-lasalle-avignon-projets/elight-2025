@@ -8,7 +8,7 @@ class PageParametres : public QWidget
     Q_OBJECT
   public:
     explicit PageParametres(QWidget* parent = nullptr);
-    QPushButton* getBoutonRetourParametre();
+    QPushButton* getBoutonRetourParametre() const;
 
   private:
     QPushButton* boutonRetourParametres;

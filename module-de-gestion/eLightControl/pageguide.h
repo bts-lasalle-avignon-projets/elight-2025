@@ -8,7 +8,7 @@ class PageGuide : public QWidget
     Q_OBJECT
   public:
     explicit PageGuide(QWidget* parent = nullptr);
-    QPushButton* getBoutonRetourGuide();
+    QPushButton* getBoutonRetourGuide() const;
 
   private:
     QPushButton* boutonRetourGuide;

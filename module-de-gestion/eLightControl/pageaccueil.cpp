@@ -70,7 +70,7 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     layoutEnteteSegments->addWidget(titreSegments);
 }
 
-QPushButton* PageAccueil::getBoutonGererScenarios()
+QPushButton* PageAccueil::getBoutonGererScenarios() const
 {
     return boutonGererScenarios;
 }

@@ -47,7 +47,7 @@ PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
     layoutIp->addWidget(boutonValiderIp);
 }
 
-QPushButton* PageParametres::getBoutonRetourParametre()
+QPushButton* PageParametres::getBoutonRetourParametre() const
 {
     return boutonRetourParametres;
 }
