@@ -1,0 +1,26 @@
+eLight {
+    background-color: white;
+}
+
+QLabel#titreAccueil {
+    text-align: center;
+    font-weight: 900;
+    font-size: 90px;
+}
+
+QLabel#consoTotal {
+    width: 100px;
+    height: 100px;
+    border: 2px solid black;
+    border-radius: 20px;
+    text-align: center;
+    background-color: #FFFF33;
+}
+
+QPushButton#active {
+    background-color: #70eb65;
+}
+
+QPushButton#inactive {
+    background-color: #eb6565;
+}
