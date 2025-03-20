@@ -47,6 +47,7 @@ void ELightControl::creerPages()
     separateurMenuNavigation->setFrameShape(QFrame::VLine);
     separateurMenuNavigation->setFrameShadow(QFrame::Sunken);
     separateurMenuNavigation->setFixedWidth(10);
+    separateurMenuNavigation->setObjectName("separateurMenuNavigation");
 
     // Les pages
     pageAccueil          = new PageAccueil(pageEmpilees);
@@ -73,64 +74,53 @@ void ELightControl::gererNavigation()
     connect(menuNavigation->getBoutonAccueil(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
             });
 
     connect(menuNavigation->getBoutonGestionScenarios(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::GESTION);
             });
 
-    connect(menuNavigation->getBoutonGuide(),
-            &QPushButton::clicked,
-            this,
-            [=]
-            {
-                changerPage(Page::GUIDE);
-            });
+    connect(menuNavigation->getBoutonGuide(), &QPushButton::clicked, this, [=] {
+        changerPage(Page::GUIDE);
+    });
 
     connect(menuNavigation->getBoutonParametres(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::PARAMETRES);
             });
 
     connect(pageAccueil->getBoutonGererScenarios(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::GESTION);
             });
 
     connect(pageGestionScenarios->getBoutonRetourGestionScenario(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
             });
 
     connect(pageGuide->getBoutonRetourGuide(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
             });
 
     connect(pageParametres->getBoutonRetourParametre(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
             });
 }
@@ -152,8 +142,7 @@ void ELightControl::personnaliserFenetre()
 
 void ELightControl::chargerFeuilleStyle()
 {
-    QString cheminRessources = "./" + QString(CHEMIN_RESSOURCES) + "/";
-    QFile   styleFile(cheminRessources + QString(STYLE_APPLICATION));
+    QFile styleFile(QString(CHEMIN_RESSOURCES) + QString(STYLE_APPLICATION));
     if(styleFile.open(QFile::ReadOnly))
     {
         QTextStream in(&styleFile);
