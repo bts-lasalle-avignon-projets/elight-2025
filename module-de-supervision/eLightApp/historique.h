@@ -8,6 +8,8 @@ class Historique : public QWidget {
 public:
   explicit Historique(QWidget *parent = nullptr);
 
+  void retourHistorique();
+
 signals:
 };
 

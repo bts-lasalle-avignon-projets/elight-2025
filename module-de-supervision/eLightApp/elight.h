@@ -24,6 +24,10 @@ public:
   ~eLight();
 
   void chargeurFeuilleStyle();
+  void ouvrirHistorique();
+  void ouvrirB20();
+  void ouvrirB21();
+  void ouvrirB22();
 
 private:
   Ui::eLight *ui;

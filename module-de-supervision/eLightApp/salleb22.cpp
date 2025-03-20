@@ -1,4 +1,4 @@
-#include "salleb20.h"
+#include "salleb22.h"
 #include "elight.h"
 
 #include <QDebug>
@@ -6,10 +6,10 @@
 #include <QPushButton>
 #include <QtWidgets>
 
-salleB20::salleB20(QWidget *parent) : QWidget(parent) {
-  setWindowTitle("salleB20");
+salleB22::salleB22(QWidget *parent) : QWidget(parent) {
+  setWindowTitle("salleB22");
 
-  QLabel *titreB20 = new QLabel("Salle B20", this);
+  QLabel *titreB22 = new QLabel("Salle B22", this);
   QLabel *labelLogoeLight = new QLabel;
   QLabel *conso = new QLabel("Consommation d'énergie:");
   QLabel *segments = new QLabel(this);
@@ -22,7 +22,7 @@ salleB20::salleB20(QWidget *parent) : QWidget(parent) {
   QPixmap logoeLight(cheminRessource + "logo-elight.png");
 
   this->setStyleSheet("background-color: #FFFFFF;");
-  titreB20->setStyleSheet("font-weight: 900; font-size: 50px;");
+  titreB22->setStyleSheet("font-weight: 900; font-size: 50px;");
   conso->setStyleSheet("border: 1px solid black; background-color: #FFFF33;");
 
   QVBoxLayout *layout = new QVBoxLayout(this);
@@ -33,7 +33,7 @@ salleB20::salleB20(QWidget *parent) : QWidget(parent) {
   layout->addLayout(logotitre);
 
   logotitre->addWidget(labelLogoeLight);
-  logotitre->addWidget(titreB20, Qt::AlignCenter);
+  logotitre->addWidget(titreB22, Qt::AlignHCenter);
   layout->addWidget(conso, 0, Qt::AlignHCenter);
   layout->addWidget(retour);
   layout->addWidget(segments, 0, Qt::AlignLeft);
@@ -49,7 +49,7 @@ salleB20::salleB20(QWidget *parent) : QWidget(parent) {
   menuScenario->addItem("PLACEHOLDER 1");
   menuScenario->addItem("PLACEHOLDER 2");
 
-  connect(retour, &QPushButton::clicked, this, &salleB20::retourB20);
+  connect(retour, &QPushButton::clicked, this, &salleB22::retourB22);
 }
 
-void salleB20::retourB20() { this->destroy(); }
+void salleB22::retourB22() { this->destroy(); }

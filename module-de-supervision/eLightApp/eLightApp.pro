@@ -20,13 +20,17 @@ SOURCES += \
     historique.cpp \
     main.cpp \
     elight.cpp \
-    salleb20.cpp
+    salleb20.cpp \
+    salleb21.cpp \
+    salleb22.cpp
 
 HEADERS += \
     editionpage.h \
     elight.h \
     historique.h \
-    salleb20.h
+    salleb20.h \
+    salleb21.h \
+    salleb22.h
 
 COPIES += ressource
 ressource.files = ressource

@@ -2,9 +2,12 @@
 #include "ui_elight.h"
 
 #include <QDebug>
-#include <QMessageBox>
-#include <QPushButton>
 #include <QtWidgets>
+
+#include "historique.h"
+#include "salleb20.h"
+#include "salleb21.h"
+#include "salleb22.h"
 
 eLight::eLight(QWidget *parent) : QWidget(parent), ui(new Ui::eLight) {
   ui->setupUi(this);
@@ -57,6 +60,11 @@ eLight::eLight(QWidget *parent) : QWidget(parent), ui(new Ui::eLight) {
   piedPage->addWidget(consoT);
 
   chargeurFeuilleStyle();
+
+  connect(historique, &QPushButton::clicked, this, &eLight::ouvrirHistorique);
+  connect(b20, &QPushButton::clicked, this, &eLight::ouvrirB20);
+  connect(b21, &QPushButton::clicked, this, &eLight::ouvrirB21);
+  connect(b22, &QPushButton::clicked, this, &eLight::ouvrirB22);
 }
 
 eLight::~eLight() { delete ui; }
@@ -69,4 +77,24 @@ void eLight::chargeurFeuilleStyle() {
     QString style = in.readAll();
     this->setStyleSheet(style);
   }
+}
+
+void eLight::ouvrirHistorique() {
+  Historique *historiquePage = new Historique();
+  historiquePage->show();
+}
+
+void eLight::ouvrirB20() {
+  salleB20 *b20Page = new salleB20();
+  b20Page->show();
+}
+
+void eLight::ouvrirB21() {
+  salleB21 *b21Page = new salleB21();
+  b21Page->show();
+}
+
+void eLight::ouvrirB22() {
+  salleB22 *b22Page = new salleB22();
+  b22Page->show();
 }
