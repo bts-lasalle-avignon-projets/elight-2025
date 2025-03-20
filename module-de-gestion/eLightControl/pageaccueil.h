@@ -2,6 +2,7 @@
 #define PAGEACCUEIL_H
 
 #include <QtWidgets>
+#include "boitesegment.h"
 
 class PageAccueil : public QWidget
 {
@@ -11,7 +12,11 @@ class PageAccueil : public QWidget
     QPushButton* getBoutonGererScenarios() const;
 
   private:
-    QPushButton* boutonGererScenarios;
+    QPushButton*         boutonGererScenarios;
+    QHBoxLayout*         layoutSegments;
+    QList<BoiteSegment*> listeSegments;
+    void                 creerSegments(const int nombreScenarios);
+    void                 placerSegments();
 
   signals:
 };

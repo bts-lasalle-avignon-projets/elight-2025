@@ -18,8 +18,6 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
 
     QLabel* titreSegments = new QLabel(this);
 
-    // TODO Créer une classe Segment.
-
     separateurPageAccueil->setFrameShape(QFrame::HLine);
     separateurPageAccueil->setFrameShadow(QFrame::Sunken);
     separateurPageAccueil->setObjectName("separateurPageAccueil");
@@ -44,7 +42,7 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     QHBoxLayout* layoutScenarioActif       = new QHBoxLayout;
     QHBoxLayout* layoutSelectionScenario   = new QHBoxLayout;
     QHBoxLayout* layoutEnteteSegments      = new QHBoxLayout;
-    QHBoxLayout* layoutSegments            = new QHBoxLayout;
+    layoutSegments                         = new QHBoxLayout;
 
     layoutVerticalPageAccueil->addLayout(layoutEnteteScenarioActif);
     layoutVerticalPageAccueil->addStretch();
@@ -73,4 +71,22 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
 QPushButton* PageAccueil::getBoutonGererScenarios() const
 {
     return boutonGererScenarios;
+}
+
+void PageAccueil::creerSegments(const int nombreScenarios)
+{
+    for(int i = 0; i < nombreScenarios; ++i)
+    {
+        BoiteSegment* segment = new BoiteSegment(i, this);
+        listeSegments.append(segment);
+    }
+}
+
+void PageAccueil::placerSegments()
+{
+    for(int i = 0; i < listeSegments.size(); ++i)
+    {
+        layoutSegments->addWidget(listeSegments[i]);
+        listeSegments[i]->setConsommation(i);
+    }
 }
