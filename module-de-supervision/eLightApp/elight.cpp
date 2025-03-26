@@ -20,7 +20,7 @@ eLight::eLight(QWidget *parent) : QWidget(parent), ui(new Ui::eLight) {
   QPushButton *b20 = new QPushButton("Salle B20 \n Consommation:", this);
   QPushButton *b21 = new QPushButton("Salle B21 \n Consommation:", this);
   QPushButton *b22 = new QPushButton("Salle B22 \n Consommation:", this);
-  QPushButton *ajout = new QPushButton("Ajouter une salle", this);
+  // QPushButton *ajout = new QPushButton("Ajouter une salle", this);
   QPushButton *historique = new QPushButton("Historique", this);
 
   QString cheminRessource = "./ressource/";
@@ -54,12 +54,12 @@ eLight::eLight(QWidget *parent) : QWidget(parent), ui(new Ui::eLight) {
   salle->addWidget(b20, 0, 0);
   salle->addWidget(b21, 0, 1);
   salle->addWidget(b22, 0, 2);
-  salle->addWidget(ajout, 1, 0);
+  // salle->addWidget(ajout, 1, 0);
 
   piedPage->addWidget(historique);
   piedPage->addWidget(consoT);
 
-  chargeurFeuilleStyle();
+  /*chargeurFeuilleStyle();*/
 
   connect(historique, &QPushButton::clicked, this, &eLight::ouvrirHistorique);
   connect(b20, &QPushButton::clicked, this, &eLight::ouvrirB20);
@@ -69,6 +69,7 @@ eLight::eLight(QWidget *parent) : QWidget(parent), ui(new Ui::eLight) {
 
 eLight::~eLight() { delete ui; }
 
+/*
 void eLight::chargeurFeuilleStyle() {
   QString cheminRessource = "./" + QString(CHEMIN_RESSOURCE) + "/";
   QFile styleFile(cheminRessource + QString(STYLE_APPLICATION));
@@ -77,7 +78,7 @@ void eLight::chargeurFeuilleStyle() {
     QString style = in.readAll();
     this->setStyleSheet(style);
   }
-}
+}*/
 
 void eLight::ouvrirHistorique() {
   Historique *historiquePage = new Historique();

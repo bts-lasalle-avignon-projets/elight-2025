@@ -42,12 +42,12 @@ salleB21::salleB21(QWidget *parent) : QWidget(parent) {
   layout->addWidget(menuScenario);
 
   segments->setText("Segments :");
-  menuSegment->addItem("PLACEHOLDER 1");
-  menuSegment->addItem("PLACEHOLDER 2");
+  menuSegment->addItem("Segment 1");
+  menuSegment->addItem("Segment 2");
 
   scenarios->setText("Scénarios :");
-  menuScenario->addItem("PLACEHOLDER 1");
-  menuScenario->addItem("PLACEHOLDER 2");
+  menuScenario->addItem("Scénario 1");
+  menuScenario->addItem("Scénario 2");
 
   connect(retour, &QPushButton::clicked, this, &salleB21::retourB21);
 }

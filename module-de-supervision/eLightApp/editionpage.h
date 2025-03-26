@@ -3,14 +3,14 @@
 
 #include <QWidget>
 
-class editionPage : public QWidget
-{
-    Q_OBJECT
+class editionPage : public QWidget {
+  Q_OBJECT
 public:
-    explicit editionPage(QWidget *parent = nullptr);
+  explicit editionPage(QWidget *parent = nullptr);
+
+  void retourEdit();
 
 signals:
-
 };
 
 #endif // EDITIONPAGE_H

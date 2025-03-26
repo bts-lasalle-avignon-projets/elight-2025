@@ -9,6 +9,7 @@ public:
   explicit salleB20(QWidget *parent = nullptr);
 
   void retourB20();
+  void editionB20();
 
 signals:
 };

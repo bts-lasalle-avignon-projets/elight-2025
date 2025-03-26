@@ -1,4 +1,5 @@
 #include "salleb20.h"
+#include "editionpage.h"
 #include "elight.h"
 
 #include <QDebug>
@@ -17,6 +18,7 @@ salleB20::salleB20(QWidget *parent) : QWidget(parent) {
   QComboBox *menuScenario = new QComboBox(this);
   QComboBox *menuSegment = new QComboBox(this);
   QPushButton *retour = new QPushButton("Retour", this);
+  QPushButton *editB20 = new QPushButton("Édition", this);
 
   QString cheminRessource = "./ressource/";
   QPixmap logoeLight(cheminRessource + "logo-elight.png");
@@ -36,20 +38,27 @@ salleB20::salleB20(QWidget *parent) : QWidget(parent) {
   logotitre->addWidget(titreB20, Qt::AlignCenter);
   layout->addWidget(conso, 0, Qt::AlignHCenter);
   layout->addWidget(retour);
+  layout->addWidget(editB20);
   layout->addWidget(segments, 0, Qt::AlignLeft);
   layout->addWidget(menuSegment);
   layout->addWidget(scenarios, Qt::AlignRight);
   layout->addWidget(menuScenario);
 
   segments->setText("Segments :");
-  menuSegment->addItem("PLACEHOLDER 1");
-  menuSegment->addItem("PLACEHOLDER 2");
+  menuSegment->addItem("Segment 1");
+  menuSegment->addItem("Segment 2");
 
   scenarios->setText("Scénarios :");
-  menuScenario->addItem("PLACEHOLDER 1");
-  menuScenario->addItem("PLACEHOLDER 2");
+  menuScenario->addItem("Scénario 1");
+  menuScenario->addItem("Scénario 2");
 
   connect(retour, &QPushButton::clicked, this, &salleB20::retourB20);
+  connect(editB20, &QPushButton::clicked, this, &salleB20::editionB20);
 }
 
 void salleB20::retourB20() { this->destroy(); }
+
+void salleB20::editionB20() {
+  editionPage *editPage = new editionPage();
+  editPage->show();
+}
