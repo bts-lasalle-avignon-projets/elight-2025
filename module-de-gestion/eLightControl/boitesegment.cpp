@@ -27,6 +27,8 @@ BoiteSegment::BoiteSegment(int segmentId, QWidget* parent) :
 
 void BoiteSegment::setConsommation(double nouvelleConsommation)
 {
+    consommation = nouvelleConsommation;
+
     consommationLabel->setText(QString::number(nouvelleConsommation, 'f', 2) +
                                " W");
     if(nouvelleConsommation == 0)

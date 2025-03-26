@@ -30,6 +30,7 @@ class BoiteSegment : public QWidget
 
   private:
     int     idSegment;
+    double  consommation;
     QLabel* imageLabel;
     QLabel* consommationLabel;
     void    recupererDonnees();
