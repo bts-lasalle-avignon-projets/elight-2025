@@ -4,46 +4,29 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
-# The following define makes your compiler emit warnings if you use
-# any Qt feature that has been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
-# You can also make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    editionpage.cpp \
+    editionsalle.cpp \
     historique.cpp \
     main.cpp \
     elight.cpp \
-    salleb20.cpp \
-    salleb21.cpp \
-    salleb22.cpp
+    salle.cpp
 
 HEADERS += \
-    editionpage.h \
+    config.h \
+    editionsalle.h \
     elight.h \
     historique.h \
-    salleb20.h \
-    salleb21.h \
-    salleb22.h
+    salle.h
 
-COPIES += ressource
-ressource.files = ressource
-ressource.path = $$OUT_PWD/
-ressource.base = $$PWD/
+COPIES += ressources
+ressources.files = ressources
+ressources.path = $$OUT_PWD/
+ressources.base = $$PWD/
 
-FORMS += \
-    elight.ui
-
-TRANSLATIONS += \
-    eLightApp_fr_FR.ts
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+# Les defines pour la version release (sans debug)
+#CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI
+# Les defines pour la version debug
+CONFIG(debug, debug|release):DEFINES+=

@@ -1,101 +1,119 @@
+/**
+ * @file eLight.cpp
+ *
+ * @brief Définition de la classe ELight
+ * @author Blondel Joshua
+ * @version 1.0
+ */
+
 #include "elight.h"
-#include "ui_elight.h"
-
-#include <QDebug>
-#include <QtWidgets>
-
 #include "historique.h"
-#include "salleb20.h"
-#include "salleb21.h"
-#include "salleb22.h"
+#include "salle.h"
+#include <QDebug>
 
-eLight::eLight(QWidget *parent) : QWidget(parent), ui(new Ui::eLight) {
-  ui->setupUi(this);
-  setWindowTitle("eLight");
+/**
+ * @brief Constructeur de la classe ELight
+ *
+ * @fn ELight::ELight
+ * @param parent L'adresse de l'objet parent, si nullptr ELight sera la
+ * fenêtre principale de l'application
+ */
+ELight::ELight(QWidget* parent) : QWidget(parent), historiquePage(nullptr)
+{
+    qDebug() << Q_FUNC_INFO << this;
 
-  QLabel *titre = new QLabel("eLight", this);
-  QLabel *labelLogoeLight = new QLabel;
-  QLabel *consoT = new QLabel("Consommation total:", this);
+    setWindowTitle(QString(APPLICATION) + QString(" v") + QString(VERSION));
 
-  QPushButton *b20 = new QPushButton("Salle B20 \n Consommation:", this);
-  QPushButton *b21 = new QPushButton("Salle B21 \n Consommation:", this);
-  QPushButton *b22 = new QPushButton("Salle B22 \n Consommation:", this);
-  // QPushButton *ajout = new QPushButton("Ajouter une salle", this);
-  QPushButton *historique = new QPushButton("Historique", this);
+#ifdef RASPBERRY_PI
+    showFullScreen();
+#endif
 
-  QString cheminRessource = "./ressource/";
-  QPixmap logoeLight(cheminRessource + "logo-elight.png");
+    QLabel* titre =
+      new QLabel(QString(APPLICATION) + QString(" v") + QString(VERSION), this);
+    QPixmap logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
+    QLabel* labelLogoeLight    = new QLabel;
+    QLabel* consommationTotale = new QLabel("Consommation totale : ", this);
 
-  this->setStyleSheet("background-color: #FFFFFF;");
-  titre->setStyleSheet("font-weight: 900; font-size: 90px;");
-  b20->setStyleSheet("QPushButton{ background-color: #70eb65; }"); // active
-  b21->setStyleSheet("QPushButton{ background-color: #eb6565; }"); // inactive
-  b22->setStyleSheet("QPushButton{ background-color: #eb6565; }"); // inactive
-  consoT->setStyleSheet("border: 1px solid black; background-color: #FFFF33;");
+    for(int i = 0; i < DEMO_ELIGHT; ++i)
+    {
+        QPushButton* boutonSalle =
+          new QPushButton(QString("Salle B") + QString::number(20 + i), this);
+        if(i == 0)
+            boutonSalle->setStyleSheet(
+              "QPushButton{ background-color: #70eb65; }"); // active
+        else
+            boutonSalle->setStyleSheet(
+              "QPushButton{ background-color: #eb6565; }"); // inactive
+        boutonsSalles.push_back(boutonSalle);
+        salles[boutonSalle] = nullptr;
+    }
 
-  titre->setObjectName("titreAccueil");
-  consoT->setObjectName("consoTotal");
+    QPushButton* historique = new QPushButton("Historique", this);
 
-  QVBoxLayout *layout = new QVBoxLayout(this);
-  QGridLayout *salle = new QGridLayout;
-  QHBoxLayout *logotitre = new QHBoxLayout;
-  QHBoxLayout *piedPage = new QHBoxLayout;
+    this->setStyleSheet("background-color: #FFFFFF;");
+    titre->setStyleSheet("font-weight: 900; font-size: 90px;");
+    consommationTotale->setStyleSheet(
+      "border: 1px solid black; background-color: #FFFF33;");
 
-  labelLogoeLight->setPixmap(logoeLight);
-  piedPage->setAlignment(Qt::AlignCenter);
+    QVBoxLayout* layout   = new QVBoxLayout(this);
+    QGridLayout* salle    = new QGridLayout;
+    QHBoxLayout* entete   = new QHBoxLayout;
+    QHBoxLayout* piedPage = new QHBoxLayout;
 
-  layout->addLayout(logotitre);
-  layout->addLayout(salle);
-  layout->addLayout(piedPage);
+    labelLogoeLight->setPixmap(logoeLight);
+    piedPage->setAlignment(Qt::AlignCenter);
 
-  logotitre->addWidget(labelLogoeLight);
-  logotitre->addWidget(titre, Qt::AlignBaseline);
+    layout->addLayout(entete);
+    layout->addLayout(salle);
+    layout->addLayout(piedPage);
 
-  salle->addWidget(b20, 0, 0);
-  salle->addWidget(b21, 0, 1);
-  salle->addWidget(b22, 0, 2);
-  // salle->addWidget(ajout, 1, 0);
+    entete->addWidget(labelLogoeLight);
+    entete->addWidget(titre, Qt::AlignBaseline);
 
-  piedPage->addWidget(historique);
-  piedPage->addWidget(consoT);
+    for(int i = 0; i < boutonsSalles.count(); ++i)
+    {
+        salle->addWidget(boutonsSalles[i], 0, i);
+    }
 
-  /*chargeurFeuilleStyle();*/
+    piedPage->addWidget(historique);
+    piedPage->addWidget(consommationTotale);
 
-  connect(historique, &QPushButton::clicked, this, &eLight::ouvrirHistorique);
-  connect(b20, &QPushButton::clicked, this, &eLight::ouvrirB20);
-  connect(b21, &QPushButton::clicked, this, &eLight::ouvrirB21);
-  connect(b22, &QPushButton::clicked, this, &eLight::ouvrirB22);
+    connect(historique,
+            &QPushButton::clicked,
+            this,
+            &ELight::afficherHistorique);
+    for(int i = 0; i < boutonsSalles.count(); ++i)
+    {
+        connect(boutonsSalles[i],
+                &QPushButton::clicked,
+                this,
+                &ELight::afficherSalle);
+    }
 }
 
-eLight::~eLight() { delete ui; }
-
-/*
-void eLight::chargeurFeuilleStyle() {
-  QString cheminRessource = "./" + QString(CHEMIN_RESSOURCE) + "/";
-  QFile styleFile(cheminRessource + QString(STYLE_APPLICATION));
-  if (styleFile.open(QFile::ReadOnly)) {
-    QTextStream in(&styleFile);
-    QString style = in.readAll();
-    this->setStyleSheet(style);
-  }
-}*/
-
-void eLight::ouvrirHistorique() {
-  Historique *historiquePage = new Historique();
-  historiquePage->show();
+ELight::~ELight()
+{
+    qDebug() << Q_FUNC_INFO << this;
 }
 
-void eLight::ouvrirB20() {
-  salleB20 *b20Page = new salleB20();
-  b20Page->show();
+void ELight::afficherHistorique()
+{
+    if(historiquePage == nullptr)
+        historiquePage = new Historique(this);
+    historiquePage->show();
 }
 
-void eLight::ouvrirB21() {
-  salleB21 *b21Page = new salleB21();
-  b21Page->show();
+void ELight::afficherSalle()
+{
+    QPushButton* boutonSalle = qobject_cast<QPushButton*>(sender());
+
+    if(salles[boutonSalle] == nullptr)
+        salles[boutonSalle] = new Salle(boutonSalle->text(), this);
+    salles[boutonSalle]->show();
 }
 
-void eLight::ouvrirB22() {
-  salleB22 *b22Page = new salleB22();
-  b22Page->show();
+void ELight::initialiserSalles()
+{
+#ifdef DEMO_ELIGHT
+#endif
 }

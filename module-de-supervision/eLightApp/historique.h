@@ -1,16 +1,31 @@
 #ifndef HISTORIQUE_H
 #define HISTORIQUE_H
 
-#include <QWidget>
+#include <QtWidgets>
+#include "config.h"
 
-class Historique : public QWidget {
-  Q_OBJECT
-public:
-  explicit Historique(QWidget *parent = nullptr);
+#define DEMO_HISTORIQUE
 
-  void retourHistorique();
+class Historique : public QWidget
+{
+    Q_OBJECT
+  public:
+    explicit Historique(QWidget* parent = nullptr);
+    virtual ~Historique();
 
-signals:
+  protected:
+    void showEvent(QShowEvent* event);
+
+  private:
+    QLabel*       titreHistorique;
+    QTableWidget* table;
+
+    void initialiserTable();
+
+  private slots:
+    void fermerFenetre();
+
+  signals:
 };
 
 #endif // HISTORIQUE_H

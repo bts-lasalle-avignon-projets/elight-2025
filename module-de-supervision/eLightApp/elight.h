@@ -1,35 +1,48 @@
+/**
+ * @file eLight.h
+ *
+ * @brief Déclaration de la classe ELight
+ * @author Blondel Joshua
+ * @version 1.0
+ */
+
 #ifndef ELIGHT_H
 #define ELIGHT_H
 
-#include <QLabel>
-#include <QPushButton>
-#include <QStackedWidget>
-#include <QVBoxLayout>
+#include <QtWidgets>
+#include <QVector>
+#include <QMap>
+#include "config.h"
 
-#define CHEMIN_RESSOURCE "ressource"
+#define DEMO_ELIGHT 3 // Le nombre de salles à simuler
 
-#define STYLE_APPLICATION "styleSheet.css"
+class Historique;
+class Salle;
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class eLight;
-}
-QT_END_NAMESPACE
+/**
+ * @class ELight
+ * @brief Déclaration de la classe ELight
+ * @details Cette classe gère l'interface graphique de l'application
+ * ELightControl
+ */
+class ELight : public QWidget
+{
+    Q_OBJECT
 
-class eLight : public QWidget {
-  Q_OBJECT
+  public:
+    ELight(QWidget* parent = nullptr);
+    ~ELight();
 
-public:
-  eLight(QWidget *parent = nullptr);
-  ~eLight();
+  private slots:
+    void afficherHistorique();
+    void afficherSalle();
 
-  void chargeurFeuilleStyle();
-  void ouvrirHistorique();
-  void ouvrirB20();
-  void ouvrirB21();
-  void ouvrirB22();
+  private:
+    Historique*                historiquePage;
+    QMap<QPushButton*, Salle*> salles;
+    QVector<QPushButton*>      boutonsSalles;
 
-private:
-  Ui::eLight *ui;
+    void initialiserSalles();
 };
+
 #endif // ELIGHT_H
