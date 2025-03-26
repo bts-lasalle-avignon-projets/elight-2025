@@ -2,6 +2,13 @@
 #define PAGEACCUEIL_H
 
 #include <QtWidgets>
+#include "boitesegment.h"
+
+/**
+ * @def COLONNES_MAX
+ * @brief Le nombre de colonnes max pour l'affichage des segments
+ */
+#define COLONNES_MAX 3
 
 class PageAccueil : public QWidget
 {
@@ -11,7 +18,11 @@ class PageAccueil : public QWidget
     QPushButton* getBoutonGererScenarios() const;
 
   private:
-    QPushButton* boutonGererScenarios;
+    QPushButton*         boutonGererScenarios;
+    QGridLayout*         layoutSegments;
+    QList<BoiteSegment*> listeSegments;
+    void                 creerSegments(const int nombreScenarios);
+    void                 placerSegments();
 
   signals:
 };
