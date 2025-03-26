@@ -31,9 +31,9 @@ HEADERS += \
     pageparametres.h
 
 COPIES += ressources
-ressources.files = ressources
-ressources.path = $$OUT_PWD/
-ressources.base = $$PWD/
+ressources.files = $$PWD/ressources/*
+ressources.path = $$OUT_PWD/ressources
+INSTALLS += ressources
 
 # Les defines pour la version release (sans debug)
 #CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI
