@@ -42,7 +42,7 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     QHBoxLayout* layoutScenarioActif       = new QHBoxLayout;
     QHBoxLayout* layoutSelectionScenario   = new QHBoxLayout;
     QHBoxLayout* layoutEnteteSegments      = new QHBoxLayout;
-    layoutSegments                         = new QHBoxLayout;
+    layoutSegments                         = new QGridLayout;
 
     layoutVerticalPageAccueil->addLayout(layoutEnteteScenarioActif);
     layoutVerticalPageAccueil->addStretch();
@@ -66,6 +66,9 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     layoutSelectionScenario->addWidget(boutonConfirmerSelectionScenario);
 
     layoutEnteteSegments->addWidget(titreSegments);
+
+    creerSegments(3);
+    placerSegments();
 }
 
 QPushButton* PageAccueil::getBoutonGererScenarios() const
@@ -84,9 +87,19 @@ void PageAccueil::creerSegments(const int nombreScenarios)
 
 void PageAccueil::placerSegments()
 {
+    int ligne   = 0;
+    int colonne = 0;
+
     for(int i = 0; i < listeSegments.size(); ++i)
     {
-        layoutSegments->addWidget(listeSegments[i]);
+        layoutSegments->addWidget(listeSegments[i], ligne, colonne);
         listeSegments[i]->setConsommation(i);
+
+        colonne++;
+        if(colonne >= COLONNES_MAX)
+        {
+            colonne = 0;
+            ligne++;
+        }
     }
 }
