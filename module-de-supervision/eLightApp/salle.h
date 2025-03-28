@@ -3,6 +3,9 @@
 
 #include <QtWidgets>
 #include "config.h"
+#include "salle.h"
+
+class EditionSalle;
 
 class Salle : public QWidget
 {
@@ -12,9 +15,10 @@ class Salle : public QWidget
     virtual ~Salle();
 
   private:
-    QString nom;
-    QLabel* titre;
-    QLabel* consommation;
+    QString       nom;
+    QLabel*       titre;
+    QLabel*       consommation;
+    EditionSalle* editionPage;
 
   protected:
     void showEvent(QShowEvent* event);

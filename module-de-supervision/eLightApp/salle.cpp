@@ -3,7 +3,8 @@
 
 #include <QDebug>
 
-Salle::Salle(QString nom, QWidget* parent) : QWidget(parent), nom(nom)
+Salle::Salle(QString nom, QWidget* parent) :
+    QWidget(parent), nom(nom), editionPage(nullptr)
 {
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 
@@ -11,13 +12,13 @@ Salle::Salle(QString nom, QWidget* parent) : QWidget(parent), nom(nom)
 
     titre = new QLabel(QString(nom), this);
     QPixmap logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
-    QLabel* labelLogoeLight   = new QLabel(this);
-    QLabel* labelConsommation = new QLabel("Consommation d'énergie : ", this);
-    consommation              = new QLabel("XXX", this);
-    QLabel*      segments     = new QLabel(this);
-    QLabel*      scenarios    = new QLabel(this);
-    QComboBox*   menuScenario = new QComboBox(this);
-    QComboBox*   menuSegment  = new QComboBox(this);
+    QLabel* labelLogoeLight      = new QLabel(this);
+    QLabel* labelConsommation    = new QLabel(this);
+    consommation                 = new QLabel("XXX", this);
+    QLabel*      segments        = new QLabel(this);
+    QLabel*      scenarios       = new QLabel(this);
+    QComboBox*   menuScenario    = new QComboBox(this);
+    QComboBox*   menuSegment     = new QComboBox(this);
     QPushButton* boutonFermeture = new QPushButton("Fermer", this);
     QPushButton* boutonEdition   = new QPushButton("Éditer", this);
 
@@ -30,6 +31,8 @@ Salle::Salle(QString nom, QWidget* parent) : QWidget(parent), nom(nom)
 
     entete->addWidget(labelLogoeLight);
     entete->addWidget(titre, Qt::AlignCenter);
+    labelConsommation->setText("Consommation d'énergie :" +
+                               consommation->text());
     layout->addWidget(labelConsommation, 0, Qt::AlignHCenter);
 
     layout->addWidget(segments, 0, Qt::AlignLeft);
@@ -91,4 +94,7 @@ void Salle::fermerFenetre()
 
 void Salle::editerSalle()
 {
+    if(editionPage == nullptr)
+        editionPage = new EditionSalle(this);
+    editionPage->show();
 }

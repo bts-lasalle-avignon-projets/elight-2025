@@ -17,7 +17,7 @@
  * @def CHEMIN_RESSOURCE
  * @brief Le chemin vers les ressources de l'application
  */
-#define CHEMIN_RESSOURCE "ressources/"
+#define CHEMIN_RESSOURCE "./ressources/"
 
 /**
  * @def STYLE_APPLICATION
@@ -30,5 +30,7 @@
  * @brief Le titre de la fenêtre
  */
 #define TITRE_FENETRE_HISTORIQUE "Historique"
+
+#define TITRE_FENETRE_EDITION "Édition"
 
 #endif // CONFIG_H
