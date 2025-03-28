@@ -27,3 +27,11 @@ ip_segment VARCHAR(15) UNIQUE NOT NULL,
 CONSTRAINT fk_segment_salle FOREIGN KEY (id_salle) REFERENCES salle(id_salle) ON DELETE CASCADE,
 CONSTRAINT fk_segment_scenario FOREIGN KEY (id_scenario) REFERENCES scenario(id_scenario) ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS historique_consommation_segment (
+id_historique INT PRIMARY KEY AUTO_INCREMENT,
+id_segment INT,
+consommation FLOAT NOT NULL,
+horodatage_releve TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (id_segment) REFERENCES segment(id_segment)
+);
