@@ -1,8 +1,13 @@
 #include "pageaccueil.h"
+#include "boitesegment.h"
+#include "communicationbasededonnees.h"
 #include <QDebug>
 
-PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
+PageAccueil::PageAccueil(QWidget* parent) :
+    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
 {
+    qDebug() << Q_FUNC_INFO << this;
+
     QFrame* separateurPageAccueil = new QFrame(this);
 
     QLabel* titreScenarioActif = new QLabel(this);
@@ -67,7 +72,7 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
 
     layoutEnteteSegments->addWidget(titreSegments);
 
-    if(baseDeDonnees.connecter())
+    if(baseDeDonnees->connecter())
     {
         chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
@@ -76,6 +81,11 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     {
         qDebug() << "Erreur: Impossible de se connecter à la base de données";
     }
+}
+
+PageAccueil::~PageAccueil()
+{
+    qDebug() << Q_FUNC_INFO << this;
 }
 
 QPushButton* PageAccueil::getBoutonGererScenarios() const

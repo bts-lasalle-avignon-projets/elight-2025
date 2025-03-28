@@ -1,29 +1,46 @@
 #include "communicationbasededonnees.h"
+#include <QDebug>
 
-CommunicationBaseDeDonnees::CommunicationBaseDeDonnees(QObject* parent) :
+CommunicationBaseDeDonnees::CommunicationBaseDeDonnees(
+  QObject* parent,
+  QString  dataBaseName /*= DATABASENAME*/,
+  QString  userName /*= USERNAME*/,
+  QString  password /*= PASSWORD*/,
+  QString  hostName /*= HOSTNAME*/
+  ) :
     QObject(parent)
 {
+    qDebug() << Q_FUNC_INFO << this << "dataBaseName" << dataBaseName
+             << "userName" << userName << "password" << password << "hostName"
+             << hostName;
     baseDeDonnees = QSqlDatabase::addDatabase("QMYSQL");
-    baseDeDonnees.setHostName("localhost");
-    baseDeDonnees.setDatabaseName("eLight");
-    baseDeDonnees.setUserName("user_eLight");
-    baseDeDonnees.setPassword("lasalle84");
+    /**
+     * @todo mettre en place un fichier INI pour les paramètres de connexion
+     */
+    baseDeDonnees.setHostName(hostName);
+    baseDeDonnees.setDatabaseName(dataBaseName);
+    baseDeDonnees.setUserName(userName);
+    baseDeDonnees.setPassword(password);
 }
 
 CommunicationBaseDeDonnees::~CommunicationBaseDeDonnees()
 {
     deconnecter();
+    qDebug() << Q_FUNC_INFO << this;
 }
 
 bool CommunicationBaseDeDonnees::connecter()
 {
-    if(!baseDeDonnees.open())
+    if(!estConnecte())
     {
-        qDebug() << "Erreur connexion MySQL :"
-                 << baseDeDonnees.lastError().text();
-        return false;
+        if(!baseDeDonnees.open())
+        {
+            qCritical() << "Erreur connexion MySQL :"
+                        << baseDeDonnees.lastError().text();
+            return false;
+        }
     }
-    qDebug() << "Connexion réussie à MySQL !";
+
     return true;
 }
 
@@ -32,7 +49,6 @@ void CommunicationBaseDeDonnees::deconnecter()
     if(baseDeDonnees.isOpen())
     {
         baseDeDonnees.close();
-        qDebug() << "Base de données MySQL déconnectée.";
     }
 }
 
