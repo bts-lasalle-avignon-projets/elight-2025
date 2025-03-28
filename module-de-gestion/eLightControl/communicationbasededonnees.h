@@ -35,14 +35,13 @@ class CommunicationBaseDeDonnees : public QObject
 {
     Q_OBJECT
   public:
-    explicit CommunicationBaseDeDonnees(QObject* parent       = nullptr,
-                                        QString  dataBaseName = DATABASENAME,
-                                        QString  userName     = USERNAME,
-                                        QString  password     = PASSWORD,
-                                        QString  hostName     = HOSTNAME);
+    explicit CommunicationBaseDeDonnees(QObject* parent = nullptr);
     ~CommunicationBaseDeDonnees();
 
-    bool connecter();
+    bool connecter(QString dataBaseName = DATABASENAME,
+                   QString userName     = USERNAME,
+                   QString password     = PASSWORD,
+                   QString hostName     = HOSTNAME);
     void deconnecter();
     bool estConnecte() const;
 
