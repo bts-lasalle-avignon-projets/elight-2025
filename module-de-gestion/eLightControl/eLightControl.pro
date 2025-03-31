@@ -8,6 +8,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    boitesegment.cpp \
     communicationbasededonnees.cpp \
     communicationsegments.cpp \
     main.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     pageparametres.cpp
 
 HEADERS += \
+    boitesegment.h \
     communicationbasededonnees.h \
     communicationsegments.h \
     elightcontrol.h \
@@ -29,9 +31,9 @@ HEADERS += \
     pageparametres.h
 
 COPIES += ressources
-ressources.files = ressources
-ressources.path = $$OUT_PWD/
-ressources.base = $$PWD/
+ressources.files = $$PWD/ressources/*
+ressources.path = $$OUT_PWD/ressources
+INSTALLS += ressources
 
 # Les defines pour la version release (sans debug)
 #CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI

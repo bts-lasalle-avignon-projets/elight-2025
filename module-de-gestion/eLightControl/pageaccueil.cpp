@@ -1,8 +1,13 @@
 #include "pageaccueil.h"
+#include "boitesegment.h"
+#include "communicationbasededonnees.h"
 #include <QDebug>
 
-PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
+PageAccueil::PageAccueil(QWidget* parent) :
+    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
 {
+    qDebug() << Q_FUNC_INFO << this;
+
     QFrame* separateurPageAccueil = new QFrame(this);
 
     QLabel* titreScenarioActif = new QLabel(this);
@@ -12,13 +17,11 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     QLabel* nomScenarioActif       = new QLabel(this);
     QLabel* intensiteScenarioActif = new QLabel(this);
 
-    QLabel*      texteSelectionScenario           = new QLabel(this);
-    QComboBox*   menuDeroulantScenarios           = new QComboBox(this);
+    QLabel* texteSelectionScenario                = new QLabel(this);
+    menuDeroulantScenarios                        = new QComboBox(this);
     QPushButton* boutonConfirmerSelectionScenario = new QPushButton(this);
 
     QLabel* titreSegments = new QLabel(this);
-
-    // TODO Créer une classe Segment.
 
     separateurPageAccueil->setFrameShape(QFrame::HLine);
     separateurPageAccueil->setFrameShadow(QFrame::Sunken);
@@ -44,7 +47,7 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     QHBoxLayout* layoutScenarioActif       = new QHBoxLayout;
     QHBoxLayout* layoutSelectionScenario   = new QHBoxLayout;
     QHBoxLayout* layoutEnteteSegments      = new QHBoxLayout;
-    QHBoxLayout* layoutSegments            = new QHBoxLayout;
+    layoutSegments                         = new QGridLayout;
 
     layoutVerticalPageAccueil->addLayout(layoutEnteteScenarioActif);
     layoutVerticalPageAccueil->addStretch();
@@ -68,9 +71,112 @@ PageAccueil::PageAccueil(QWidget* parent) : QWidget(parent)
     layoutSelectionScenario->addWidget(boutonConfirmerSelectionScenario);
 
     layoutEnteteSegments->addWidget(titreSegments);
+
+    if(baseDeDonnees->connecter())
+    {
+        chargerSegmentsDepuisBDD();
+        chargerScenariosDepuisBDD();
+    }
+    else
+    {
+        qDebug() << "Erreur: Impossible de se connecter à la base de données";
+    }
+}
+
+PageAccueil::~PageAccueil()
+{
+    qDebug() << Q_FUNC_INFO << this;
 }
 
 QPushButton* PageAccueil::getBoutonGererScenarios() const
 {
     return boutonGererScenarios;
+}
+
+void PageAccueil::chargerScenariosDepuisBDD()
+{
+    QSqlQuery requete;
+    requete.prepare("SELECT id_scenario, nom_scenario FROM scenario");
+
+    if(!requete.exec())
+    {
+        qDebug() << "Erreur lors de la récupération des scénarios:"
+                 << requete.lastError().text();
+        return;
+    }
+
+    menuDeroulantScenarios->clear();
+
+    while(requete.next())
+    {
+        int     idScenario  = requete.value(0).toInt();
+        QString nomScenario = requete.value(1).toString();
+
+        menuDeroulantScenarios->addItem(nomScenario, idScenario);
+    }
+
+    if(menuDeroulantScenarios->count() == 0)
+    {
+        menuDeroulantScenarios->addItem("Aucun scénario disponible");
+    }
+}
+
+void PageAccueil::chargerSegmentsDepuisBDD()
+{
+    QString nomSalle = "B20"; // temporaire
+
+    bool resultats = false;
+
+    QSqlQuery requete;
+
+    requete.prepare("SELECT segment.id_segment FROM segment "
+                    "JOIN salle ON segment.id_salle = salle.id_salle "
+                    "WHERE salle.nom_salle = :nom_salle");
+
+    requete.bindValue(":nom_salle", nomSalle);
+
+    if(!requete.exec())
+    {
+        qDebug() << "Erreur lors de la récupération des segments:"
+                 << requete.lastError().text();
+        return;
+    }
+
+    listeSegments.clear();
+
+    int ligne   = 0;
+    int colonne = 0;
+
+    while(requete.next())
+    {
+        resultats = true;
+
+        int idSegment = requete.value(0).toInt();
+
+        QLabel* labelSegmentId =
+          new QLabel(QString("<h2>Segment %1</h2>").arg(idSegment));
+        labelSegmentId->setAlignment(Qt::AlignCenter);
+
+        BoiteSegment* segment = new BoiteSegment(idSegment, this);
+        listeSegments.append(segment);
+
+        layoutSegments->addWidget(labelSegmentId, ligne, colonne);
+        layoutSegments->addWidget(segment, ligne + 1, colonne);
+        segment->setConsommation(0);
+
+        colonne++;
+        if(colonne >= COLONNES_MAX)
+        {
+            colonne = 0;
+            ligne += 2;
+        }
+    }
+
+    if(!resultats)
+    {
+        QLabel* labelAucunSegment =
+          new QLabel(QString("<h2>Aucun segment enregistré</h2>"));
+        labelAucunSegment->setAlignment(Qt::AlignCenter);
+        layoutSegments->addWidget(labelAucunSegment);
+    }
 }
