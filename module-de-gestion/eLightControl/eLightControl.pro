@@ -35,6 +35,11 @@ ressources.files = $$PWD/ressources/*
 ressources.path = $$OUT_PWD/ressources
 INSTALLS += ressources
 
+COPIES += configIni
+configIni.files = $$PWD/config-base-de-donnees.ini
+configIni.path = $$OUT_PWD
+INSTALLS += configIni
+
 # Les defines pour la version release (sans debug)
 #CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI
 # Les defines pour la version debug
