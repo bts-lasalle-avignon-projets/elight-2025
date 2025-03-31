@@ -1,0 +1,36 @@
+class CommunicationBaseDeDonnees
+!!!128170.cpp!!!	CommunicationBaseDeDonnees(inout parent : QObject = nullptr)
+    qDebug() << Q_FUNC_INFO << this;
+    baseDeDonnees = QSqlDatabase::addDatabase("QMYSQL");
+!!!131370.cpp!!!	~CommunicationBaseDeDonnees()
+    deconnecter();
+    qDebug() << Q_FUNC_INFO << this;
+!!!131498.cpp!!!	connecter(in dataBaseName : QString = DATABASENAME, in userName : QString = USERNAME, in password : QString = PASSWORD, in hostName : QString = HOSTNAME) : bool
+    if(!estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO << "dataBaseName" << dataBaseName << "userName"
+                 << userName << "password" << password << "hostName"
+                 << hostName;
+        /**
+         * @todo mettre en place un fichier INI pour les paramètres de connexion
+         */
+        baseDeDonnees.setHostName(hostName);
+        baseDeDonnees.setDatabaseName(dataBaseName);
+        baseDeDonnees.setUserName(userName);
+        baseDeDonnees.setPassword(password);
+        if(!baseDeDonnees.open())
+        {
+            qCritical() << "Erreur connexion MySQL :"
+                        << baseDeDonnees.lastError().text();
+            return false;
+        }
+    }
+
+    return true;
+!!!131626.cpp!!!	deconnecter() : void
+    if(baseDeDonnees.isOpen())
+    {
+        baseDeDonnees.close();
+    }
+!!!131754.cpp!!!	estConnecte() : bool
+    return baseDeDonnees.isOpen();

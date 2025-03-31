@@ -1,0 +1,65 @@
+format 224
+
+classcanvas 128042 class_ref 128554 // ELightControl
+  classdiagramsettings member_max_width 0 end
+  xyz 999 21 2000
+end
+classcanvas 128170 class_ref 128170 // CommunicationBaseDeDonnees
+  classdiagramsettings member_max_width 0 end
+  xyz 11 966 2000
+end
+classcanvas 128298 class_ref 128426 // CommunicationSegments
+  classdiagramsettings member_max_width 0 end
+  xyz 1599 21 2000
+end
+classcanvas 128426 class_ref 128938 // MenuNavigation
+  classdiagramsettings member_max_width 0 end
+  xyz 112 523 3005
+end
+classcanvas 128682 class_ref 129066 // PageAccueil
+  classdiagramsettings member_max_width 0 end
+  xyz 557 513 2006
+end
+classcanvas 128938 class_ref 129194 // PageGestionScenario
+  classdiagramsettings member_max_width 0 end
+  xyz 1433 586 3005
+end
+classcanvas 129194 class_ref 129322 // PageGuide
+  classdiagramsettings member_max_width 0 end
+  xyz 1920 586 3005
+end
+classcanvas 129450 class_ref 129450 // PageParametres
+  classdiagramsettings member_max_width 0 end
+  xyz 985 586 3005
+end
+relationcanvas 128554 relation_ref 128554 // <unidirectional association>
+  from ref 128042 z 3006 to ref 128426
+  role_a_pos 521 492 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128810 relation_ref 128682 // <unidirectional association>
+  from ref 128042 z 2007 to ref 128682
+  role_a_pos 882 487 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129066 relation_ref 128810 // <unidirectional association>
+  from ref 128042 z 3006 to ref 128938
+  role_a_pos 1629 560 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129322 relation_ref 128938 // <unidirectional association>
+  from ref 128042 z 3006 to ref 129194
+  role_a_pos 1925 565 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129578 relation_ref 129066 // <unidirectional association>
+  from ref 128042 z 3006 to ref 129450
+  role_a_pos 1213 560 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129706 relation_ref 130090 // <unidirectional association>
+  from ref 128682 z 2007 to ref 128170
+  role_a_pos 774 940 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

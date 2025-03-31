@@ -1,0 +1,18 @@
+class PageGuide
+!!!130474.cpp!!!	PageGuide(inout parent : QWidget = nullptr)
+    QLabel* titrePageGuide = new QLabel(this);
+    boutonRetourGuide      = new QPushButton(this);
+
+    titrePageGuide->setText("<h1>Guide</h1>");
+    boutonRetourGuide->setText("RETOUR");
+
+    QVBoxLayout* layoutVertical   = new QVBoxLayout(this);
+    QHBoxLayout* layoutEntetePage = new QHBoxLayout();
+
+    layoutVertical->addLayout(layoutEntetePage);
+    layoutVertical->addStretch();
+
+    layoutEntetePage->addWidget(titrePageGuide);
+    layoutEntetePage->addWidget(boutonRetourGuide);
+!!!130602.cpp!!!	getBoutonRetourGuide() : QPushButton
+    return boutonRetourGuide;
