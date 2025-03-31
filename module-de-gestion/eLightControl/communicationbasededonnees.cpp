@@ -18,23 +18,26 @@ CommunicationBaseDeDonnees::~CommunicationBaseDeDonnees()
 }
 
 bool CommunicationBaseDeDonnees::connecter(
-  QString dataBaseName /*= DATABASENAME*/,
-  QString userName /*= USERNAME*/,
-  QString password /*= PASSWORD*/,
-  QString hostName /*= HOSTNAME*/)
+  QString nomBaseDeDonnees /*= NOM_BASE_DE_DONNEES*/,
+  QString nomUtilisateur /*= NOM_UTILISATEUR*/,
+  QString motDePasse /*= MOT_DE_PASSE*/,
+  QString nomHote /*= NOM_HOTE*/)
 {
     if(!estConnecte())
     {
-        qDebug() << Q_FUNC_INFO << "dataBaseName" << dataBaseName << "userName"
-                 << userName << "password" << password << "hostName"
-                 << hostName;
+        qDebug() << Q_FUNC_INFO << "dataBaseName" << nomBaseDeDonnees
+                 << "userName" << nomUtilisateur << "password" << motDePasse
+                 << "hostName" << nomHote;
 
-        chargerConfiguration(hostName, dataBaseName, userName, password);
+        chargerConfiguration(nomHote,
+                             nomBaseDeDonnees,
+                             nomUtilisateur,
+                             motDePasse);
 
-        baseDeDonnees.setHostName(hostName);
-        baseDeDonnees.setDatabaseName(dataBaseName);
-        baseDeDonnees.setUserName(userName);
-        baseDeDonnees.setPassword(password);
+        baseDeDonnees.setHostName(nomHote);
+        baseDeDonnees.setDatabaseName(nomBaseDeDonnees);
+        baseDeDonnees.setUserName(nomUtilisateur);
+        baseDeDonnees.setPassword(motDePasse);
         if(!baseDeDonnees.open())
         {
             qCritical() << "Erreur connexion MySQL :"
@@ -59,28 +62,32 @@ bool CommunicationBaseDeDonnees::estConnecte() const
     return baseDeDonnees.isOpen();
 }
 
-void CommunicationBaseDeDonnees::chargerConfiguration(QString& hostName,
-                                                      QString& dataBaseName,
-                                                      QString& userName,
-                                                      QString& password)
+void CommunicationBaseDeDonnees::chargerConfiguration(QString& nomHote,
+                                                      QString& nomBaseDeDonnees,
+                                                      QString& nomUtilisateur,
+                                                      QString& motDePasse)
 {
-    QString configPath =
+    QString cheminConfiguration =
       QCoreApplication::applicationDirPath() + "/config-base-de-donnees.ini";
 
-    if(QFile::exists(configPath))
+    if(QFile::exists(cheminConfiguration))
     {
-        qDebug() << Q_FUNC_INFO << "Chargement de" << configPath;
+        qDebug() << Q_FUNC_INFO << "Chargement de" << cheminConfiguration;
 
-        QSettings settings(configPath, QSettings::IniFormat);
+        QSettings parametres(cheminConfiguration, QSettings::IniFormat);
 
-        hostName     = settings.value("Database/host", hostName).toString();
-        dataBaseName = settings.value("Database/name", dataBaseName).toString();
-        userName     = settings.value("Database/user", userName).toString();
-        password     = settings.value("Database/password", password).toString();
+        nomHote = parametres.value("BaseDeDonnees/hote", nomHote).toString();
+        nomBaseDeDonnees =
+          parametres.value("BaseDeDonnees/nom", nomBaseDeDonnees).toString();
+        nomUtilisateur =
+          parametres.value("BaseDeDonnees/utilisateur", nomUtilisateur)
+            .toString();
+        motDePasse =
+          parametres.value("BaseDeDonnees/motDePasse", motDePasse).toString();
     }
     else
     {
-        qWarning() << Q_FUNC_INFO
-                   << "Fichier de configuration non trouvé :" << configPath;
+        qWarning() << Q_FUNC_INFO << "Fichier de configuration non trouvé :"
+                   << cheminConfiguration;
     }
 }
