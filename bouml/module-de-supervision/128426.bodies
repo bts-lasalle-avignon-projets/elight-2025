@@ -1,0 +1,86 @@
+class ELight
+!!!128426.cpp!!!	ELight(inout parent : QWidget = nullptr)
+    qDebug() << Q_FUNC_INFO << this;
+
+    setWindowTitle(QString(APPLICATION) + QString(" v") + QString(VERSION));
+
+#ifdef RASPBERRY_PI
+    showFullScreen();
+#endif
+
+    QLabel* titre =
+      new QLabel(QString(APPLICATION) + QString(" v") + QString(VERSION), this);
+    QPixmap logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
+    QLabel* labelLogoeLight    = new QLabel;
+    QLabel* consommationTotale = new QLabel("Consommation totale : ", this);
+
+    for(int i = 0; i < DEMO_ELIGHT; ++i)
+    {
+        QPushButton* boutonSalle =
+          new QPushButton(QString("Salle B") + QString::number(20 + i), this);
+        if(i == 0)
+            boutonSalle->setStyleSheet(
+              "QPushButton{ background-color: #70eb65; }"); // active
+        else
+            boutonSalle->setStyleSheet(
+              "QPushButton{ background-color: #eb6565; }"); // inactive
+        boutonsSalles.push_back(boutonSalle);
+        salles[boutonSalle] = nullptr;
+    }
+
+    QPushButton* historique = new QPushButton("Historique", this);
+
+    this->setStyleSheet("background-color: #FFFFFF;");
+    titre->setStyleSheet("font-weight: 900; font-size: 90px;");
+    consommationTotale->setStyleSheet(
+      "border: 1px solid black; background-color: #FFFF33;");
+
+    QVBoxLayout* layout   = new QVBoxLayout(this);
+    QGridLayout* salle    = new QGridLayout;
+    QHBoxLayout* entete   = new QHBoxLayout;
+    QHBoxLayout* piedPage = new QHBoxLayout;
+
+    labelLogoeLight->setPixmap(logoeLight);
+    piedPage->setAlignment(Qt::AlignCenter);
+
+    layout->addLayout(entete);
+    layout->addLayout(salle);
+    layout->addLayout(piedPage);
+
+    entete->addWidget(labelLogoeLight);
+    entete->addWidget(titre, Qt::AlignBaseline);
+
+    for(int i = 0; i < boutonsSalles.count(); ++i)
+    {
+        salle->addWidget(boutonsSalles[i], 0, i);
+    }
+
+    piedPage->addWidget(historique);
+    piedPage->addWidget(consommationTotale);
+
+    connect(historique,
+            &QPushButton::clicked,
+            this,
+            &ELight::afficherHistorique);
+    for(int i = 0; i < boutonsSalles.count(); ++i)
+    {
+        connect(boutonsSalles[i],
+                &QPushButton::clicked,
+                this,
+                &ELight::afficherSalle);
+    }
+!!!128554.cpp!!!	~ELight()
+    qDebug() << Q_FUNC_INFO << this;
+!!!128682.cpp!!!	afficherHistorique() : void
+    if(historiquePage == nullptr)
+        historiquePage = new Historique(this);
+    historiquePage->show();
+!!!128810.cpp!!!	afficherSalle() : void
+    QPushButton* boutonSalle = qobject_cast<QPushButton*>(sender());
+
+    if(salles[boutonSalle] == nullptr)
+        salles[boutonSalle] = new Salle(boutonSalle->text(), this);
+    salles[boutonSalle]->show();
+!!!128938.cpp!!!	initialiserSalles() : void
+#ifdef DEMO_ELIGHT
+#endif
