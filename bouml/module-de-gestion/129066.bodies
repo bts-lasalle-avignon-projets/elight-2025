@@ -1,11 +1,5 @@
-#include "pageaccueil.h"
-#include "boitesegment.h"
-#include "communicationbasededonnees.h"
-#include <QDebug>
-
-PageAccueil::PageAccueil(QWidget* parent) :
-    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
-{
+class PageAccueil
+!!!129962.cpp!!!	PageAccueil(inout parent : QWidget = nullptr)
     qDebug() << Q_FUNC_INFO << this;
 
     QFrame* separateurPageAccueil = new QFrame(this);
@@ -81,20 +75,11 @@ PageAccueil::PageAccueil(QWidget* parent) :
     {
         qDebug() << "Erreur: Impossible de se connecter à la base de données";
     }
-}
-
-PageAccueil::~PageAccueil()
-{
+!!!131882.cpp!!!	~PageAccueil()
     qDebug() << Q_FUNC_INFO << this;
-}
-
-QPushButton* PageAccueil::getBoutonGererScenarios() const
-{
+!!!130090.cpp!!!	getBoutonGererScenarios() : QPushButton
     return boutonGererScenarios;
-}
-
-void PageAccueil::chargerScenariosDepuisBDD()
-{
+!!!132266.cpp!!!	chargerScenariosDepuisBDD() : void
     QSqlQuery requete;
     requete.prepare("SELECT id_scenario, nom_scenario FROM scenario");
 
@@ -119,10 +104,7 @@ void PageAccueil::chargerScenariosDepuisBDD()
     {
         menuDeroulantScenarios->addItem("Aucun scénario disponible");
     }
-}
-
-void PageAccueil::chargerSegmentsDepuisBDD()
-{
+!!!132394.cpp!!!	chargerSegmentsDepuisBDD() : void
     QString nomSalle = "B20"; // temporaire
 
     bool resultats = false;
@@ -179,4 +161,3 @@ void PageAccueil::chargerSegmentsDepuisBDD()
         labelAucunSegment->setAlignment(Qt::AlignCenter);
         layoutSegments->addWidget(labelAucunSegment);
     }
-}

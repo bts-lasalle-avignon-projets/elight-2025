@@ -4,55 +4,76 @@
 *.swo
 *.swn
 *.~*
+.DS_Store
 
-# Fichiers de compilation
+# C++ objects and libs
+*.slo
+*.lo
+*.o
+*.obj
+*.a
+*.la
+*.lai
+*.lo
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# Qt
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+/.qmake.cache
+/.qmake.stash
 *.pro.user
 *.pro.user.*
-Makefile*
-CMakeLists.txt.user
+*.qbs.user
+*.qbs.user.*
 *.moc
-*.qmake.stash
-*.qmake.cache
-*.obj
-*.o
-*.a
-*.so
-*.lo
-*.la
-*.dll
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+*.qm
+*.prl
+target_wrapper.*
+*.autosave
+*.qmlproject.user
+*.qmlproject.user.*
+CMakeLists.txt.user*
+compile_commands.json
+*creator.user*
+*.creator*
+*.kdev4
+*.qmake
+qtc_*
+
+# Executables
 *.exe
 *.out
 *.app
-
-# Répertoires de build
-build/
-debug/
-release/
-debug_static/
-release_static/
-*_debug/
-*_release/
-cmake-build-*/
 
 # Dossiers spécifiques aux IDE
 .idea/
 .vscode/
 *.user
 *.userprefs
-
-# Fichiers Qt Creator
-*.creator*
-*.kdev4
-*.qmake
-*.pro.user
-
-# Fichiers de configuration de l'IDE
 *.vscode/
 *.vs/
-
-# Caches de qt
-qtc_*
 
 # Fichiers temporaires et autres fichiers générés
 *.log
 *.dSYM/
+
+# BOUML
+*.d
+*.b
+*.lock
+*.session
+idl_includes
+*.user

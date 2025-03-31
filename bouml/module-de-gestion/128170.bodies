@@ -1,25 +1,11 @@
-#include "communicationbasededonnees.h"
-#include <QDebug>
-
-CommunicationBaseDeDonnees::CommunicationBaseDeDonnees(QObject* parent) :
-    QObject(parent)
-{
+class CommunicationBaseDeDonnees
+!!!128170.cpp!!!	CommunicationBaseDeDonnees(inout parent : QObject = nullptr)
     qDebug() << Q_FUNC_INFO << this;
     baseDeDonnees = QSqlDatabase::addDatabase("QMYSQL");
-}
-
-CommunicationBaseDeDonnees::~CommunicationBaseDeDonnees()
-{
+!!!131370.cpp!!!	~CommunicationBaseDeDonnees()
     deconnecter();
     qDebug() << Q_FUNC_INFO << this;
-}
-
-bool CommunicationBaseDeDonnees::connecter(
-  QString dataBaseName /*= DATABASENAME*/,
-  QString userName /*= USERNAME*/,
-  QString password /*= PASSWORD*/,
-  QString hostName /*= HOSTNAME*/)
-{
+!!!131498.cpp!!!	connecter(in dataBaseName : QString = DATABASENAME, in userName : QString = USERNAME, in password : QString = PASSWORD, in hostName : QString = HOSTNAME) : bool
     if(!estConnecte())
     {
         qDebug() << Q_FUNC_INFO << "dataBaseName" << dataBaseName << "userName"
@@ -41,17 +27,10 @@ bool CommunicationBaseDeDonnees::connecter(
     }
 
     return true;
-}
-
-void CommunicationBaseDeDonnees::deconnecter()
-{
+!!!131626.cpp!!!	deconnecter() : void
     if(baseDeDonnees.isOpen())
     {
         baseDeDonnees.close();
     }
-}
-
-bool CommunicationBaseDeDonnees::estConnecte() const
-{
+!!!131754.cpp!!!	estConnecte() : bool
     return baseDeDonnees.isOpen();
-}

@@ -1,42 +1,13 @@
-/**
- * @file elightcontrol.cpp
- *
- * @brief Définition de la classe ELightControl
- * @author Soria Bonet Enzo
- * @version 1.0
- */
-
-#include "elightcontrol.h"
-#include "menunavigation.h"
-#include "pageaccueil.h"
-#include "pagegestionscenario.h"
-#include "pageguide.h"
-#include "pageparametres.h"
-#include <QDebug>
-
-/**
- * @brief Constructeur de la classe ELightControl
- *
- * @fn ELightControl::ELightControl
- * @param parent L'adresse de l'objet parent, si nullptr ELightControl sera la
- * fenêtre principale de l'application
- */
-ELightControl::ELightControl(QWidget* parent) : QWidget(parent)
-{
+class ELightControl
+!!!128426.cpp!!!	ELightControl(inout parent : QWidget = nullptr)
     qDebug() << Q_FUNC_INFO << this;
 
     creerPages();
     gererNavigation();
     personnaliserFenetre();
-}
-
-ELightControl::~ELightControl()
-{
+!!!128554.cpp!!!	~ELightControl()
     qDebug() << Q_FUNC_INFO << this;
-}
-
-void ELightControl::creerPages()
-{
+!!!128682.cpp!!!	creerPages() : void
     // la pile de pages
     pageEmpilees = new QStackedWidget(this);
 
@@ -67,10 +38,7 @@ void ELightControl::creerPages()
     layoutHorizontalPrincipal->addWidget(menuNavigation);
     layoutHorizontalPrincipal->addWidget(separateurMenuNavigation);
     layoutHorizontalPrincipal->addWidget(pageEmpilees);
-}
-
-void ELightControl::gererNavigation()
-{
+!!!128810.cpp!!!	gererNavigation() : void
     connect(menuNavigation->getBoutonAccueil(),
             &QPushButton::clicked,
             this,
@@ -123,10 +91,7 @@ void ELightControl::gererNavigation()
             [=] {
                 changerPage(Page::ACCUEIL);
             });
-}
-
-void ELightControl::personnaliserFenetre()
-{
+!!!128938.cpp!!!	personnaliserFenetre() : void
     setWindowTitle(QString(APPLICATION) + QString(" v") + QString(VERSION));
 
 #ifdef RASPBERRY_PI
@@ -138,10 +103,7 @@ void ELightControl::personnaliserFenetre()
     chargerFeuilleStyle();
 
     pageEmpilees->setCurrentIndex(Page::ACCUEIL);
-}
-
-void ELightControl::chargerFeuilleStyle()
-{
+!!!129066.cpp!!!	chargerFeuilleStyle() : void
     QFile styleFile(QString(CHEMIN_RESSOURCES) + QString(STYLE_APPLICATION));
     if(styleFile.open(QFile::ReadOnly))
     {
@@ -149,9 +111,5 @@ void ELightControl::chargerFeuilleStyle()
         QString     style = in.readAll();
         this->setStyleSheet(style);
     }
-}
-
-void ELightControl::changerPage(Page page)
-{
+!!!129194.cpp!!!	changerPage(in page : ELightControl::Page) : void
     pageEmpilees->setCurrentIndex(page);
-}
