@@ -44,6 +44,10 @@ class CommunicationBaseDeDonnees : public QObject
                    QString hostName     = HOSTNAME);
     void deconnecter();
     bool estConnecte() const;
+    void chargerConfiguration(QString& hostName,
+                              QString& dataBaseName,
+                              QString& userName,
+                              QString& password);
 
   private:
     QSqlDatabase baseDeDonnees;

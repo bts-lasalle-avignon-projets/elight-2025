@@ -29,26 +29,7 @@ bool CommunicationBaseDeDonnees::connecter(
                  << userName << "password" << password << "hostName"
                  << hostName;
 
-        QString configPath = QCoreApplication::applicationDirPath() +
-                             "/config-base-de-donnees.ini";
-
-        if(QFile::exists(configPath))
-        {
-            qDebug() << Q_FUNC_INFO << "config-base-de-donnees.ini";
-
-            QSettings settings(configPath, QSettings::IniFormat);
-
-            hostName = settings.value("Database/host", hostName).toString();
-            dataBaseName =
-              settings.value("Database/name", dataBaseName).toString();
-            userName = settings.value("Database/user", userName).toString();
-            password = settings.value("Database/password", password).toString();
-        }
-        else
-        {
-            qWarning() << Q_FUNC_INFO
-                       << "Fichier config-base-de-donnees.ini non trouvé";
-        }
+        chargerConfiguration(hostName, dataBaseName, userName, password);
 
         baseDeDonnees.setHostName(hostName);
         baseDeDonnees.setDatabaseName(dataBaseName);
@@ -76,4 +57,30 @@ void CommunicationBaseDeDonnees::deconnecter()
 bool CommunicationBaseDeDonnees::estConnecte() const
 {
     return baseDeDonnees.isOpen();
+}
+
+void CommunicationBaseDeDonnees::chargerConfiguration(QString& hostName,
+                                                      QString& dataBaseName,
+                                                      QString& userName,
+                                                      QString& password)
+{
+    QString configPath =
+      QCoreApplication::applicationDirPath() + "/config-base-de-donnees.ini";
+
+    if(QFile::exists(configPath))
+    {
+        qDebug() << Q_FUNC_INFO << "Chargement de" << configPath;
+
+        QSettings settings(configPath, QSettings::IniFormat);
+
+        hostName     = settings.value("Database/host", hostName).toString();
+        dataBaseName = settings.value("Database/name", dataBaseName).toString();
+        userName     = settings.value("Database/user", userName).toString();
+        password     = settings.value("Database/password", password).toString();
+    }
+    else
+    {
+        qWarning() << Q_FUNC_INFO
+                   << "Fichier de configuration non trouvé :" << configPath;
+    }
 }
