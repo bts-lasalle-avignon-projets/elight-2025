@@ -2,6 +2,7 @@
 #define PAGEACCUEIL_H
 
 #include <QtWidgets>
+#include "communicationbasededonnees.h"
 
 /**
  * @def COLONNES_MAX
@@ -25,7 +26,7 @@ class PageAccueil : public QWidget
     QGridLayout*                layoutSegments;
     QList<BoiteSegment*>        listeSegments;
     QComboBox*                  menuDeroulantScenarios;
-    CommunicationBaseDeDonnees* baseDeDonnees;
+    CommunicationBaseDeDonnees& baseDeDonnees;
 
     void creerSegments(const int nombreScenarios);
     void placerSegments();

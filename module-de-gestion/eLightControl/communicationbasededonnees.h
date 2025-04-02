@@ -35,6 +35,7 @@ class CommunicationBaseDeDonnees : public QObject
 {
     Q_OBJECT
   public:
+    static CommunicationBaseDeDonnees& getInstance();
     explicit CommunicationBaseDeDonnees(QObject* parent = nullptr);
     ~CommunicationBaseDeDonnees();
 
@@ -50,7 +51,8 @@ class CommunicationBaseDeDonnees : public QObject
                               QString& motDePasse);
 
   private:
-    QSqlDatabase baseDeDonnees;
+    QSqlDatabase                       baseDeDonnees;
+    static CommunicationBaseDeDonnees* instance;
 
   signals:
 };

@@ -4,10 +4,13 @@
 #include <QSettings>
 #include <QCoreApplication>
 
+CommunicationBaseDeDonnees* CommunicationBaseDeDonnees::instance = nullptr;
+
 CommunicationBaseDeDonnees::CommunicationBaseDeDonnees(QObject* parent) :
     QObject(parent)
 {
     qDebug() << Q_FUNC_INFO << this;
+    QSqlDatabase::removeDatabase(QSqlDatabase::defaultConnection);
     baseDeDonnees = QSqlDatabase::addDatabase("QMYSQL");
 }
 
@@ -90,4 +93,13 @@ void CommunicationBaseDeDonnees::chargerConfiguration(QString& nomHote,
         qWarning() << Q_FUNC_INFO << "Fichier de configuration non trouvé :"
                    << cheminConfiguration;
     }
+}
+
+CommunicationBaseDeDonnees& CommunicationBaseDeDonnees::getInstance()
+{
+    if(instance == nullptr)
+    {
+        instance = new CommunicationBaseDeDonnees();
+    }
+    return *instance;
 }

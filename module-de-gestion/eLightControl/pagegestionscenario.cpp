@@ -1,6 +1,7 @@
 #include "pagegestionscenario.h"
 
-PageGestionScenario::PageGestionScenario(QWidget* parent) : QWidget(parent)
+PageGestionScenario::PageGestionScenario(QWidget* parent) :
+    QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
 {
     QLabel* titreCreationScenario = new QLabel(this);
     boutonRetourGestionScenario   = new QPushButton(this);
@@ -109,6 +110,14 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) : QWidget(parent)
     layoutModifierScenarioIntensite->addWidget(
       nouvelleIntensiteModifierScenario);
     layoutModifierScenarioIntensite->addWidget(boiteNouvelleIntensite);
+
+    if(baseDeDonnees.connecter())
+    {
+    }
+    else
+    {
+        qDebug() << "Erreur: Impossible de se connecter à la base de données";
+    }
 }
 
 QPushButton* PageGestionScenario::getBoutonRetourGestionScenario() const

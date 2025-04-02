@@ -2,6 +2,9 @@
 #define PAGEGESTIONSCENARIO_H
 
 #include <QtWidgets>
+#include "communicationbasededonnees.h"
+
+class CommunicationBaseDeDonnees;
 
 class PageGestionScenario : public QWidget
 {
@@ -11,7 +14,9 @@ class PageGestionScenario : public QWidget
     QPushButton* getBoutonRetourGestionScenario() const;
 
   private:
-    QPushButton* boutonRetourGestionScenario;
+    QPushButton*                boutonRetourGestionScenario;
+    CommunicationBaseDeDonnees& baseDeDonnees;
+
   signals:
 };
 
