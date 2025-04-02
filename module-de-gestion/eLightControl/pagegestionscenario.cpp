@@ -6,27 +6,27 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     QLabel* titreCreationScenario = new QLabel(this);
     boutonRetourGestionScenario   = new QPushButton(this);
 
-    QLabel*      texteEnregistrerScenario      = new QLabel(this);
-    QLabel*      nomEnregistrerScenario        = new QLabel(this);
-    QLineEdit*   boiteNomScenario              = new QLineEdit(this);
-    QLabel*      intensiteEnregistrerScenario  = new QLabel(this);
-    QLineEdit*   boiteIntensiteScenario        = new QLineEdit(this);
+    QLabel* texteEnregistrerScenario           = new QLabel(this);
+    QLabel* nomEnregistrerScenario             = new QLabel(this);
+    boiteNomScenario                           = new QLineEdit(this);
+    QLabel* intensiteEnregistrerScenario       = new QLabel(this);
+    boiteIntensiteScenario                     = new QLineEdit(this);
     QPushButton* boutonValiderCreationScenario = new QPushButton(this);
 
     QFrame* separateurGestionScenarios = new QFrame(this);
 
     QLabel* titreModificationSuppressionScenario = new QLabel(this);
 
-    QLabel*      texteListeScenarios     = new QLabel(this);
-    QComboBox*   listeScenarios          = new QComboBox(this);
+    QLabel* texteListeScenarios          = new QLabel(this);
+    listeScenarios                       = new QComboBox(this);
     QPushButton* boutonSupprimerScenario = new QPushButton(this);
 
-    QLabel*      texteModifierScenarioExistant     = new QLabel(this);
-    QLabel*      nouveauNomModifierScenario        = new QLabel(this);
-    QLineEdit*   boiteNouveauNom                   = new QLineEdit(this);
-    QLabel*      nouvelleIntensiteModifierScenario = new QLabel(this);
-    QLineEdit*   boiteNouvelleIntensite            = new QLineEdit(this);
-    QPushButton* boutonValiderModifierScenario     = new QPushButton(this);
+    QLabel* texteModifierScenarioExistant      = new QLabel(this);
+    QLabel* nouveauNomModifierScenario         = new QLabel(this);
+    boiteNouveauNom                            = new QLineEdit(this);
+    QLabel* nouvelleIntensiteModifierScenario  = new QLabel(this);
+    boiteNouvelleIntensite                     = new QLineEdit(this);
+    QPushButton* boutonValiderModifierScenario = new QPushButton(this);
 
     titreCreationScenario->setText("<h1>Création</h1>");
     boutonRetourGestionScenario->setText("RETOUR");
@@ -36,6 +36,8 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     boiteNomScenario->setPlaceholderText("...");
     intensiteEnregistrerScenario->setText("INTENSITE");
     boiteIntensiteScenario->setPlaceholderText("...");
+    boiteIntensiteScenario->setValidator(
+      new QIntValidator(INTENSITE_MIN, INTENSITE_MAX, this));
     boutonValiderCreationScenario->setText("CONFIRMER");
 
     separateurGestionScenarios->setFrameShape(QFrame::HLine);
@@ -47,8 +49,6 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
       "<h1>Modification & Suppression</h1>");
 
     texteListeScenarios->setText("Liste des scénarios : ");
-    listeScenarios->addItem("PLACEHOLDER 1");
-    listeScenarios->addItem("PLACEHOLDER 2");
     boutonSupprimerScenario->setText("Supprimer");
 
     texteModifierScenarioExistant->setText("Modifier un scénario existant : ");
@@ -56,6 +56,8 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     boiteNouveauNom->setPlaceholderText("...");
     nouvelleIntensiteModifierScenario->setText("Nouvelle intensité lumineuse");
     boiteNouvelleIntensite->setPlaceholderText("...");
+    boiteNouvelleIntensite->setValidator(
+      new QIntValidator(INTENSITE_MIN, INTENSITE_MAX, this));
     boutonValiderModifierScenario->setText("Valider");
 
     QVBoxLayout* layoutVerticalPageGestionScenario = new QVBoxLayout(this);
@@ -111,8 +113,19 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
       nouvelleIntensiteModifierScenario);
     layoutModifierScenarioIntensite->addWidget(boiteNouvelleIntensite);
 
+    connect(boutonValiderCreationScenario, &QPushButton::clicked, this, [=] {
+        enregistrerScenario();
+    });
+    connect(boutonSupprimerScenario, &QPushButton::clicked, this, [=] {
+        supprimerScenario();
+    });
+    connect(boutonValiderModifierScenario, &QPushButton::clicked, this, [=] {
+        modifierScenario();
+    });
+
     if(baseDeDonnees.connecter())
     {
+        chargerScenariosDepuisBDD();
     }
     else
     {
@@ -123,4 +136,71 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
 QPushButton* PageGestionScenario::getBoutonRetourGestionScenario() const
 {
     return boutonRetourGestionScenario;
+}
+
+void PageGestionScenario::chargerScenariosDepuisBDD()
+{
+    QSqlQuery requete;
+    requete.prepare("SELECT id_scenario, nom_scenario FROM scenario");
+
+    if(!requete.exec())
+    {
+        qDebug() << "Erreur lors de la récupération des scénarios:"
+                 << requete.lastError().text();
+        return;
+    }
+
+    listeScenarios->clear();
+
+    while(requete.next())
+    {
+        int     idScenario  = requete.value(0).toInt();
+        QString nomScenario = requete.value(1).toString();
+
+        listeScenarios->addItem(nomScenario, idScenario);
+    }
+
+    if(listeScenarios->count() == 0)
+    {
+        listeScenarios->addItem("Aucun scénario disponible");
+    }
+}
+
+void PageGestionScenario::enregistrerScenario()
+{
+    if(boiteIntensiteScenario->text().toInt() > INTENSITE_MAX)
+    {
+        boiteIntensiteScenario->setText(QString::number(INTENSITE_MAX));
+    }
+
+    qDebug() << "Nom : " << boiteNomScenario->text()
+             << " Intensite : " << boiteIntensiteScenario->text();
+
+    /**
+     * @todo ajouter la requête sql CREATE
+     */
+}
+
+void PageGestionScenario::supprimerScenario()
+{
+    qDebug() << "Scénario selectionné : " << listeScenarios->currentText();
+
+    /**
+     * @todo ajouter la requête sql DELETE
+     */
+}
+void PageGestionScenario::modifierScenario()
+{
+    if(boiteNouvelleIntensite->text().toInt() > INTENSITE_MAX)
+    {
+        boiteNouvelleIntensite->setText(QString::number(INTENSITE_MAX));
+    }
+
+    qDebug() << "Scénario selectionné : " << listeScenarios->currentText()
+             << "Nom : " << boiteNouveauNom->text()
+             << " Intensite : " << boiteNouvelleIntensite->text();
+
+    /**
+     * @todo ajouter la requête sql UPDATE
+     */
 }
