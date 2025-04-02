@@ -4,7 +4,9 @@
 #include <QtWidgets>
 #include "config.h"
 #include "salle.h"
+#include "communicationbasededonnees.h"
 
+class CommunicationBaseDeDonnees;
 class EditionSalle;
 
 class Salle : public QWidget
@@ -15,10 +17,17 @@ class Salle : public QWidget
     virtual ~Salle();
 
   private:
-    QString       nom;
-    QLabel*       titre;
-    QLabel*       consommation;
-    EditionSalle* editionPage;
+    QString                     nom;
+    QLabel*                     titre;
+    QLabel*                     consommation;
+    EditionSalle*               editionPage;
+    CommunicationBaseDeDonnees* baseDeDonnees;
+    QComboBox*                  menuScenario;
+    QComboBox*                  menuSegment;
+
+    void chargerSegmentsDepuisBDD();
+    void chargerScenariosDepuisBDD();
+    void chargerConsommationDepuisBDD();
 
   protected:
     void showEvent(QShowEvent* event);

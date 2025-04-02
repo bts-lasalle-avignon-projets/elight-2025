@@ -141,8 +141,6 @@ void Historique::fermerFenetre()
 
 void Historique::chargerHistoriqueDepuisBDD()
 {
-    int nombreLigne = table->rowCount();
-
     QSqlQuery requete;
     requete.prepare("SELECT id_segment, consommation, horodatage_releve FROM "
                     "historique_consommation_segment");
@@ -156,19 +154,24 @@ void Historique::chargerHistoriqueDepuisBDD()
 
     while(requete.next())
     {
-        nombreLigne++;
-        table->setRowCount(nombreLigne);
+        table->insertRow(table->rowCount());
 
         int     idSegment    = requete.value(0).toInt();
         float   consommation = requete.value(1).toFloat();
         QString horodatage   = requete.value(2).toString();
 
-        table->setItem(nombreLigne - 1,
+        qDebug() << "ID Segment:" << idSegment;
+        qDebug() << "Consommation:" << consommation;
+        qDebug() << "Horodatage:" << horodatage;
+
+        table->setItem(table->rowCount() - 1,
                        0,
                        new QTableWidgetItem(QString::number(idSegment)));
-        table->setItem(nombreLigne - 1,
+        table->setItem(table->rowCount() - 1,
                        1,
                        new QTableWidgetItem(QString::number(consommation)));
-        table->setItem(nombreLigne - 1, 2, new QTableWidgetItem(horodatage));
+        table->setItem(table->rowCount() - 1,
+                       2,
+                       new QTableWidgetItem(horodatage));
     }
 }
