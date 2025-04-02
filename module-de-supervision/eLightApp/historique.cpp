@@ -1,9 +1,15 @@
 #include "historique.h"
+#include "communicationbasededonnees.h"
 
-#include <QDateTime>
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QVariant>
+#include <QDateTime>
+#include <QPair>
 
-Historique::Historique(QWidget* parent) : QWidget(parent)
+Historique::Historique(QWidget* parent) :
+    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -26,6 +32,16 @@ Historique::Historique(QWidget* parent) : QWidget(parent)
     layout->addLayout(entete);
     layout->addWidget(table);
     layout->addWidget(boutonFermeture);
+
+    if(baseDeDonnees->connecter())
+    {
+        qDebug() << "Connexion réussi";
+        chargerHistoriqueDepuisBDD();
+    }
+    else
+    {
+        qDebug() << "Connexion échoué";
+    }
 
     connect(boutonFermeture,
             &QPushButton::clicked,
@@ -72,9 +88,9 @@ void Historique::initialiserTable()
     table->setHorizontalHeaderLabels(nomColonnesTable);
 
 #ifdef DEMO_HISTORIQUE
-    table->setRowCount(5);
+    table->setRowCount(1);
 
-    table->setItem(0, 0, new QTableWidgetItem("B20"));
+    /*table->setItem(0, 0, new QTableWidgetItem("B20"));
     table->setItem(0, 1, new QTableWidgetItem("150 kWh"));
     table->setItem(0,
                    2,
@@ -107,7 +123,8 @@ void Historique::initialiserTable()
     table->setItem(4,
                    2,
                    new QTableWidgetItem(
-                     QDateTime::currentDateTime().toString("dd/MM/yy HH:mm")));
+                     QDateTime::currentDateTime().toString("dd/MM/yy
+    HH:mm")));*/
 #endif
 
     QHeaderView* headerView = table->horizontalHeader();
@@ -120,4 +137,38 @@ void Historique::initialiserTable()
 void Historique::fermerFenetre()
 {
     this->close();
+}
+
+void Historique::chargerHistoriqueDepuisBDD()
+{
+    int nombreLigne = table->rowCount();
+
+    QSqlQuery requete;
+    requete.prepare("SELECT id_segment, consommation, horodatage_releve FROM "
+                    "historique_consommation_segment");
+
+    if(!requete.exec())
+    {
+        qDebug() << "Erreur lors de la récupération de l'historique:"
+                 << requete.lastError().text();
+        return;
+    }
+
+    while(requete.next())
+    {
+        nombreLigne++;
+        table->setRowCount(nombreLigne);
+
+        int     idSegment    = requete.value(0).toInt();
+        float   consommation = requete.value(1).toFloat();
+        QString horodatage   = requete.value(2).toString();
+
+        table->setItem(nombreLigne - 1,
+                       0,
+                       new QTableWidgetItem(QString::number(idSegment)));
+        table->setItem(nombreLigne - 1,
+                       1,
+                       new QTableWidgetItem(QString::number(consommation)));
+        table->setItem(nombreLigne - 1, 2, new QTableWidgetItem(horodatage));
+    }
 }

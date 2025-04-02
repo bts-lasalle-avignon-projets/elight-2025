@@ -3,9 +3,11 @@
 
 #include <QtWidgets>
 #include "config.h"
+#include "communicationbasededonnees.h"
 
 #define DEMO_HISTORIQUE
 
+class CommunicationBaseDeDonnees;
 class Historique : public QWidget
 {
     Q_OBJECT
@@ -17,10 +19,12 @@ class Historique : public QWidget
     void showEvent(QShowEvent* event);
 
   private:
-    QLabel*       titreHistorique;
-    QTableWidget* table;
+    QLabel*                     titreHistorique;
+    QTableWidget*               table;
+    CommunicationBaseDeDonnees* baseDeDonnees;
 
     void initialiserTable();
+    void chargerHistoriqueDepuisBDD();
 
   private slots:
     void fermerFenetre();
