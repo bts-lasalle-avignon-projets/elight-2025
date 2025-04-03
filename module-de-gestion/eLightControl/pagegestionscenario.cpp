@@ -29,16 +29,16 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     QPushButton* boutonValiderModifierScenario = new QPushButton(this);
 
     titreCreationScenario->setText("<h1>Création</h1>");
-    boutonRetourGestionScenario->setText("RETOUR");
+    boutonRetourGestionScenario->setText("Retour");
 
     texteEnregistrerScenario->setText("Enregistrer un scénario : ");
-    nomEnregistrerScenario->setText("NOM");
+    nomEnregistrerScenario->setText("Nom");
     boiteNomScenario->setPlaceholderText("...");
-    intensiteEnregistrerScenario->setText("INTENSITE");
+    intensiteEnregistrerScenario->setText("Intensité lumineuse - 750 max");
     boiteIntensiteScenario->setPlaceholderText("...");
     boiteIntensiteScenario->setValidator(
       new QIntValidator(INTENSITE_MIN, INTENSITE_MAX, this));
-    boutonValiderCreationScenario->setText("CONFIRMER");
+    boutonValiderCreationScenario->setText("Confirmer");
 
     separateurGestionScenarios->setFrameShape(QFrame::HLine);
     separateurGestionScenarios->setFrameShadow(QFrame::Sunken);
@@ -173,22 +173,48 @@ void PageGestionScenario::enregistrerScenario()
         boiteIntensiteScenario->setText(QString::number(INTENSITE_MAX));
     }
 
-    qDebug() << "Nom : " << boiteNomScenario->text()
-             << " Intensite : " << boiteIntensiteScenario->text();
+    QString nomScenario       = boiteNomScenario->text();
+    QString intensiteScenario = boiteIntensiteScenario->text();
 
-    /**
-     * @todo ajouter la requête sql CREATE
-     */
+    QSqlQuery requete;
+    requete.prepare("INSERT INTO scenario(nom_scenario, intensite_scenario) "
+                    "VALUES(:nom_scenario, :intensite_scenario)");
+    requete.bindValue(":nom_scenario", nomScenario);
+    requete.bindValue(":intensite_scenario", intensiteScenario);
+
+    if(!requete.exec())
+    {
+        qDebug() << "Erreur lors de l'ajout du scénario:"
+                 << requete.lastError().text();
+    }
+    else
+    {
+        qDebug() << "Scénario ajouté avec succès ! "
+                 << "Nom : " << nomScenario
+                 << " Intensite : " << intensiteScenario;
+    }
 }
 
 void PageGestionScenario::supprimerScenario()
 {
-    qDebug() << "Scénario selectionné : " << listeScenarios->currentText();
+    QString nomScenario = listeScenarios->currentText();
 
-    /**
-     * @todo ajouter la requête sql DELETE
-     */
+    QSqlQuery requete;
+    requete.prepare("DELETE FROM scenario WHERE nom_scenario = :nom_scenario");
+    requete.bindValue(":nom_scenario", nomScenario);
+
+    if(!requete.exec())
+    {
+        qDebug() << "Erreur lors de la suppression du scénario:"
+                 << requete.lastError().text();
+    }
+    else
+    {
+        qDebug() << "Scénario supprimé avec succès ! "
+                 << "Nom : " << nomScenario;
+    }
 }
+
 void PageGestionScenario::modifierScenario()
 {
     if(boiteNouvelleIntensite->text().toInt() > INTENSITE_MAX)
@@ -196,11 +222,30 @@ void PageGestionScenario::modifierScenario()
         boiteNouvelleIntensite->setText(QString::number(INTENSITE_MAX));
     }
 
-    qDebug() << "Scénario selectionné : " << listeScenarios->currentText()
-             << "Nom : " << boiteNouveauNom->text()
-             << " Intensite : " << boiteNouvelleIntensite->text();
+    QString nomScenario        = listeScenarios->currentText();
+    QString nouveauNomScenario = boiteNouveauNom->text();
+    QString nouvelleIntensite  = boiteNouvelleIntensite->text();
 
-    /**
-     * @todo ajouter la requête sql UPDATE
-     */
+    QSqlQuery requete;
+
+    requete.prepare("UPDATE scenario "
+                    "SET nom_scenario = :nom_nouveau_scenario, "
+                    "intensite_scenario = :nouvelle_intensite "
+                    "WHERE nom_scenario = :nom_scenario");
+    requete.bindValue(":nom_scenario", nomScenario);
+    requete.bindValue(":nom_nouveau_scenario", nouveauNomScenario);
+    requete.bindValue(":nouvelle_intensite", nouvelleIntensite);
+
+    if(!requete.exec())
+    {
+        qDebug() << "Erreur lors de la modification du scénario:"
+                 << requete.lastError().text();
+    }
+    else
+    {
+        qDebug() << "Scénario modifié avec succès ! "
+                 << "Scénario selectionné : " << nomScenario
+                 << "Nom : " << nouveauNomScenario
+                 << " Intensite : " << nouvelleIntensite;
+    }
 }
