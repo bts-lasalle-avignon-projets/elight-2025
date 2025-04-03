@@ -35,8 +35,6 @@ PageAccueil::PageAccueil(QWidget* parent) :
     intensiteScenarioActif->setText("PLACEHOLDER");
 
     texteSelectionScenario->setText("Sélection scénario : ");
-    menuDeroulantScenarios->addItem("PLACEHOLDER 1");
-    menuDeroulantScenarios->addItem("PLACEHOLDER 2");
     boutonConfirmerSelectionScenario->setText("Valider");
 
     titreSegments->setText("<h1>Segments</h1>");
