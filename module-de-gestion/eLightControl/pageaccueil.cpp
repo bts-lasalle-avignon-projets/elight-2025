@@ -1,10 +1,9 @@
 #include "pageaccueil.h"
 #include "boitesegment.h"
-#include "communicationbasededonnees.h"
 #include <QDebug>
 
 PageAccueil::PageAccueil(QWidget* parent) :
-    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
+    QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -72,7 +71,7 @@ PageAccueil::PageAccueil(QWidget* parent) :
 
     layoutEnteteSegments->addWidget(titreSegments);
 
-    if(baseDeDonnees->connecter())
+    if(baseDeDonnees.connecter())
     {
         chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
