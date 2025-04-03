@@ -23,8 +23,9 @@ Salle::Salle(QString nom, QWidget* parent) :
     QPushButton* boutonFermeture = new QPushButton("Fermer", this);
     QPushButton* boutonEdition   = new QPushButton("Éditer", this);
 
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    QHBoxLayout* entete = new QHBoxLayout;
+    QVBoxLayout* layout      = new QVBoxLayout(this);
+    QHBoxLayout* entete      = new QHBoxLayout;
+    QHBoxLayout* layoutConso = new QHBoxLayout;
 
     labelLogoeLight->setPixmap(logoeLight);
 
@@ -34,7 +35,9 @@ Salle::Salle(QString nom, QWidget* parent) :
     entete->addWidget(titre, Qt::AlignCenter);
     QString consommationText = consommation->text();
     labelConsommation->setText("Consommation d'énergie : " + consommationText);
-    layout->addWidget(labelConsommation, 0, Qt::AlignHCenter);
+    layoutConso->addWidget(labelConsommation);
+    layoutConso->addWidget(consommation);
+    layout->addLayout(layoutConso, Qt::AlignHCenter);
 
     layout->addWidget(segments, 0, Qt::AlignLeft);
     layout->addWidget(menuSegment);
@@ -68,6 +71,8 @@ Salle::Salle(QString nom, QWidget* parent) :
     this->setStyleSheet("background-color: #FFFFFF;");
     titre->setStyleSheet("font-weight: 900; font-size: 50px;");
     labelConsommation->setStyleSheet(
+      "border: 1px solid black; background-color: #FFFF33;");
+    consommation->setStyleSheet(
       "border: 1px solid black; background-color: #FFFF33;");
 #ifdef RASPBERRY_PI
     setWindowFlags(Qt::FramelessWindowHint |

@@ -16,6 +16,8 @@ class Salle : public QWidget
     explicit Salle(QString nom, QWidget* parent = nullptr);
     virtual ~Salle();
 
+    void rechargerDonnees();
+
   private:
     QString                     nom;
     QLabel*                     titre;
