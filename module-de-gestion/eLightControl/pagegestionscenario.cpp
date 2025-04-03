@@ -1,4 +1,5 @@
 #include "pagegestionscenario.h"
+#include <QDebug>
 
 PageGestionScenario::PageGestionScenario(QWidget* parent) :
     QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
@@ -113,23 +114,31 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
       nouvelleIntensiteModifierScenario);
     layoutModifierScenarioIntensite->addWidget(boiteNouvelleIntensite);
 
-    connect(boutonValiderCreationScenario, &QPushButton::clicked, this, [=] {
-        enregistrerScenario();
-    });
-    connect(boutonSupprimerScenario, &QPushButton::clicked, this, [=] {
-        supprimerScenario();
-    });
-    connect(boutonValiderModifierScenario, &QPushButton::clicked, this, [=] {
-        modifierScenario();
-    });
+    connect(boutonValiderCreationScenario,
+            &QPushButton::clicked,
+            this,
+            [=]
+            {
+                enregistrerScenario();
+            });
+    connect(boutonSupprimerScenario,
+            &QPushButton::clicked,
+            this,
+            [=]
+            {
+                supprimerScenario();
+            });
+    connect(boutonValiderModifierScenario,
+            &QPushButton::clicked,
+            this,
+            [=]
+            {
+                modifierScenario();
+            });
 
     if(baseDeDonnees.connecter())
     {
         chargerScenariosDepuisBDD();
-    }
-    else
-    {
-        qDebug() << "Erreur: Impossible de se connecter à la base de données";
     }
 }
 
@@ -145,8 +154,7 @@ void PageGestionScenario::chargerScenariosDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des scénarios:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
@@ -184,14 +192,12 @@ void PageGestionScenario::enregistrerScenario()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de l'ajout du scénario:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
     }
     else
     {
-        qDebug() << "Scénario ajouté avec succès ! "
-                 << "Nom : " << nomScenario
-                 << " Intensite : " << intensiteScenario;
+        qDebug() << Q_FUNC_INFO << "nomScenario" << nomScenario
+                 << "intensiteScenario" << intensiteScenario;
         boiteNomScenario->clear();
         boiteIntensiteScenario->clear();
     }
@@ -208,13 +214,11 @@ void PageGestionScenario::supprimerScenario()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la suppression du scénario:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
     }
     else
     {
-        qDebug() << "Scénario supprimé avec succès ! "
-                 << "Nom : " << nomScenario;
+        qDebug() << Q_FUNC_INFO << "nomScenario" << nomScenario;
     }
     chargerScenariosDepuisBDD();
 }
@@ -242,15 +246,13 @@ void PageGestionScenario::modifierScenario()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la modification du scénario:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
     }
     else
     {
-        qDebug() << "Scénario modifié avec succès ! "
-                 << "Scénario selectionné : " << nomScenario
-                 << "Nom : " << nouveauNomScenario
-                 << " Intensite : " << nouvelleIntensite;
+        qDebug() << Q_FUNC_INFO << "nomScenario" << nomScenario
+                 << "nouveauNomScenario" << nouveauNomScenario
+                 << "nouvelleIntensite" << nouvelleIntensite;
 
         boiteNouveauNom->clear();
         boiteNouvelleIntensite->clear();

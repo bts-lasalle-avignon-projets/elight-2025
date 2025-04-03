@@ -23,6 +23,7 @@ HEADERS += \
     boitesegment.h \
     communicationbasededonnees.h \
     communicationsegments.h \
+    config.h \
     elightcontrol.h \
     menunavigation.h \
     pageaccueil.h \

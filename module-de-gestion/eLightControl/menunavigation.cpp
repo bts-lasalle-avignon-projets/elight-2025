@@ -1,5 +1,6 @@
 #include "menunavigation.h"
-#include "elightcontrol.h"
+#include "config.h"
+#include <QDebug>
 
 MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
 {

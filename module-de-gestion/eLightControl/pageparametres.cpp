@@ -1,4 +1,5 @@
 #include "pageparametres.h"
+#include <QDebug>
 
 PageParametres::PageParametres(QWidget* parent) :
     QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
@@ -47,12 +48,20 @@ PageParametres::PageParametres(QWidget* parent) :
     layoutIp->addWidget(boiteIp);
     layoutIp->addWidget(boutonValiderIp);
 
-    connect(boutonValiderNom, &QPushButton::clicked, this, [=] {
-        validerParametreSalle();
-    });
-    connect(boutonValiderIp, &QPushButton::clicked, this, [=] {
-        validerParametreIp();
-    });
+    connect(boutonValiderNom,
+            &QPushButton::clicked,
+            this,
+            [=]
+            {
+                validerParametreSalle();
+            });
+    connect(boutonValiderIp,
+            &QPushButton::clicked,
+            this,
+            [=]
+            {
+                validerParametreIp();
+            });
 }
 
 QPushButton* PageParametres::getBoutonRetourParametre() const
@@ -75,13 +84,12 @@ void PageParametres::validerParametreSalle()
 
         if(!requete.exec())
         {
-            qDebug() << "Erreur lors de la modification du nom de la salle:"
+            qDebug() << Q_FUNC_INFO << "Erreur SQL"
                      << requete.lastError().text();
         }
         else
         {
-            qDebug() << "Salle modifiée avec succès ! "
-                     << "Nom salle : " << nomSalle;
+            qDebug() << Q_FUNC_INFO << "nomSalle" << nomSalle;
         }
     }
 }
@@ -102,13 +110,12 @@ void PageParametres::validerParametreIp()
 
         if(!requete.exec())
         {
-            qDebug() << "Erreur lors de la modification de l'ip de la salle:"
+            qDebug() << Q_FUNC_INFO << "Erreur SQL"
                      << requete.lastError().text();
         }
         else
         {
-            qDebug() << "Salle modifiée avec succès ! "
-                     << "Ip boitier : " << nouvelleIp;
+            qDebug() << Q_FUNC_INFO << "nouvelleIp" << nouvelleIp;
         }
     }
 }

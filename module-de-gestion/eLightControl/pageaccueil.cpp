@@ -74,10 +74,6 @@ PageAccueil::PageAccueil(QWidget* parent) :
         chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
     }
-    else
-    {
-        qDebug() << "Erreur: Impossible de se connecter à la base de données";
-    }
 }
 
 PageAccueil::~PageAccueil()
@@ -97,8 +93,7 @@ void PageAccueil::chargerScenariosDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des scénarios:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
@@ -134,8 +129,7 @@ void PageAccueil::chargerSegmentsDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des segments:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 

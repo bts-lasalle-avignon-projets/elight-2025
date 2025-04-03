@@ -7,6 +7,7 @@
  */
 
 #include "elightcontrol.h"
+#include "config.h"
 #include "menunavigation.h"
 #include "pageaccueil.h"
 #include "pagegestionscenario.h"
@@ -74,7 +75,8 @@ void ELightControl::gererNavigation()
     connect(menuNavigation->getBoutonAccueil(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();
@@ -83,26 +85,33 @@ void ELightControl::gererNavigation()
     connect(menuNavigation->getBoutonGestionScenarios(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::GESTION);
                 pageGestionScenarios->chargerScenariosDepuisBDD();
             });
 
-    connect(menuNavigation->getBoutonGuide(), &QPushButton::clicked, this, [=] {
-        changerPage(Page::GUIDE);
-    });
+    connect(menuNavigation->getBoutonGuide(),
+            &QPushButton::clicked,
+            this,
+            [=]
+            {
+                changerPage(Page::GUIDE);
+            });
 
     connect(menuNavigation->getBoutonParametres(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::PARAMETRES);
             });
 
     connect(pageAccueil->getBoutonGererScenarios(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::GESTION);
                 pageGestionScenarios->chargerScenariosDepuisBDD();
             });
@@ -110,7 +119,8 @@ void ELightControl::gererNavigation()
     connect(pageGestionScenarios->getBoutonRetourGestionScenario(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();
@@ -119,7 +129,8 @@ void ELightControl::gererNavigation()
     connect(pageGuide->getBoutonRetourGuide(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();
@@ -128,7 +139,8 @@ void ELightControl::gererNavigation()
     connect(pageParametres->getBoutonRetourParametre(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();
@@ -141,9 +153,9 @@ void ELightControl::personnaliserFenetre()
 
 #ifdef RASPBERRY_PI
     showFullScreen();
-#endif
-
+#else
     this->adjustSize();
+#endif
 
     chargerFeuilleStyle();
 
