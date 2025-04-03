@@ -76,6 +76,8 @@ void ELightControl::gererNavigation()
             this,
             [=] {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 
     connect(menuNavigation->getBoutonGestionScenarios(),
@@ -83,6 +85,7 @@ void ELightControl::gererNavigation()
             this,
             [=] {
                 changerPage(Page::GESTION);
+                pageGestionScenarios->chargerScenariosDepuisBDD();
             });
 
     connect(menuNavigation->getBoutonGuide(), &QPushButton::clicked, this, [=] {
@@ -101,6 +104,7 @@ void ELightControl::gererNavigation()
             this,
             [=] {
                 changerPage(Page::GESTION);
+                pageGestionScenarios->chargerScenariosDepuisBDD();
             });
 
     connect(pageGestionScenarios->getBoutonRetourGestionScenario(),
@@ -108,6 +112,8 @@ void ELightControl::gererNavigation()
             this,
             [=] {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 
     connect(pageGuide->getBoutonRetourGuide(),
@@ -115,6 +121,8 @@ void ELightControl::gererNavigation()
             this,
             [=] {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 
     connect(pageParametres->getBoutonRetourParametre(),
@@ -122,6 +130,8 @@ void ELightControl::gererNavigation()
             this,
             [=] {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 }
 
