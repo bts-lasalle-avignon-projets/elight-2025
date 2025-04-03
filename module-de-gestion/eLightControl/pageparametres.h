@@ -2,6 +2,9 @@
 #define PAGEPARAMETRES_H
 
 #include <QtWidgets>
+#include "communicationbasededonnees.h"
+
+class CommunicationBaseDeDonnees;
 
 class PageParametres : public QWidget
 {
@@ -13,9 +16,10 @@ class PageParametres : public QWidget
     void         validerParametreIp();
 
   private:
-    QPushButton* boutonRetourParametres;
-    QLineEdit*   boiteNomDeSalle;
-    QLineEdit*   boiteIp;
+    QPushButton*                boutonRetourParametres;
+    QLineEdit*                  boiteNomDeSalle;
+    QLineEdit*                  boiteIp;
+    CommunicationBaseDeDonnees& baseDeDonnees;
 
   signals:
 };

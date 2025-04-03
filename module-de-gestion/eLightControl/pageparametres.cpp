@@ -1,6 +1,7 @@
 #include "pageparametres.h"
 
-PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
+PageParametres::PageParametres(QWidget* parent) :
+    QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
 {
     QLabel* titreParametres = new QLabel(this);
     boutonRetourParametres  = new QPushButton(this);
@@ -61,24 +62,53 @@ QPushButton* PageParametres::getBoutonRetourParametre() const
 
 void PageParametres::validerParametreSalle()
 {
-    if(!boiteNomDeSalle->text().isEmpty())
-    {
-        qDebug() << "Nom salle : " << boiteNomDeSalle->text();
+    QString nomSalle        = "B20"; // Temporaire
+    QString nouveauNomSalle = boiteNomDeSalle->text();
 
-        /**
-         * @todo ajouter la requête sql CREATE/UPDATE NOM SALLE
-         */
+    if(!nouveauNomSalle.isEmpty())
+    {
+        QSqlQuery requete;
+        requete.prepare("UPDATE salle SET nom_salle = :nouveau_nom_salle WHERE "
+                        "nom_salle = :nom_salle");
+        requete.bindValue(":nouveau_nom_salle", nouveauNomSalle);
+        requete.bindValue(":nom_salle", nomSalle);
+
+        if(!requete.exec())
+        {
+            qDebug() << "Erreur lors de la modification du nom de la salle:"
+                     << requete.lastError().text();
+        }
+        else
+        {
+            qDebug() << "Salle modifiée avec succès ! "
+                     << "Nom salle : " << nomSalle;
+        }
     }
 }
 
 void PageParametres::validerParametreIp()
 {
-    if(!boiteIp->text().isEmpty())
-    {
-        qDebug() << "Ip boitier : " << boiteIp->text();
+    QString nouvelleIp = boiteIp->text();
 
-        /**
-         * @todo ajouter la requête sql CREATE/UPDATE IP
-         */
+    if(!nouvelleIp.isEmpty())
+    {
+        QString nomSalle = "B20"; // Temporaire
+
+        QSqlQuery requete;
+        requete.prepare("UPDATE salle SET ip_boitier = :nouvelle_ip WHERE "
+                        "nom_salle = :nom_salle");
+        requete.bindValue(":nouvelle_ip", nouvelleIp);
+        requete.bindValue(":nom_salle", nomSalle);
+
+        if(!requete.exec())
+        {
+            qDebug() << "Erreur lors de la modification de l'ip de la salle:"
+                     << requete.lastError().text();
+        }
+        else
+        {
+            qDebug() << "Salle modifiée avec succès ! "
+                     << "Ip boitier : " << nouvelleIp;
+        }
     }
 }
