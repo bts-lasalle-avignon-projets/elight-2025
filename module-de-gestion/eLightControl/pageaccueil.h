@@ -20,6 +20,8 @@ class PageAccueil : public QWidget
     explicit PageAccueil(QWidget* parent = nullptr);
     virtual ~PageAccueil();
     QPushButton* getBoutonGererScenarios() const;
+    void         chargerScenariosDepuisBDD();
+    void         chargerSegmentsDepuisBDD();
 
   private:
     QPushButton*                boutonGererScenarios;
@@ -30,8 +32,6 @@ class PageAccueil : public QWidget
 
     void creerSegments(const int nombreScenarios);
     void placerSegments();
-    void chargerScenariosDepuisBDD();
-    void chargerSegmentsDepuisBDD();
 
   signals:
 };
