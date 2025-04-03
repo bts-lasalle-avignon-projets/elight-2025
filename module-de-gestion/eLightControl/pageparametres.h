@@ -9,9 +9,13 @@ class PageParametres : public QWidget
   public:
     explicit PageParametres(QWidget* parent = nullptr);
     QPushButton* getBoutonRetourParametre() const;
+    void         validerParametreSalle();
+    void         validerParametreIp();
 
   private:
     QPushButton* boutonRetourParametres;
+    QLineEdit*   boiteNomDeSalle;
+    QLineEdit*   boiteIp;
 
   signals:
 };

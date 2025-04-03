@@ -5,23 +5,23 @@ PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
     QLabel* titreParametres = new QLabel(this);
     boutonRetourParametres  = new QPushButton(this);
 
-    QLabel*      texteNomDeSalle  = new QLabel(this);
-    QLineEdit*   boiteNomDeSalle  = new QLineEdit(this);
+    QLabel* texteNomDeSalle       = new QLabel(this);
+    boiteNomDeSalle               = new QLineEdit(this);
     QPushButton* boutonValiderNom = new QPushButton(this);
 
-    QLabel*      texteIp         = new QLabel(this);
-    QLineEdit*   boiteIp         = new QLineEdit(this);
+    QLabel* texteIp              = new QLabel(this);
+    boiteIp                      = new QLineEdit(this);
     QPushButton* boutonValiderIp = new QPushButton(this);
 
     titreParametres->setText("<h1>Paramètres</h1>");
-    boutonRetourParametres->setText("RETOUR");
+    boutonRetourParametres->setText("Retour");
 
     texteNomDeSalle->setText("Nom de la salle : ");
     boiteNomDeSalle->setPlaceholderText("...");
     boutonValiderNom->setText("Valider");
 
     texteIp->setText("Adresse IP : ");
-    boiteIp->setPlaceholderText("...");
+    boiteIp->setPlaceholderText("xxx.xxx.xxx.xxx");
     boutonValiderIp->setText("Valider");
 
     QVBoxLayout* layoutVertical = new QVBoxLayout(this);
@@ -45,9 +45,40 @@ PageParametres::PageParametres(QWidget* parent) : QWidget(parent)
     layoutIp->addWidget(texteIp);
     layoutIp->addWidget(boiteIp);
     layoutIp->addWidget(boutonValiderIp);
+
+    connect(boutonValiderNom, &QPushButton::clicked, this, [=] {
+        validerParametreSalle();
+    });
+    connect(boutonValiderIp, &QPushButton::clicked, this, [=] {
+        validerParametreIp();
+    });
 }
 
 QPushButton* PageParametres::getBoutonRetourParametre() const
 {
     return boutonRetourParametres;
+}
+
+void PageParametres::validerParametreSalle()
+{
+    if(!boiteNomDeSalle->text().isEmpty())
+    {
+        qDebug() << "Nom salle : " << boiteNomDeSalle->text();
+
+        /**
+         * @todo ajouter la requête sql CREATE/UPDATE NOM SALLE
+         */
+    }
+}
+
+void PageParametres::validerParametreIp()
+{
+    if(!boiteIp->text().isEmpty())
+    {
+        qDebug() << "Ip boitier : " << boiteIp->text();
+
+        /**
+         * @todo ajouter la requête sql CREATE/UPDATE IP
+         */
+    }
 }
