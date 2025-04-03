@@ -192,7 +192,10 @@ void PageGestionScenario::enregistrerScenario()
         qDebug() << "Scénario ajouté avec succès ! "
                  << "Nom : " << nomScenario
                  << " Intensite : " << intensiteScenario;
+        boiteNomScenario->clear();
+        boiteIntensiteScenario->clear();
     }
+    chargerScenariosDepuisBDD();
 }
 
 void PageGestionScenario::supprimerScenario()
@@ -213,6 +216,7 @@ void PageGestionScenario::supprimerScenario()
         qDebug() << "Scénario supprimé avec succès ! "
                  << "Nom : " << nomScenario;
     }
+    chargerScenariosDepuisBDD();
 }
 
 void PageGestionScenario::modifierScenario()
@@ -247,5 +251,9 @@ void PageGestionScenario::modifierScenario()
                  << "Scénario selectionné : " << nomScenario
                  << "Nom : " << nouveauNomScenario
                  << " Intensite : " << nouvelleIntensite;
+
+        boiteNouveauNom->clear();
+        boiteNouvelleIntensite->clear();
     }
+    chargerScenariosDepuisBDD();
 }

@@ -35,8 +35,6 @@ PageAccueil::PageAccueil(QWidget* parent) :
     intensiteScenarioActif->setText("PLACEHOLDER");
 
     texteSelectionScenario->setText("Sélection scénario : ");
-    menuDeroulantScenarios->addItem("PLACEHOLDER 1");
-    menuDeroulantScenarios->addItem("PLACEHOLDER 2");
     boutonConfirmerSelectionScenario->setText("Valider");
 
     titreSegments->setText("<h1>Segments</h1>");
@@ -139,6 +137,15 @@ void PageAccueil::chargerSegmentsDepuisBDD()
         qDebug() << "Erreur lors de la récupération des segments:"
                  << requete.lastError().text();
         return;
+    }
+
+    while(QLayoutItem* item = layoutSegments->takeAt(0))
+    {
+        if(QWidget* widget = item->widget())
+        {
+            widget->deleteLater();
+        }
+        delete item;
     }
 
     listeSegments.clear();
