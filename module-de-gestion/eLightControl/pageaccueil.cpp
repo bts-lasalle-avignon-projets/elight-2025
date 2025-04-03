@@ -139,6 +139,15 @@ void PageAccueil::chargerSegmentsDepuisBDD()
         return;
     }
 
+    while(QLayoutItem* item = layoutSegments->takeAt(0))
+    {
+        if(QWidget* widget = item->widget())
+        {
+            widget->deleteLater();
+        }
+        delete item;
+    }
+
     listeSegments.clear();
 
     int ligne   = 0;
