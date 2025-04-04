@@ -1,0 +1,13 @@
+window_sizes 3840 2089 900 2934 1890 136
+cleanlooks_style
+diagrams
+  active  classdiagram_ref 128170 // classes-iteration1
+    2934 1890 100 A0 0 0
+end
+show_stereotypes
+selected 
+  package_ref 128170 // eLightControl
+open
+  classview_ref 128170 // eLightControl
+end
+end

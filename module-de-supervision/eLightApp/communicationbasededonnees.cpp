@@ -25,9 +25,9 @@ bool CommunicationBaseDeDonnees::connecter(
 {
     if(!estConnecte())
     {
-        qDebug() << Q_FUNC_INFO << "dataBaseName" << nomBaseDeDonnees
-                 << "userName" << nomUtilisateur << "password" << motDePasse
-                 << "hostName" << nomHote;
+        qDebug() << Q_FUNC_INFO << "nomBaseDeDonnees" << nomBaseDeDonnees
+                 << "nomUtilisateur" << nomUtilisateur << "motDePasse"
+                 << motDePasse << "nomHote" << nomHote;
 
         chargerConfiguration(nomHote,
                              nomBaseDeDonnees,
@@ -40,7 +40,7 @@ bool CommunicationBaseDeDonnees::connecter(
         baseDeDonnees.setPassword(motDePasse);
         if(!baseDeDonnees.open())
         {
-            qCritical() << "Erreur connexion MySQL :"
+            qCritical() << "Erreur connexion MySQL"
                         << baseDeDonnees.lastError().text();
             return false;
         }
@@ -72,7 +72,7 @@ void CommunicationBaseDeDonnees::chargerConfiguration(QString& nomHote,
 
     if(QFile::exists(cheminConfiguration))
     {
-        qDebug() << Q_FUNC_INFO << "Chargement de" << cheminConfiguration;
+        qDebug() << Q_FUNC_INFO << "cheminConfiguration" << cheminConfiguration;
 
         QSettings parametres(cheminConfiguration, QSettings::IniFormat);
 
@@ -87,7 +87,7 @@ void CommunicationBaseDeDonnees::chargerConfiguration(QString& nomHote,
     }
     else
     {
-        qWarning() << Q_FUNC_INFO << "Fichier de configuration non trouvé :"
+        qWarning() << Q_FUNC_INFO << "Fichier de configuration non trouvé"
                    << cheminConfiguration;
     }
 }

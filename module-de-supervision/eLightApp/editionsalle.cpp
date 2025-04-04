@@ -66,13 +66,8 @@ EditionSalle::EditionSalle(QWidget* parent) :
 
     if(baseDeDonnees->connecter())
     {
-        qDebug() << "Connexion réussi";
         chargerScenariosDepuisBDD();
         chargerSegmentsDepuisBDD();
-    }
-    else
-    {
-        qDebug() << "Connexion échoué";
     }
 
     connect(boutonFermeture,
@@ -135,8 +130,7 @@ void EditionSalle::chargerScenariosDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des scénarios:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
@@ -165,8 +159,7 @@ void EditionSalle::chargerSegmentsDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des segments:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
@@ -196,7 +189,7 @@ void EditionSalle::supprimerSegmentsBDD()
 
     if(idSegment.isEmpty())
     {
-        qDebug() << "Aucun segment sélectionné pour suppression.";
+        qDebug() << "Aucun segment sélectionné pour suppression";
         return;
     }
 
@@ -206,13 +199,12 @@ void EditionSalle::supprimerSegmentsBDD()
 
     if(!query.exec())
     {
-        qDebug() << "Erreur lors de la suppression du segment:"
-                 << query.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
     }
     else
     {
-        qDebug() << "Segment #" << idSegment << "supprimé avec succès!";
+        qDebug() << Q_FUNC_INFO << "idSegment" << idSegment;
     }
 
     chargerSegmentsDepuisBDD();
@@ -228,7 +220,8 @@ void EditionSalle::modifierSegmentsBDD()
 
     if(idSegment.isEmpty())
     {
-        qDebug() << "Aucun segment sélectionné pour modification.";
+        qDebug() << Q_FUNC_INFO
+                 << "Aucun segment sélectionné pour modification";
         return;
     }
     bool    ok;
@@ -241,7 +234,8 @@ void EditionSalle::modifierSegmentsBDD()
 
     if(!ok || nouvelleIp.isEmpty())
     {
-        qDebug() << "Modification annulée ou adresse IP invalide.";
+        qDebug() << Q_FUNC_INFO
+                 << "Modification annulée ou adresse IP invalide.";
         return;
     }
 
@@ -253,13 +247,12 @@ void EditionSalle::modifierSegmentsBDD()
 
     if(!query.exec())
     {
-        qDebug() << "Erreur lors de la modification du segment:"
-                 << query.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
     }
     else
     {
-        qDebug() << "Segment #" << idSegment << "modifié avec succès!";
+        qDebug() << Q_FUNC_INFO << "idSegment" << idSegment;
     }
 
     chargerSegmentsDepuisBDD();
@@ -267,8 +260,11 @@ void EditionSalle::modifierSegmentsBDD()
 
 void EditionSalle::ajouterSegmentsBDD()
 {
-    int       id_salle;
-    QString   ip_segment = ajoutIPSegment->text();
+    int     id_salle;
+    QString ip_segment = ajoutIPSegment->text();
+
+    qDebug() << Q_FUNC_INFO << "ip_segment" << ip_segment;
+
     QSqlQuery query;
     query.prepare("INSERT INTO segment (ip_segment, id_salle) VALUES "
                   "(:ip_segment, :id_salle)");
@@ -277,12 +273,8 @@ void EditionSalle::ajouterSegmentsBDD()
 
     if(!query.exec())
     {
-        qDebug() << "Erreur d'insertion :" << query.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
-    }
-    else
-    {
-        qDebug() << "Segment ajouté avec succès!";
     }
 
     ajoutIPSegment->clear();
@@ -299,7 +291,8 @@ void EditionSalle::supprimerScenariosBDD()
 
     if(idScenario.isEmpty())
     {
-        qDebug() << "Aucun scénario sélectionné pour suppression.";
+        qDebug() << Q_FUNC_INFO
+                 << "Aucun scénario sélectionné pour suppression";
         return;
     }
 
@@ -309,13 +302,12 @@ void EditionSalle::supprimerScenariosBDD()
 
     if(!query.exec())
     {
-        qDebug() << "Erreur lors de la suppression du scénario:"
-                 << query.lastError().text();
+        qDebug() << "Erreur SQL" << query.lastError().text();
         return;
     }
     else
     {
-        qDebug() << "Scénario #" << idScenario << "supprimé avec succès!";
+        qDebug() << Q_FUNC_INFO << "idScenario" << idScenario;
     }
 
     chargerScenariosDepuisBDD();
@@ -333,7 +325,8 @@ void EditionSalle::modifierScenariosBDD()
 
     if(idScenario.isEmpty())
     {
-        qDebug() << "Aucun scénario sélectionné pour modification.";
+        qDebug() << Q_FUNC_INFO
+                 << "Aucun scénario sélectionné pour modification";
         return;
     }
 
@@ -354,7 +347,7 @@ void EditionSalle::modifierScenariosBDD()
 
     if(!ok || nouveauNom.isEmpty() || nouvelleIntensite.isEmpty())
     {
-        qDebug() << "Modification annulée ou valeurs invalides.";
+        qDebug() << Q_FUNC_INFO << "Modification annulée ou valeurs invalides";
         return;
     }
 
@@ -368,13 +361,12 @@ void EditionSalle::modifierScenariosBDD()
 
     if(!query.exec())
     {
-        qDebug() << "Erreur lors de la modification du scénario:"
-                 << query.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
     }
     else
     {
-        qDebug() << "Scénario #" << idScenario << "modifié avec succès!";
+        qDebug() << Q_FUNC_INFO << "idScenario" << idScenario;
     }
 
     chargerScenariosDepuisBDD();
@@ -385,9 +377,12 @@ void EditionSalle::ajouterScenariosBDD()
     QString nomScenario       = ajoutScenario->text();
     QString intensiteScenario = ajoutIntensiteScenario->text();
 
+    qDebug() << Q_FUNC_INFO << "nomScenario" << nomScenario
+             << "intensiteScenario" << intensiteScenario;
+
     if(nomScenario.isEmpty() || intensiteScenario.isEmpty())
     {
-        qDebug() << "Nom ou intensité du scénario manquant.";
+        qDebug() << Q_FUNC_INFO << "Nom ou intensité du scénario manquant";
         return;
     }
 
@@ -400,12 +395,8 @@ void EditionSalle::ajouterScenariosBDD()
 
     if(!query.exec())
     {
-        qDebug() << "Erreur d'insertion scénario :" << query.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
-    }
-    else
-    {
-        qDebug() << "Scénario ajouté avec succès!";
     }
 
     ajoutScenario->clear();

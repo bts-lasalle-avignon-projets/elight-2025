@@ -47,19 +47,13 @@ Salle::Salle(QString nom, QWidget* parent) :
     layout->addWidget(boutonEdition);
 
     segments->setText("Segments :");
-
     scenarios->setText("Scénarios :");
 
     if(baseDeDonnees->connecter())
     {
-        qDebug() << "Connexion réussi";
         chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
         chargerConsommationDepuisBDD();
-    }
-    else
-    {
-        qDebug() << "Connexion échoué";
     }
 
     connect(boutonFermeture,
@@ -121,8 +115,7 @@ void Salle::chargerScenariosDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des scénarios:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
@@ -151,13 +144,11 @@ void Salle::chargerSegmentsDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des segments:"
-                 << requete.lastError().text();
+        qDebug() << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
     menuSegment->clear();
-
     while(requete.next())
     {
         QString idSegment = requete.value(0).toString();
@@ -180,8 +171,7 @@ void Salle::chargerConsommationDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération de la consommation:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
@@ -195,11 +185,11 @@ void Salle::chargerConsommationDepuisBDD()
         }
         else
         {
-            qDebug() << "La consommation récupérée est invalide.";
+            qDebug() << Q_FUNC_INFO << "La consommation récupérée est invalide";
         }
     }
     else
     {
-        qDebug() << "Aucune donnée trouvée pour la consommation.";
+        qDebug() << Q_FUNC_INFO << "Aucune donnée trouvée pour la consommation";
     }
 }

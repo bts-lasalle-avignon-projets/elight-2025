@@ -35,12 +35,7 @@ Historique::Historique(QWidget* parent) :
 
     if(baseDeDonnees->connecter())
     {
-        qDebug() << "Connexion réussi";
         chargerHistoriqueDepuisBDD();
-    }
-    else
-    {
-        qDebug() << "Connexion échoué";
     }
 
     connect(boutonFermeture,
@@ -107,8 +102,7 @@ void Historique::chargerHistoriqueDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération de l'historique:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
