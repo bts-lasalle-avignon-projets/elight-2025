@@ -11,30 +11,6 @@
 
 #include <QtWidgets>
 
-/**
- * @def APPLICATION
- * @brief Le nom de l'application
- */
-#define APPLICATION "eLightControl"
-
-/**
- * @def VERSION
- * @brief La version de l'application
- */
-#define VERSION "1.0"
-
-/**
- * @def CHEMIN_RESSOURCES
- * @brief Le chemin vers les fichiers ressources de l'application eLight
- */
-#define CHEMIN_RESSOURCES "./ressources/"
-
-/**
- * @def STYLE_APPLICATION
- * @brief La feuille de style de l'application eLight
- */
-#define STYLE_APPLICATION "stylesheet.css"
-
 class MenuNavigation;
 class PageAccueil;
 class PageGestionScenario;
@@ -74,7 +50,7 @@ class ELightControl : public QWidget
     MenuNavigation* menuNavigation; //!< composition du menu de navigation
     PageAccueil*    pageAccueil;    //!< composition de la page Accueil
     PageGestionScenario*
-                    pageGestionScenarios; //!< composition de la page Gestion des scénarios
+      pageGestionScenarios; //!< composition de la page Gestion des scénarios
     PageGuide*      pageGuide;      //!< composition de la page Guide
     PageParametres* pageParametres; //!< composition de la page Parametres
 

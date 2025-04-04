@@ -2,6 +2,7 @@
 #define PAGEACCUEIL_H
 
 #include <QtWidgets>
+#include "communicationbasededonnees.h"
 
 /**
  * @def COLONNES_MAX
@@ -10,7 +11,6 @@
 #define COLONNES_MAX 3
 
 class BoiteSegment;
-class CommunicationBaseDeDonnees;
 
 class PageAccueil : public QWidget
 {
@@ -19,18 +19,19 @@ class PageAccueil : public QWidget
     explicit PageAccueil(QWidget* parent = nullptr);
     virtual ~PageAccueil();
     QPushButton* getBoutonGererScenarios() const;
+    void         chargerScenariosDepuisBDD();
+    void         chargerSegmentsDepuisBDD();
+    bool         recupererNomSalle(QString& nomSalle);
 
   private:
     QPushButton*                boutonGererScenarios;
     QGridLayout*                layoutSegments;
     QList<BoiteSegment*>        listeSegments;
     QComboBox*                  menuDeroulantScenarios;
-    CommunicationBaseDeDonnees* baseDeDonnees;
+    CommunicationBaseDeDonnees& baseDeDonnees;
 
     void creerSegments(const int nombreScenarios);
     void placerSegments();
-    void chargerScenariosDepuisBDD();
-    void chargerSegmentsDepuisBDD();
 
   signals:
 };

@@ -23,6 +23,7 @@ HEADERS += \
     boitesegment.h \
     communicationbasededonnees.h \
     communicationsegments.h \
+    config.h \
     elightcontrol.h \
     menunavigation.h \
     pageaccueil.h \
@@ -34,6 +35,11 @@ COPIES += ressources
 ressources.files = $$PWD/ressources/*
 ressources.path = $$OUT_PWD/ressources
 INSTALLS += ressources
+
+COPIES += configIni
+configIni.files = $$PWD/config.ini
+configIni.path = $$OUT_PWD
+INSTALLS += configIni
 
 # Les defines pour la version release (sans debug)
 #CONFIG(release, debug|release):DEFINES+=QT_NO_DEBUG_OUTPUT RASPBERRY_PI

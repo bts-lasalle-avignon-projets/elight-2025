@@ -1,5 +1,6 @@
 #include "boitesegment.h"
-#include "elightcontrol.h"
+#include "config.h"
+#include <QDebug>
 
 BoiteSegment::BoiteSegment(int segmentId, QWidget* parent) :
     QWidget(parent), idSegment(segmentId)

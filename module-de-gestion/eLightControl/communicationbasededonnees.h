@@ -8,45 +8,51 @@
 #include <QString>
 
 /**
- * @def HOSTNAME
- * @brief Définit l'adresse du serveur MySQL
+ * @def NOM_HOTE
+ * @brief Définit l'adresse par défaut du serveur MySQL
  */
-#define HOSTNAME "127.0.0.1"
+#define NOM_HOTE "127.0.0.1"
 
 /**
- * @def USERNAME
+ * @def NOM_UTILISATEUR
  * @brief Définit le nom d'utilisateur par défaut
  */
-#define USERNAME "user_eLight"
+#define NOM_UTILISATEUR "user_eLight"
 
 /**
- * @def PASSWORD
+ * @def MOT_DE_PASSE
  * @brief Définit le mot de passe par défaut
  */
-#define PASSWORD "lasalle84"
+#define MOT_DE_PASSE "lasalle84"
 
 /**
- * @def DATABASENAME
+ * @def NOM_BASE_DE_DONNEES
  * @brief Définit le nom de la base de données par défaut
  */
-#define DATABASENAME "eLight"
+#define NOM_BASE_DE_DONNEES "eLight"
 
 class CommunicationBaseDeDonnees : public QObject
 {
     Q_OBJECT
   public:
+    static CommunicationBaseDeDonnees& getInstance();
     explicit CommunicationBaseDeDonnees(QObject* parent = nullptr);
     ~CommunicationBaseDeDonnees();
 
-    bool connecter(QString dataBaseName = DATABASENAME,
-                   QString userName     = USERNAME,
-                   QString password     = PASSWORD,
-                   QString hostName     = HOSTNAME);
+    bool connecter(QString nomBaseDeDonnees = NOM_BASE_DE_DONNEES,
+                   QString nomUtilisateur   = NOM_UTILISATEUR,
+                   QString motDePasse       = MOT_DE_PASSE,
+                   QString nomHote          = NOM_HOTE);
     void deconnecter();
     bool estConnecte() const;
+    void chargerConfiguration(QString& nomHote,
+                              QString& nomBaseDeDonnees,
+                              QString& nomUtilisateur,
+                              QString& motDePasse);
 
   private:
-    QSqlDatabase baseDeDonnees;
+    QSqlDatabase                       baseDeDonnees;
+    static CommunicationBaseDeDonnees* instance;
 
   signals:
 };

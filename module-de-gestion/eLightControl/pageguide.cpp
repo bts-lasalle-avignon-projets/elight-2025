@@ -1,4 +1,5 @@
 #include "pageguide.h"
+#include <QDebug>
 
 PageGuide::PageGuide(QWidget* parent) : QWidget(parent)
 {

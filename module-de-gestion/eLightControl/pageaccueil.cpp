@@ -1,10 +1,10 @@
 #include "pageaccueil.h"
+#include "config.h"
 #include "boitesegment.h"
-#include "communicationbasededonnees.h"
 #include <QDebug>
 
 PageAccueil::PageAccueil(QWidget* parent) :
-    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
+    QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -36,8 +36,6 @@ PageAccueil::PageAccueil(QWidget* parent) :
     intensiteScenarioActif->setText("PLACEHOLDER");
 
     texteSelectionScenario->setText("Sélection scénario : ");
-    menuDeroulantScenarios->addItem("PLACEHOLDER 1");
-    menuDeroulantScenarios->addItem("PLACEHOLDER 2");
     boutonConfirmerSelectionScenario->setText("Valider");
 
     titreSegments->setText("<h1>Segments</h1>");
@@ -72,14 +70,10 @@ PageAccueil::PageAccueil(QWidget* parent) :
 
     layoutEnteteSegments->addWidget(titreSegments);
 
-    if(baseDeDonnees->connecter())
+    if(baseDeDonnees.connecter())
     {
         chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
-    }
-    else
-    {
-        qDebug() << "Erreur: Impossible de se connecter à la base de données";
     }
 }
 
@@ -100,8 +94,7 @@ void PageAccueil::chargerScenariosDepuisBDD()
 
     if(!requete.exec())
     {
-        qDebug() << "Erreur lors de la récupération des scénarios:"
-                 << requete.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
         return;
     }
 
@@ -123,60 +116,95 @@ void PageAccueil::chargerScenariosDepuisBDD()
 
 void PageAccueil::chargerSegmentsDepuisBDD()
 {
-    QString nomSalle = "B20"; // temporaire
+    QString nomSalle;
+    bool    resultats = false;
 
-    bool resultats = false;
-
-    QSqlQuery requete;
-
-    requete.prepare("SELECT segment.id_segment FROM segment "
-                    "JOIN salle ON segment.id_salle = salle.id_salle "
-                    "WHERE salle.nom_salle = :nom_salle");
-
-    requete.bindValue(":nom_salle", nomSalle);
-
-    if(!requete.exec())
+    if(recupererNomSalle(nomSalle))
     {
-        qDebug() << "Erreur lors de la récupération des segments:"
-                 << requete.lastError().text();
-        return;
-    }
+        QSqlQuery requete;
 
-    listeSegments.clear();
+        requete.prepare("SELECT segment.id_segment FROM segment "
+                        "JOIN salle ON segment.id_salle = salle.id_salle "
+                        "WHERE salle.nom_salle = :nom_salle");
 
-    int ligne   = 0;
-    int colonne = 0;
+        requete.bindValue(":nom_salle", nomSalle);
 
-    while(requete.next())
-    {
-        resultats = true;
-
-        int idSegment = requete.value(0).toInt();
-
-        QLabel* labelSegmentId =
-          new QLabel(QString("<h2>Segment %1</h2>").arg(idSegment));
-        labelSegmentId->setAlignment(Qt::AlignCenter);
-
-        BoiteSegment* segment = new BoiteSegment(idSegment, this);
-        listeSegments.append(segment);
-
-        layoutSegments->addWidget(labelSegmentId, ligne, colonne);
-        layoutSegments->addWidget(segment, ligne + 1, colonne);
-        segment->setConsommation(0);
-
-        colonne++;
-        if(colonne >= COLONNES_MAX)
+        if(!requete.exec())
         {
-            colonne = 0;
-            ligne += 2;
+            qDebug() << Q_FUNC_INFO << "Erreur SQL"
+                     << requete.lastError().text();
+            return;
+        }
+
+        while(QLayoutItem* item = layoutSegments->takeAt(0))
+        {
+            if(QWidget* widget = item->widget())
+            {
+                widget->deleteLater();
+            }
+            delete item;
+        }
+
+        listeSegments.clear();
+
+        int ligne   = 0;
+        int colonne = 0;
+
+        while(requete.next())
+        {
+            resultats = true;
+
+            int idSegment = requete.value(0).toInt();
+
+            QLabel* labelSegmentId =
+              new QLabel(QString("<h2>Segment %1</h2>").arg(idSegment));
+            labelSegmentId->setAlignment(Qt::AlignCenter);
+
+            BoiteSegment* segment = new BoiteSegment(idSegment, this);
+            listeSegments.append(segment);
+
+            layoutSegments->addWidget(labelSegmentId, ligne, colonne);
+            layoutSegments->addWidget(segment, ligne + 1, colonne);
+            segment->setConsommation(0);
+
+            colonne++;
+            if(colonne >= COLONNES_MAX)
+            {
+                colonne = 0;
+                ligne += 2;
+            }
+        }
+
+        if(!resultats)
+        {
+            QLabel* labelAucunSegment =
+              new QLabel(QString("<h2>Aucun segment enregistré</h2>"));
+            labelAucunSegment->setAlignment(Qt::AlignCenter);
+            layoutSegments->addWidget(labelAucunSegment);
         }
     }
-
-    if(!resultats)
+    else
     {
-        QLabel* labelAucunSegment =
-          new QLabel(QString("<h2>Aucun segment enregistré</h2>"));
-        labelAucunSegment->setAlignment(Qt::AlignCenter);
-        layoutSegments->addWidget(labelAucunSegment);
+        qDebug() << Q_FUNC_INFO << "Erreur récupération nom de la salle";
+    }
+}
+
+bool PageAccueil::recupererNomSalle(QString& nomSalle)
+{
+    QString cheminConfiguration = QCoreApplication::applicationDirPath() +
+                                  QString("/") + QString(FICHIER_CONFIGURATION);
+
+    if(QFile::exists(cheminConfiguration))
+    {
+        qDebug() << Q_FUNC_INFO << "cheminConfiguration" << cheminConfiguration;
+
+        QSettings parametres(cheminConfiguration, QSettings::IniFormat);
+        nomSalle = parametres.value("Salle/nom").toString();
+
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }

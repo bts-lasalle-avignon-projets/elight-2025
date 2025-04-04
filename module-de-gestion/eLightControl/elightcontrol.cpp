@@ -7,6 +7,7 @@
  */
 
 #include "elightcontrol.h"
+#include "config.h"
 #include "menunavigation.h"
 #include "pageaccueil.h"
 #include "pagegestionscenario.h"
@@ -74,54 +75,76 @@ void ELightControl::gererNavigation()
     connect(menuNavigation->getBoutonAccueil(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 
     connect(menuNavigation->getBoutonGestionScenarios(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::GESTION);
+                pageGestionScenarios->chargerScenariosDepuisBDD();
             });
 
-    connect(menuNavigation->getBoutonGuide(), &QPushButton::clicked, this, [=] {
-        changerPage(Page::GUIDE);
-    });
+    connect(menuNavigation->getBoutonGuide(),
+            &QPushButton::clicked,
+            this,
+            [=]
+            {
+                changerPage(Page::GUIDE);
+            });
 
     connect(menuNavigation->getBoutonParametres(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::PARAMETRES);
+                pageParametres->chargerIpBoitierDepuisBDD();
             });
 
     connect(pageAccueil->getBoutonGererScenarios(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::GESTION);
+                pageGestionScenarios->chargerScenariosDepuisBDD();
             });
 
     connect(pageGestionScenarios->getBoutonRetourGestionScenario(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 
     connect(pageGuide->getBoutonRetourGuide(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 
     connect(pageParametres->getBoutonRetourParametre(),
             &QPushButton::clicked,
             this,
-            [=] {
+            [=]
+            {
                 changerPage(Page::ACCUEIL);
+                pageAccueil->chargerScenariosDepuisBDD();
+                pageAccueil->chargerSegmentsDepuisBDD();
             });
 }
 
@@ -131,13 +154,13 @@ void ELightControl::personnaliserFenetre()
 
 #ifdef RASPBERRY_PI
     showFullScreen();
-#endif
-
+#else
     this->adjustSize();
+#endif
 
     chargerFeuilleStyle();
 
-    pageEmpilees->setCurrentIndex(Page::ACCUEIL);
+    changerPage(Page::ACCUEIL);
 }
 
 void ELightControl::chargerFeuilleStyle()
