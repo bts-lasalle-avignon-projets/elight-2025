@@ -37,7 +37,7 @@ ressources.path = $$OUT_PWD/ressources
 INSTALLS += ressources
 
 COPIES += configIni
-configIni.files = $$PWD/config-base-de-donnees.ini
+configIni.files = $$PWD/config.ini
 configIni.path = $$OUT_PWD
 INSTALLS += configIni
 
