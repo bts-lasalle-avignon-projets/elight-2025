@@ -7,10 +7,6 @@ PageParametres::PageParametres(QWidget* parent) :
     QLabel* titreParametres = new QLabel(this);
     boutonRetourParametres  = new QPushButton(this);
 
-    QLabel* texteNomDeSalle       = new QLabel(this);
-    boiteNomDeSalle               = new QLineEdit(this);
-    QPushButton* boutonValiderNom = new QPushButton(this);
-
     QLabel* texteIp              = new QLabel(this);
     boiteIp                      = new QLineEdit(this);
     QPushButton* boutonValiderIp = new QPushButton(this);
@@ -18,11 +14,7 @@ PageParametres::PageParametres(QWidget* parent) :
     titreParametres->setText("<h1>Paramètres</h1>");
     boutonRetourParametres->setText("Retour");
 
-    texteNomDeSalle->setText("Nom de la salle : ");
-    boiteNomDeSalle->setPlaceholderText("...");
-    boutonValiderNom->setText("Valider");
-
-    texteIp->setText("Adresse IP : ");
+    texteIp->setText("Ip du segment : ");
     boiteIp->setPlaceholderText("xxx.xxx.xxx.xxx");
     boutonValiderIp->setText("Valider");
 
@@ -40,58 +32,20 @@ PageParametres::PageParametres(QWidget* parent) :
     layoutEntete->addWidget(titreParametres);
     layoutEntete->addWidget(boutonRetourParametres);
 
-    layoutSalle->addWidget(texteNomDeSalle);
-    layoutSalle->addWidget(boiteNomDeSalle);
-    layoutSalle->addWidget(boutonValiderNom);
-
     layoutIp->addWidget(texteIp);
     layoutIp->addWidget(boiteIp);
     layoutIp->addWidget(boutonValiderIp);
 
-    connect(boutonValiderNom,
-            &QPushButton::clicked,
-            this,
-            [=]
-            {
-                validerParametreSalle();
-            });
-    connect(boutonValiderIp,
-            &QPushButton::clicked,
-            this,
-            [=]
-            {
-                validerParametreIp();
-            });
+    chargerIpBoitierDepuisBDD();
+
+    connect(boutonValiderIp, &QPushButton::clicked, this, [=] {
+        validerParametreIp();
+    });
 }
 
 QPushButton* PageParametres::getBoutonRetourParametre() const
 {
     return boutonRetourParametres;
-}
-
-void PageParametres::validerParametreSalle()
-{
-    QString nomSalle        = "B20"; // Temporaire
-    QString nouveauNomSalle = boiteNomDeSalle->text();
-
-    if(!nouveauNomSalle.isEmpty())
-    {
-        QSqlQuery requete;
-        requete.prepare("UPDATE salle SET nom_salle = :nouveau_nom_salle WHERE "
-                        "nom_salle = :nom_salle");
-        requete.bindValue(":nouveau_nom_salle", nouveauNomSalle);
-        requete.bindValue(":nom_salle", nomSalle);
-
-        if(!requete.exec())
-        {
-            qDebug() << Q_FUNC_INFO << "Erreur SQL"
-                     << requete.lastError().text();
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO << "nomSalle" << nomSalle;
-        }
-    }
 }
 
 void PageParametres::validerParametreIp()
@@ -100,22 +54,77 @@ void PageParametres::validerParametreIp()
 
     if(!nouvelleIp.isEmpty())
     {
-        QString nomSalle = "B20"; // Temporaire
+        QString nomSalle;
+        if(recupererNomSalle(nomSalle))
+        {
+            QSqlQuery requete;
+            requete.prepare("UPDATE salle SET ip_boitier = :nouvelle_ip WHERE "
+                            "nom_salle = :nom_salle");
+            requete.bindValue(":nouvelle_ip", nouvelleIp);
+            requete.bindValue(":nom_salle", nomSalle);
 
-        QSqlQuery requete;
-        requete.prepare("UPDATE salle SET ip_boitier = :nouvelle_ip WHERE "
-                        "nom_salle = :nom_salle");
-        requete.bindValue(":nouvelle_ip", nouvelleIp);
+            if(!requete.exec())
+            {
+                qDebug() << Q_FUNC_INFO << "Erreur SQL"
+                         << requete.lastError().text();
+            }
+            else
+            {
+                chargerIpBoitierDepuisBDD();
+                qDebug() << Q_FUNC_INFO << "nouvelleIp" << nouvelleIp;
+            }
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur récupération nom de la salle";
+        }
+    }
+}
+
+bool PageParametres::recupererNomSalle(QString& nomSalle)
+{
+    QString cheminConfiguration =
+      QCoreApplication::applicationDirPath() + "/config.ini";
+
+    if(QFile::exists(cheminConfiguration))
+    {
+        qDebug() << Q_FUNC_INFO << "cheminConfiguration" << cheminConfiguration;
+
+        QSettings parametres(cheminConfiguration, QSettings::IniFormat);
+        nomSalle = parametres.value("Salle/nom").toString();
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void PageParametres::chargerIpBoitierDepuisBDD()
+{
+    QSqlQuery requete;
+    QString   nomSalle;
+    if(recupererNomSalle(nomSalle))
+    {
+        requete.prepare(
+          "SELECT ip_boitier FROM salle WHERE nom_salle = :nom_salle");
         requete.bindValue(":nom_salle", nomSalle);
 
         if(!requete.exec())
         {
             qDebug() << Q_FUNC_INFO << "Erreur SQL"
                      << requete.lastError().text();
+            return;
         }
-        else
+
+        while(requete.next())
         {
-            qDebug() << Q_FUNC_INFO << "nouvelleIp" << nouvelleIp;
+            boiteIp->setPlaceholderText(requete.value(0).toString());
         }
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur récupération nom de la salle";
     }
 }

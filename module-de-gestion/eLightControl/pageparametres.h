@@ -14,10 +14,11 @@ class PageParametres : public QWidget
     QPushButton* getBoutonRetourParametre() const;
     void         validerParametreSalle();
     void         validerParametreIp();
+    bool         recupererNomSalle(QString& nomSalle);
+    void         chargerIpBoitierDepuisBDD();
 
   private:
     QPushButton*                boutonRetourParametres;
-    QLineEdit*                  boiteNomDeSalle;
     QLineEdit*                  boiteIp;
     CommunicationBaseDeDonnees& baseDeDonnees;
 

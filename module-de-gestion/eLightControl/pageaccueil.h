@@ -22,6 +22,7 @@ class PageAccueil : public QWidget
     QPushButton* getBoutonGererScenarios() const;
     void         chargerScenariosDepuisBDD();
     void         chargerSegmentsDepuisBDD();
+    bool         recupererNomSalle(QString& nomSalle);
 
   private:
     QPushButton*                boutonGererScenarios;
