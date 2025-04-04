@@ -11,7 +11,6 @@
 #define COLONNES_MAX 3
 
 class BoiteSegment;
-class CommunicationBaseDeDonnees;
 
 class PageAccueil : public QWidget
 {

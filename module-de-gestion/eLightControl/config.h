@@ -25,4 +25,10 @@
  */
 #define STYLE_APPLICATION "stylesheet.css"
 
+/**
+ * @def FICHIER_CONFIGURATION
+ * @brief Définit le nom du fichier de configuration
+ */
+#define FICHIER_CONFIGURATION "config.ini"
+
 #endif // CONFIG_H

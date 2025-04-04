@@ -9,7 +9,7 @@
 
 /**
  * @def NOM_HOTE
- * @brief Définit l'adresse du serveur MySQL
+ * @brief Définit l'adresse par défaut du serveur MySQL
  */
 #define NOM_HOTE "127.0.0.1"
 

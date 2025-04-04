@@ -1,4 +1,5 @@
 #include "communicationbasededonnees.h"
+#include "config.h"
 #include <QDebug>
 #include <QFile>
 #include <QSettings>
@@ -70,8 +71,8 @@ void CommunicationBaseDeDonnees::chargerConfiguration(QString& nomHote,
                                                       QString& nomUtilisateur,
                                                       QString& motDePasse)
 {
-    QString cheminConfiguration =
-      QCoreApplication::applicationDirPath() + "/config.ini";
+    QString cheminConfiguration = QCoreApplication::applicationDirPath() +
+                                  QString("/") + QString(FICHIER_CONFIGURATION);
 
     if(QFile::exists(cheminConfiguration))
     {

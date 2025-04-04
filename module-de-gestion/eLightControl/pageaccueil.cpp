@@ -1,4 +1,5 @@
 #include "pageaccueil.h"
+#include "config.h"
 #include "boitesegment.h"
 #include <QDebug>
 
@@ -190,8 +191,8 @@ void PageAccueil::chargerSegmentsDepuisBDD()
 
 bool PageAccueil::recupererNomSalle(QString& nomSalle)
 {
-    QString cheminConfiguration =
-      QCoreApplication::applicationDirPath() + "/config.ini";
+    QString cheminConfiguration = QCoreApplication::applicationDirPath() +
+                                  QString("/") + QString(FICHIER_CONFIGURATION);
 
     if(QFile::exists(cheminConfiguration))
     {
