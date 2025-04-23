@@ -20,7 +20,7 @@ Historique::Historique(QWidget* parent) :
     QLabel*      labelLogoeLight = new QLabel(this);
     QPixmap      logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
     QPushButton* boutonFermeture = new QPushButton("Fermer", this);
-    table                        = new QTableWidget(this);
+    listeHistorique              = new QListWidget(this);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     QHBoxLayout* entete = new QHBoxLayout;
@@ -30,7 +30,7 @@ Historique::Historique(QWidget* parent) :
     entete->addWidget(titreHistorique, Qt::AlignBaseline);
 
     layout->addLayout(entete);
-    layout->addWidget(table);
+    layout->addWidget(listeHistorique);
     layout->addWidget(boutonFermeture);
 
     if(baseDeDonnees->connecter())
@@ -46,18 +46,20 @@ Historique::Historique(QWidget* parent) :
     this->setStyleSheet("background-color: #FFFFFF;");
     titreHistorique->setStyleSheet("font-weight: 900; font-size: 50px;");
 #ifdef RASPBERRY_PI
-    setWindowFlags(Qt::FramelessWindowHint |
-                   Qt::Dialog); // Ajouter Qt::WindowStaysOnTopHint*/
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 #else
     setWindowFlags(Qt::Dialog);
 #endif
 
     setWindowModality(Qt::WindowModal);
-
-    initialiserTable();
 }
 
 Historique::~Historique()
+{
+    qDebug() << Q_FUNC_INFO << this;
+}
+
+void Historique::showEvent(QShowEvent* event)
 {
     qDebug() << Q_FUNC_INFO << this;
 }
@@ -68,25 +70,6 @@ Historique::~Historique()
  * @fn Historique::showEvent
  *
  */
-void Historique::showEvent(QShowEvent* event)
-{
-    qDebug() << Q_FUNC_INFO << this;
-}
-
-void Historique::initialiserTable()
-{
-    QStringList nomColonnesTable;
-    nomColonnesTable << "Salle"
-                     << "Consommation (kWh)"
-                     << "Horodatage";
-    table->setColumnCount(nomColonnesTable.count());
-    table->setHorizontalHeaderLabels(nomColonnesTable);
-
-    QHeaderView* headerView = table->horizontalHeader();
-    headerView->setSectionResizeMode(QHeaderView::Stretch);
-    table->resizeColumnsToContents();
-    table->resizeRowsToContents();
-}
 
 void Historique::fermerFenetre()
 {
@@ -106,7 +89,7 @@ void Historique::chargerHistoriqueDepuisBDD()
         return;
     }
 
-    table->setRowCount(0);
+    listeHistorique->clear();
 
     while(requete.next())
     {
@@ -114,16 +97,11 @@ void Historique::chargerHistoriqueDepuisBDD()
         float   consommation = requete.value(1).toFloat();
         QString horodatage   = requete.value(2).toString();
 
-        int row = table->rowCount();
-        table->insertRow(row);
+        QString ligne = QString("Segment #%1 - %2 kWh - %3")
+                          .arg(idSegment)
+                          .arg(consommation, 0, 'f', 2)
+                          .arg(horodatage);
 
-        table->setItem(row,
-                       0,
-                       new QTableWidgetItem(QString::number(idSegment)));
-        table->setItem(
-          row,
-          1,
-          new QTableWidgetItem(QString::number(consommation, 'f', 2)));
-        table->setItem(row, 2, new QTableWidgetItem(horodatage));
+        listeHistorique->addItem(ligne);
     }
 }
