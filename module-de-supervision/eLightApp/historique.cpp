@@ -1,9 +1,15 @@
 #include "historique.h"
+#include "communicationbasededonnees.h"
 
-#include <QDateTime>
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QVariant>
+#include <QDateTime>
+#include <QPair>
 
-Historique::Historique(QWidget* parent) : QWidget(parent)
+Historique::Historique(QWidget* parent) :
+    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -26,6 +32,11 @@ Historique::Historique(QWidget* parent) : QWidget(parent)
     layout->addLayout(entete);
     layout->addWidget(table);
     layout->addWidget(boutonFermeture);
+
+    if(baseDeDonnees->connecter())
+    {
+        chargerHistoriqueDepuisBDD();
+    }
 
     connect(boutonFermeture,
             &QPushButton::clicked,
@@ -71,48 +82,8 @@ void Historique::initialiserTable()
     table->setColumnCount(nomColonnesTable.count());
     table->setHorizontalHeaderLabels(nomColonnesTable);
 
-#ifdef DEMO_HISTORIQUE
-    table->setRowCount(5);
-
-    table->setItem(0, 0, new QTableWidgetItem("B20"));
-    table->setItem(0, 1, new QTableWidgetItem("150 kWh"));
-    table->setItem(0,
-                   2,
-                   new QTableWidgetItem(
-                     QDateTime::currentDateTime().toString("dd/MM/yy HH:mm")));
-
-    table->setItem(1, 0, new QTableWidgetItem("B21"));
-    table->setItem(1, 1, new QTableWidgetItem("100 kWh"));
-    table->setItem(1,
-                   2,
-                   new QTableWidgetItem(
-                     QDateTime::currentDateTime().toString("dd/MM/yy HH:mm")));
-
-    table->setItem(2, 0, new QTableWidgetItem("B22"));
-    table->setItem(2, 1, new QTableWidgetItem("120 kWh"));
-    table->setItem(2,
-                   2,
-                   new QTableWidgetItem(
-                     QDateTime::currentDateTime().toString("dd/MM/yy HH:mm")));
-
-    table->setItem(3, 0, new QTableWidgetItem("B23"));
-    table->setItem(3, 1, new QTableWidgetItem("130 kWh"));
-    table->setItem(3,
-                   2,
-                   new QTableWidgetItem(
-                     QDateTime::currentDateTime().toString("dd/MM/yy HH:mm")));
-
-    table->setItem(4, 0, new QTableWidgetItem("B24"));
-    table->setItem(4, 1, new QTableWidgetItem("110 kWh"));
-    table->setItem(4,
-                   2,
-                   new QTableWidgetItem(
-                     QDateTime::currentDateTime().toString("dd/MM/yy HH:mm")));
-#endif
-
     QHeaderView* headerView = table->horizontalHeader();
     headerView->setSectionResizeMode(QHeaderView::Stretch);
-
     table->resizeColumnsToContents();
     table->resizeRowsToContents();
 }
@@ -120,4 +91,39 @@ void Historique::initialiserTable()
 void Historique::fermerFenetre()
 {
     this->close();
+}
+
+void Historique::chargerHistoriqueDepuisBDD()
+{
+    QSqlQuery requete;
+    requete.prepare(
+      "SELECT id_segment, consommation, horodatage_releve FROM "
+      "historique_consommation_segment ORDER BY horodatage_releve DESC");
+
+    if(!requete.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
+        return;
+    }
+
+    table->setRowCount(0);
+
+    while(requete.next())
+    {
+        int     idSegment    = requete.value(0).toInt();
+        float   consommation = requete.value(1).toFloat();
+        QString horodatage   = requete.value(2).toString();
+
+        int row = table->rowCount();
+        table->insertRow(row);
+
+        table->setItem(row,
+                       0,
+                       new QTableWidgetItem(QString::number(idSegment)));
+        table->setItem(
+          row,
+          1,
+          new QTableWidgetItem(QString::number(consommation, 'f', 2)));
+        table->setItem(row, 2, new QTableWidgetItem(horodatage));
+    }
 }
