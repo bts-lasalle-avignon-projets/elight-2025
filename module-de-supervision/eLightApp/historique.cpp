@@ -64,6 +64,13 @@ void Historique::showEvent(QShowEvent* event)
     qDebug() << Q_FUNC_INFO << this;
 }
 
+/**
+ * @brief S'exécute à chaque fois que la fenêtre est affichée
+ *
+ * @fn Historique::showEvent
+ *
+ */
+
 void Historique::fermerFenetre()
 {
     this->close();

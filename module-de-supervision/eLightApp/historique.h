@@ -20,7 +20,6 @@ class Historique : public QWidget
 
   private:
     QLabel*                     titreHistorique;
-    QTableWidget*               table;
     CommunicationBaseDeDonnees* baseDeDonnees;
     QListWidget*                listeHistorique;
 
