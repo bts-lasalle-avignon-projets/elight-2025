@@ -22,6 +22,7 @@ class Historique : public QWidget
     QLabel*                     titreHistorique;
     QTableWidget*               table;
     CommunicationBaseDeDonnees* baseDeDonnees;
+    QListWidget*                listeHistorique;
 
     void initialiserTable();
     void chargerHistoriqueDepuisBDD();
