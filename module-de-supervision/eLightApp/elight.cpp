@@ -18,7 +18,9 @@
  * @param parent L'adresse de l'objet parent, si nullptr ELight sera la
  * fenêtre principale de l'application
  */
-ELight::ELight(QWidget* parent) : QWidget(parent), historiquePage(nullptr)
+ELight::ELight(QWidget* parent) :
+    QWidget(parent), historiquePage(nullptr),
+    baseDeDonnees(new CommunicationBaseDeDonnees(this))
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -33,20 +35,6 @@ ELight::ELight(QWidget* parent) : QWidget(parent), historiquePage(nullptr)
     QPixmap logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
     QLabel* labelLogoeLight    = new QLabel;
     QLabel* consommationTotale = new QLabel("Consommation totale : ", this);
-
-    for(int i = 0; i < DEMO_ELIGHT; ++i)
-    {
-        QPushButton* boutonSalle =
-          new QPushButton(QString("Salle B") + QString::number(20 + i), this);
-        if(i == 0)
-            boutonSalle->setStyleSheet(
-              "QPushButton{ background-color: #70eb65; }"); // active
-        else
-            boutonSalle->setStyleSheet(
-              "QPushButton{ background-color: #eb6565; }"); // inactive
-        boutonsSalles.push_back(boutonSalle);
-        salles[boutonSalle] = nullptr;
-    }
 
     QPushButton* historique = new QPushButton("Historique", this);
 
@@ -70,6 +58,15 @@ ELight::ELight(QWidget* parent) : QWidget(parent), historiquePage(nullptr)
     entete->addWidget(labelLogoeLight);
     entete->addWidget(titre, Qt::AlignBaseline);
 
+    if(baseDeDonnees->connecter())
+    {
+        chargerSallesDepuisBDD();
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "Connexion à la base de données échouée.";
+    }
+
     for(int i = 0; i < boutonsSalles.count(); ++i)
     {
         salle->addWidget(boutonsSalles[i], 0, i);
@@ -82,13 +79,6 @@ ELight::ELight(QWidget* parent) : QWidget(parent), historiquePage(nullptr)
             &QPushButton::clicked,
             this,
             &ELight::afficherHistorique);
-    for(int i = 0; i < boutonsSalles.count(); ++i)
-    {
-        connect(boutonsSalles[i],
-                &QPushButton::clicked,
-                this,
-                &ELight::afficherSalle);
-    }
 }
 
 ELight::~ELight()
@@ -109,11 +99,46 @@ void ELight::afficherSalle()
 
     if(salles[boutonSalle] == nullptr)
         salles[boutonSalle] = new Salle(boutonSalle->text(), this);
+
     salles[boutonSalle]->show();
 }
 
-void ELight::initialiserSalles()
+void ELight::chargerSallesDepuisBDD()
 {
-#ifdef DEMO_ELIGHT
-#endif
+    QSqlQuery requete;
+    requete.prepare("SELECT id_salle, nom_salle FROM salle");
+
+    if(!requete.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
+        return;
+    }
+
+    int index = 0;
+    while(requete.next())
+    {
+        QString nomSalle = requete.value(1).toString();
+        int     idSalle  = requete.value(0).toInt();
+
+        QPushButton* boutonSalle = new QPushButton(nomSalle, this);
+        boutonSalle->setStyleSheet(
+          index == 0 ? "QPushButton{ background-color: #70eb65; }"
+                     : "QPushButton{ background-color: #eb6565; }");
+
+        boutonsSalles.push_back(boutonSalle);
+        salles[boutonSalle] = nullptr;
+
+        connect(boutonSalle,
+                &QPushButton::clicked,
+                this,
+                &ELight::afficherSalle);
+
+        ++index;
+    }
+
+    if(index == 0)
+    {
+        qDebug() << Q_FUNC_INFO
+                 << "Aucune salle trouvée dans la base de données.";
+    }
 }
