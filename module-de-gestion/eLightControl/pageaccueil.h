@@ -22,6 +22,8 @@ class PageAccueil : public QWidget
     void         chargerScenariosDepuisBDD();
     void         chargerSegmentsDepuisBDD();
     bool         recupererNomSalle(QString& nomSalle);
+    void         chargerScenarioActifDepuisBDD();
+    void         selectionnerScenarioActif();
 
   private:
     QPushButton*                boutonGererScenarios;
@@ -29,6 +31,9 @@ class PageAccueil : public QWidget
     QList<BoiteSegment*>        listeSegments;
     QComboBox*                  menuDeroulantScenarios;
     CommunicationBaseDeDonnees& baseDeDonnees;
+    QLabel*                     nomScenarioActif;
+    QLabel*                     intensiteScenarioActif;
+    QVector<int>                idsSegmentsSalle;
 
     void creerSegments(const int nombreScenarios);
     void placerSegments();

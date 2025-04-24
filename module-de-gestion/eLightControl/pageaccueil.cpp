@@ -13,9 +13,9 @@ PageAccueil::PageAccueil(QWidget* parent) :
     QLabel* titreScenarioActif = new QLabel(this);
     boutonGererScenarios       = new QPushButton(this);
 
-    QLabel* texteScenarioActif     = new QLabel(this);
-    QLabel* nomScenarioActif       = new QLabel(this);
-    QLabel* intensiteScenarioActif = new QLabel(this);
+    QLabel* texteScenarioActif = new QLabel(this);
+    nomScenarioActif           = new QLabel(this);
+    intensiteScenarioActif     = new QLabel(this);
 
     QLabel* texteSelectionScenario                = new QLabel(this);
     menuDeroulantScenarios                        = new QComboBox(this);
@@ -32,8 +32,6 @@ PageAccueil::PageAccueil(QWidget* parent) :
     boutonGererScenarios->setText("Gérer les scénarios");
 
     texteScenarioActif->setText("Scénario actif : ");
-    nomScenarioActif->setText("PLACEHOLER");
-    intensiteScenarioActif->setText("PLACEHOLDER");
 
     texteSelectionScenario->setText("Sélection scénario : ");
     boutonConfirmerSelectionScenario->setText("Valider");
@@ -74,7 +72,12 @@ PageAccueil::PageAccueil(QWidget* parent) :
     {
         chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
+        chargerScenarioActifDepuisBDD();
     }
+
+    connect(boutonConfirmerSelectionScenario, &QPushButton::clicked, this, [=] {
+        selectionnerScenarioActif();
+    });
 }
 
 PageAccueil::~PageAccueil()
@@ -114,6 +117,87 @@ void PageAccueil::chargerScenariosDepuisBDD()
     }
 }
 
+void PageAccueil::chargerScenarioActifDepuisBDD()
+{
+    QString nomSalle;
+
+    if(recupererNomSalle(nomSalle))
+    {
+        QSqlQuery requete;
+        requete.prepare(
+          "SELECT segment.id_scenario, scenario.nom_scenario, "
+          "scenario.intensite_scenario FROM segment JOIN "
+          "salle ON segment.id_salle = salle.id_salle LEFT JOIN scenario ON "
+          "segment.id_scenario = scenario.id_scenario WHERE salle.nom_salle = "
+          ":nom_salle LIMIT 1");
+
+        requete.bindValue(":nom_salle", nomSalle);
+
+        if(!requete.exec())
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur SQL"
+                     << requete.lastError().text();
+            return;
+        }
+
+        if(requete.next())
+        {
+            QVariant idScenario        = requete.value(0);
+            QString  nomScenario       = requete.value(1).toString();
+            QString  intensiteScenario = requete.value(2).toString();
+
+            if(idScenario.isNull())
+            {
+                nomScenarioActif->setText("Aucun scénario actif");
+                intensiteScenarioActif->setText("");
+            }
+            else
+            {
+                nomScenarioActif->setText(nomScenario);
+                intensiteScenarioActif->setText(intensiteScenario);
+            }
+        }
+        else
+        {
+            nomScenarioActif->setText("Aucune donnée trouvée");
+            intensiteScenarioActif->setText("");
+        }
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur récupération nom de la salle";
+    }
+}
+
+void PageAccueil::selectionnerScenarioActif()
+{
+    QString nouveauScenarioActif = menuDeroulantScenarios->currentText();
+
+    for(int i = 0; i < idsSegmentsSalle.size(); ++i)
+    {
+        QSqlQuery requete;
+        requete.prepare(
+          "UPDATE segment SET id_scenario = (SELECT id_scenario FROM scenario "
+          "WHERE nom_scenario = :nom_scenario) WHERE id_segment = :id_segment");
+        requete.bindValue(":nom_scenario", nouveauScenarioActif);
+        requete.bindValue(":id_segment", idsSegmentsSalle[i]);
+
+        if(!requete.exec())
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur SQL"
+                     << requete.lastError().text();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "nouveauScenarioActif"
+                     << nouveauScenarioActif << "idSegment"
+                     << idsSegmentsSalle[i];
+        }
+    }
+    chargerScenariosDepuisBDD();
+    chargerScenarioActifDepuisBDD();
+}
+
 void PageAccueil::chargerSegmentsDepuisBDD()
 {
     QString nomSalle;
@@ -121,6 +205,8 @@ void PageAccueil::chargerSegmentsDepuisBDD()
 
     if(recupererNomSalle(nomSalle))
     {
+        idsSegmentsSalle.clear();
+
         QSqlQuery requete;
 
         requete.prepare("SELECT segment.id_segment FROM segment "
@@ -155,6 +241,7 @@ void PageAccueil::chargerSegmentsDepuisBDD()
             resultats = true;
 
             int idSegment = requete.value(0).toInt();
+            idsSegmentsSalle.append(idSegment);
 
             QLabel* labelSegmentId =
               new QLabel(QString("<h2>Segment %1</h2>").arg(idSegment));
