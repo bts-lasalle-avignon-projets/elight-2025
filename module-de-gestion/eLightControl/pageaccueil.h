@@ -24,6 +24,7 @@ class PageAccueil : public QWidget
     bool         recupererNomSalle(QString& nomSalle);
     void         chargerScenarioActifDepuisBDD();
     void         selectionnerScenarioActif();
+    void         retirerScenarioActif();
 
   private:
     QPushButton*                boutonGererScenarios;

@@ -13,9 +13,10 @@ PageAccueil::PageAccueil(QWidget* parent) :
     QLabel* titreScenarioActif = new QLabel(this);
     boutonGererScenarios       = new QPushButton(this);
 
-    QLabel* texteScenarioActif = new QLabel(this);
-    nomScenarioActif           = new QLabel(this);
-    intensiteScenarioActif     = new QLabel(this);
+    QLabel* texteScenarioActif              = new QLabel(this);
+    nomScenarioActif                        = new QLabel(this);
+    intensiteScenarioActif                  = new QLabel(this);
+    QPushButton* boutonRetirerScenarioActif = new QPushButton(this);
 
     QLabel* texteSelectionScenario                = new QLabel(this);
     menuDeroulantScenarios                        = new QComboBox(this);
@@ -32,6 +33,8 @@ PageAccueil::PageAccueil(QWidget* parent) :
     boutonGererScenarios->setText("Gérer les scénarios");
 
     texteScenarioActif->setText("Scénario actif : ");
+    boutonRetirerScenarioActif->setText("Retirer");
+    boutonRetirerScenarioActif->setObjectName("boutonRetirerScenarioActif");
 
     texteSelectionScenario->setText("Sélection scénario : ");
     boutonConfirmerSelectionScenario->setText("Valider");
@@ -61,6 +64,7 @@ PageAccueil::PageAccueil(QWidget* parent) :
     layoutScenarioActif->addWidget(texteScenarioActif);
     layoutScenarioActif->addWidget(nomScenarioActif);
     layoutScenarioActif->addWidget(intensiteScenarioActif);
+    layoutScenarioActif->addWidget(boutonRetirerScenarioActif);
 
     layoutSelectionScenario->addWidget(texteSelectionScenario);
     layoutSelectionScenario->addWidget(menuDeroulantScenarios);
@@ -74,6 +78,10 @@ PageAccueil::PageAccueil(QWidget* parent) :
         chargerScenariosDepuisBDD();
         chargerScenarioActifDepuisBDD();
     }
+
+    connect(boutonRetirerScenarioActif, &QPushButton::clicked, this, [=] {
+        retirerScenarioActif();
+    });
 
     connect(boutonConfirmerSelectionScenario, &QPushButton::clicked, this, [=] {
         selectionnerScenarioActif();
@@ -154,7 +162,7 @@ void PageAccueil::chargerScenarioActifDepuisBDD()
             else
             {
                 nomScenarioActif->setText(nomScenario);
-                intensiteScenarioActif->setText(intensiteScenario);
+                intensiteScenarioActif->setText(intensiteScenario + " lux");
             }
         }
         else
@@ -192,6 +200,29 @@ void PageAccueil::selectionnerScenarioActif()
             qDebug() << Q_FUNC_INFO << "nouveauScenarioActif"
                      << nouveauScenarioActif << "idSegment"
                      << idsSegmentsSalle[i];
+        }
+    }
+    chargerScenariosDepuisBDD();
+    chargerScenarioActifDepuisBDD();
+}
+
+void PageAccueil::retirerScenarioActif()
+{
+    for(int i = 0; i < idsSegmentsSalle.size(); ++i)
+    {
+        QSqlQuery requete;
+        requete.prepare("UPDATE segment SET id_scenario = NULL WHERE "
+                        "id_segment = :id_segment");
+        requete.bindValue(":id_segment", idsSegmentsSalle[i]);
+
+        if(!requete.exec())
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur SQL"
+                     << requete.lastError().text();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "idSegment" << idsSegmentsSalle[i];
         }
     }
     chargerScenariosDepuisBDD();
