@@ -17,6 +17,10 @@ class Salle : public QWidget
     virtual ~Salle();
 
     void rechargerDonnees();
+    int  getIdSalle() const
+    {
+        return idSalle;
+    }
 
   private:
     QString                     nom;
