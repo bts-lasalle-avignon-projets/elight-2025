@@ -5,7 +5,7 @@
 
 Salle::Salle(QString nom, QWidget* parent) :
     QWidget(parent), nom(nom), editionPage(nullptr),
-    baseDeDonnees(new CommunicationBaseDeDonnees(this))
+    baseDeDonnees(new CommunicationBaseDeDonnees(this)), idSalle(-1)
 {
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 
@@ -19,7 +19,7 @@ Salle::Salle(QString nom, QWidget* parent) :
     QLabel* segments             = new QLabel(this);
     QLabel* scenarios            = new QLabel(this);
     menuScenario                 = new QComboBox(this);
-    menuSegment                  = new QComboBox(this);
+    menuSegment                  = new QListWidget(this);
     QPushButton* boutonFermeture = new QPushButton("Fermer", this);
     QPushButton* boutonEdition   = new QPushButton("Éditer", this);
 
@@ -51,6 +51,22 @@ Salle::Salle(QString nom, QWidget* parent) :
 
     if(baseDeDonnees->connecter())
     {
+        QSqlQuery requete;
+        requete.prepare(
+          "SELECT id_salle FROM salle WHERE nom_salle = :nomSalle");
+        requete.bindValue(":nomSalle", nom);
+
+        if(requete.exec() && requete.next())
+        {
+            idSalle = requete.value(0).toInt();
+        }
+        else
+        {
+            qDebug() << "Erreur lors de la récupération de l'id_salle pour "
+                        "la salle "
+                     << nom;
+        }
+
         chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
         chargerConsommationDepuisBDD();
@@ -92,6 +108,17 @@ Salle::~Salle()
 void Salle::showEvent(QShowEvent* event)
 {
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
+
+    rechargerDonnees();
+}
+
+void Salle::rechargerDonnees()
+{
+    chargerSegmentsDepuisBDD();
+
+    chargerScenariosDepuisBDD();
+
+    chargerConsommationDepuisBDD();
 }
 
 void Salle::fermerFenetre()
@@ -111,7 +138,12 @@ void Salle::chargerScenariosDepuisBDD()
 {
     QSqlQuery requete;
     requete.prepare(
-      "SELECT id_scenario, nom_scenario, intensite_scenario FROM scenario");
+      "SELECT id_scenario, nom_scenario, intensite_scenario FROM scenario "
+      "WHERE id_scenario IN (SELECT id_scenario FROM segment WHERE "
+      "id_salle = "
+      ":idSalle)");
+
+    requete.bindValue(":idSalle", idSalle);
 
     if(!requete.exec())
     {
@@ -140,7 +172,10 @@ void Salle::chargerScenariosDepuisBDD()
 void Salle::chargerSegmentsDepuisBDD()
 {
     QSqlQuery requete;
-    requete.prepare("SELECT id_segment, ip_segment FROM segment");
+    requete.prepare("SELECT id_segment, ip_segment FROM segment WHERE "
+                    "id_salle = :idSalle");
+
+    requete.bindValue(":idSalle", idSalle);
 
     if(!requete.exec())
     {
@@ -167,7 +202,11 @@ void Salle::chargerSegmentsDepuisBDD()
 void Salle::chargerConsommationDepuisBDD()
 {
     QSqlQuery requete;
-    requete.prepare("SELECT consommation FROM historique_consommation_segment");
+    requete.prepare("SELECT consommation FROM historique_consommation_segment "
+                    "WHERE id_segment IN (SELECT id_segment FROM segment WHERE "
+                    "id_salle = :idSalle)");
+
+    requete.bindValue(":idSalle", idSalle);
 
     if(!requete.exec())
     {
@@ -175,18 +214,26 @@ void Salle::chargerConsommationDepuisBDD()
         return;
     }
 
-    if(requete.next())
+    double consommationTotale = 0.0;
+
+    while(requete.next())
     {
         QVariant consommationBDD = requete.value(0);
 
         if(consommationBDD.isValid())
         {
-            consommation->setText(consommationBDD.toString());
+            consommationTotale += consommationBDD.toDouble();
         }
         else
         {
             qDebug() << Q_FUNC_INFO << "La consommation récupérée est invalide";
         }
+    }
+
+    if(consommationTotale > 0)
+    {
+        consommation->setText(QString::number(consommationTotale, 'f', 2) +
+                              " kWh");
     }
     else
     {

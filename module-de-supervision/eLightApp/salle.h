@@ -17,15 +17,20 @@ class Salle : public QWidget
     virtual ~Salle();
 
     void rechargerDonnees();
+    int  getIdSalle() const
+    {
+        return idSalle;
+    }
 
   private:
     QString                     nom;
+    int                         idSalle;
     QLabel*                     titre;
     QLabel*                     consommation;
     EditionSalle*               editionPage;
     CommunicationBaseDeDonnees* baseDeDonnees;
     QComboBox*                  menuScenario;
-    QComboBox*                  menuSegment;
+    QListWidget*                menuSegment;
 
     void chargerSegmentsDepuisBDD();
     void chargerScenariosDepuisBDD();

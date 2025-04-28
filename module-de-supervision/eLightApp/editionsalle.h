@@ -11,7 +11,7 @@ class EditionSalle : public QWidget
 {
     Q_OBJECT
   public:
-    explicit EditionSalle(QWidget* parent = nullptr);
+    explicit EditionSalle(Salle* salle, QWidget* parent = nullptr);
 
   private:
     CommunicationBaseDeDonnees* baseDeDonnees;
@@ -32,8 +32,12 @@ class EditionSalle : public QWidget
     void modifierScenariosBDD();
     void ajouterScenariosBDD();
 
+    Salle* salle;
+
   private slots:
     void fermerFenetre();
+    void sauvegarderFenetreScenarios();
+    void sauvegarderFenetreSegments();
 
   signals:
 };

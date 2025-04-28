@@ -2,19 +2,27 @@
 
 #include <QDebug>
 
-EditionSalle::EditionSalle(QWidget* parent) :
-    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
+EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
+    QWidget(parent), salle(salle),
+    baseDeDonnees(new CommunicationBaseDeDonnees(this))
 {
     qDebug() << Q_FUNC_INFO << this;
 
     setWindowTitle(QString(TITRE_FENETRE_EDITION));
 
+    int idSalle = salle->getIdSalle();
+    qDebug() << "ID de la salle : " << idSalle;
+
     QPixmap      logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
     QLabel*      titreEdition    = new QLabel("Édition", this);
     QLabel*      labelLogoeLight = new QLabel(this);
     QPushButton* boutonFermeture = new QPushButton("Fermer", this);
-    QLabel*      segments        = new QLabel(this);
-    QLabel*      scenarios       = new QLabel(this);
+    QPushButton* boutonSauvegardeScenarios =
+      new QPushButton("Sauvegarder scénarios", this);
+    QPushButton* boutonSauvegardeSegments =
+      new QPushButton("Sauvegarder segments", this);
+    QLabel* segments             = new QLabel(this);
+    QLabel* scenarios            = new QLabel(this);
     menuScenarios                = new QComboBox(this);
     menuSegments                 = new QComboBox(this);
     ajoutIPSegment               = new QLineEdit(this);
@@ -55,9 +63,11 @@ EditionSalle::EditionSalle(QWidget* parent) :
     layout->addWidget(segments, 0, Qt::AlignLeft);
     layout->addWidget(menuSegments);
     layout->addLayout(editionSegment);
+    layout->addWidget(boutonSauvegardeSegments);
     layout->addWidget(scenarios, Qt::AlignRight);
     layout->addWidget(menuScenarios);
     layout->addLayout(editionScenario);
+    layout->addWidget(boutonSauvegardeScenarios);
     layout->addWidget(boutonFermeture);
 
     segments->setText("Segments :");
@@ -74,26 +84,42 @@ EditionSalle::EditionSalle(QWidget* parent) :
             &QPushButton::clicked,
             this,
             &EditionSalle::fermerFenetre);
+
+    connect(boutonSauvegardeScenarios,
+            &QPushButton::clicked,
+            this,
+            &EditionSalle::sauvegarderFenetreScenarios);
+
+    connect(boutonSauvegardeSegments,
+            &QPushButton::clicked,
+            this,
+            &EditionSalle::sauvegarderFenetreSegments);
+
     connect(validerSegment,
             &QPushButton::clicked,
             this,
             &EditionSalle::ajouterSegmentsBDD);
+
     connect(supprSegment,
             &QPushButton::clicked,
             this,
             &EditionSalle::supprimerSegmentsBDD);
+
     connect(modifSegment,
             &QPushButton::clicked,
             this,
             &EditionSalle::modifierSegmentsBDD);
+
     connect(validerScenario,
             &QPushButton::clicked,
             this,
             &EditionSalle::ajouterScenariosBDD);
+
     connect(modifScenario,
             &QPushButton::clicked,
             this,
             &EditionSalle::modifierScenariosBDD);
+
     connect(supprScenario,
             &QPushButton::clicked,
             this,
@@ -120,6 +146,109 @@ EditionSalle::EditionSalle(QWidget* parent) :
 void EditionSalle::fermerFenetre()
 {
     this->close();
+}
+
+void EditionSalle::sauvegarderFenetreScenarios()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    int idSalle = salle->getIdSalle();
+    qDebug() << "ID de la salle : " << idSalle;
+    QString     scenarioChoisi  = menuScenarios->currentText();
+    QStringList partiesScenario = scenarioChoisi.split(" - ");
+    QString     idScenario = partiesScenario.at(0).split("#").at(1).trimmed();
+
+    if(!idScenario.isEmpty())
+    {
+        QSqlQuery querySegments;
+        querySegments.prepare(
+          "SELECT id_segment FROM segment WHERE id_salle = :id_salle");
+        querySegments.bindValue(":id_salle", idSalle);
+
+        if(!querySegments.exec())
+        {
+            qDebug()
+              << "Erreur SQL lors de la récupération des segments de la salle"
+              << querySegments.lastError().text();
+            return;
+        }
+
+        while(querySegments.next())
+        {
+            QString idSegment = querySegments.value(0).toString();
+
+            QSqlQuery updateSegmentQuery;
+            updateSegmentQuery.prepare(
+              "UPDATE segment SET id_scenario = :id_scenario WHERE id_segment "
+              "= :id_segment");
+            updateSegmentQuery.bindValue(":id_scenario", idScenario);
+            updateSegmentQuery.bindValue(":id_segment", idSegment);
+
+            if(!updateSegmentQuery.exec())
+            {
+                qDebug() << "Erreur SQL lors de la mise à jour du segment avec "
+                            "le scénario"
+                         << updateSegmentQuery.lastError().text();
+            }
+            else
+            {
+                qDebug() << "Segment " << idSegment
+                         << " mis à jour avec le scénario " << idScenario;
+            }
+        }
+    }
+    chargerScenariosDepuisBDD();
+}
+
+void EditionSalle::sauvegarderFenetreSegments()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    int idSalle = salle->getIdSalle();
+    qDebug() << "ID de la salle : " << idSalle;
+    QString     segmentChoisi  = menuSegments->currentText();
+    QStringList partiesSegment = segmentChoisi.split(" - ");
+    QString     idSegment = partiesSegment.at(0).split("#").at(1).trimmed();
+
+    qDebug() << "ID du segment sélectionné : " << idSegment;
+
+    if(!idSegment.isEmpty())
+    {
+        QSqlQuery querySegments;
+        querySegments.prepare(
+          "SELECT id_segment FROM segment WHERE id_salle = :id_salle");
+        querySegments.bindValue(":id_salle", idSalle);
+
+        if(!querySegments.exec())
+        {
+            qDebug()
+              << "Erreur SQL lors de la récupération des segments de la salle"
+              << querySegments.lastError().text();
+            return;
+        }
+
+        while(querySegments.next())
+        {
+            QSqlQuery updateSalleQuery;
+            updateSalleQuery.prepare("UPDATE segment SET id_salle = :id_salle "
+                                     "WHERE id_segment = :id_segment");
+            updateSalleQuery.bindValue(":id_salle", idSalle);
+            updateSalleQuery.bindValue(":id_segment", idSegment);
+
+            if(!updateSalleQuery.exec())
+            {
+                qDebug()
+                  << "Erreur SQL lors de la mise à jour du id_salle du segment"
+                  << updateSalleQuery.lastError().text();
+            }
+            else
+            {
+                qDebug() << "Segment " << idSegment
+                         << " mis à jour avec id_salle " << idSalle;
+            }
+        }
+    }
+    chargerSegmentsDepuisBDD();
 }
 
 void EditionSalle::chargerScenariosDepuisBDD()
