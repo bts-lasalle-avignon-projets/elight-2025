@@ -34,7 +34,7 @@ ELight::ELight(QWidget* parent) :
       new QLabel(QString(APPLICATION) + QString(" v") + QString(VERSION), this);
     QPixmap logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
     QLabel* labelLogoeLight = new QLabel;
-    consommationTotaleLabel = new QLabel("Consommation totale : ", this);
+    consommationTotaleLabel = new QLabel(this);
 
     QPushButton* historique = new QPushButton("Historique", this);
 
