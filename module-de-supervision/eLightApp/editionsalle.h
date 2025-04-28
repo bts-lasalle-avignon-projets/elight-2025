@@ -36,7 +36,8 @@ class EditionSalle : public QWidget
 
   private slots:
     void fermerFenetre();
-    void sauvegarderFenetre();
+    void sauvegarderFenetreScenarios();
+    void sauvegarderFenetreSegments();
 
   signals:
 };
