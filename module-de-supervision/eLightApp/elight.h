@@ -27,8 +27,10 @@ class ELight : public QWidget
     QMap<QPushButton*, Salle*>  salles;
     QVector<QPushButton*>       boutonsSalles;
     CommunicationBaseDeDonnees* baseDeDonnees;
+    QLabel*                     consommationTotaleLabel;
 
     void chargerSallesDepuisBDD();
+    void chargerConsommationTotaleDepuisBDD();
 };
 
 #endif // ELIGHT_H

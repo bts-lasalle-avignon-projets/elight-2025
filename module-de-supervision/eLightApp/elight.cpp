@@ -33,14 +33,14 @@ ELight::ELight(QWidget* parent) :
     QLabel* titre =
       new QLabel(QString(APPLICATION) + QString(" v") + QString(VERSION), this);
     QPixmap logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
-    QLabel* labelLogoeLight    = new QLabel;
-    QLabel* consommationTotale = new QLabel("Consommation totale : ", this);
+    QLabel* labelLogoeLight = new QLabel;
+    consommationTotaleLabel = new QLabel("Consommation totale : ", this);
 
     QPushButton* historique = new QPushButton("Historique", this);
 
     this->setStyleSheet("background-color: #FFFFFF;");
     titre->setStyleSheet("font-weight: 900; font-size: 90px;");
-    consommationTotale->setStyleSheet(
+    consommationTotaleLabel->setStyleSheet(
       "border: 1px solid black; background-color: #FFFF33;");
 
     QVBoxLayout* layout   = new QVBoxLayout(this);
@@ -61,6 +61,7 @@ ELight::ELight(QWidget* parent) :
     if(baseDeDonnees->connecter())
     {
         chargerSallesDepuisBDD();
+        chargerConsommationTotaleDepuisBDD();
     }
     else
     {
@@ -73,7 +74,7 @@ ELight::ELight(QWidget* parent) :
     }
 
     piedPage->addWidget(historique);
-    piedPage->addWidget(consommationTotale);
+    piedPage->addWidget(consommationTotaleLabel);
 
     connect(historique,
             &QPushButton::clicked,
@@ -140,5 +141,26 @@ void ELight::chargerSallesDepuisBDD()
     {
         qDebug() << Q_FUNC_INFO
                  << "Aucune salle trouvée dans la base de données.";
+    }
+}
+
+void ELight::chargerConsommationTotaleDepuisBDD()
+{
+    QSqlQuery requete;
+    requete.prepare(
+      "SELECT SUM(consommation) FROM historique_consommation_segment");
+
+    if(!requete.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
+        return;
+    }
+
+    if(requete.next())
+    {
+        float consommationTotale = requete.value(0).toFloat();
+        consommationTotaleLabel->setText(
+          "Consommation totale : " + QString::number(consommationTotale) +
+          " kWh");
     }
 }

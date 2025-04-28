@@ -214,18 +214,26 @@ void Salle::chargerConsommationDepuisBDD()
         return;
     }
 
-    if(requete.next())
+    double consommationTotale = 0.0;
+
+    while(requete.next())
     {
         QVariant consommationBDD = requete.value(0);
 
         if(consommationBDD.isValid())
         {
-            consommation->setText(consommationBDD.toString());
+            consommationTotale += consommationBDD.toDouble();
         }
         else
         {
             qDebug() << Q_FUNC_INFO << "La consommation récupérée est invalide";
         }
+    }
+
+    if(consommationTotale > 0)
+    {
+        consommation->setText(QString::number(consommationTotale, 'f', 2) +
+                              " kWh");
     }
     else
     {
