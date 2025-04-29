@@ -17,3 +17,11 @@ QPushButton {
 QPushButton:hover {
     background-color: #ffc55a;
 }
+
+QPushButton#boutonRetirerScenarioActif {
+    background-color: #a0a0a0;
+}
+
+QPushButton#boutonRetirerScenarioActif:hover {
+    background-color: #727272;
+}
