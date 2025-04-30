@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "communicationbasededonnees.h"
+#include "communicationsegments.h"
 
 /**
  * @def COLONNES_MAX
@@ -35,6 +36,8 @@ class PageAccueil : public QWidget
     QLabel*                     nomScenarioActif;
     QLabel*                     intensiteScenarioActif;
     QVector<int>                idsSegmentsSalle;
+
+    CommunicationSegments* communicationSegments;
 
     void creerSegments(const int nombreScenarios);
     void placerSegments();
