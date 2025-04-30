@@ -58,7 +58,7 @@ Salle::Salle(QString nom, QWidget* parent) :
 
         if(requete.exec() && requete.next())
         {
-            idSalle = requete.value(0).toInt();
+            idSalle = requete.value(ID_SALLE).toInt();
         }
         else
         {
@@ -155,9 +155,10 @@ void Salle::chargerScenariosDepuisBDD()
 
     while(requete.next())
     {
-        QString idScenario        = requete.value(0).toString();
-        QString nomScenario       = requete.value(1).toString();
-        QString intensiteScenario = requete.value(2).toString();
+        QString idScenario  = requete.value(ID_SCENARIO).toString();
+        QString nomScenario = requete.value(NOM_SCENARIO).toString();
+        QString intensiteScenario =
+          requete.value(INTENSITE_SCENARIO).toString();
 
         menuScenario->addItem("Scénario #" + idScenario + " - " + nomScenario +
                               " - " + intensiteScenario + " lux");
@@ -189,9 +190,10 @@ void Salle::chargerSegmentsDepuisBDD()
     menuSegment->clear();
     while(requete.next())
     {
-        QString idSegment          = requete.value(0).toString();
-        QString ipSegment          = requete.value(1).toString();
-        bool    consommationExiste = requete.value(2).toInt() > 0;
+        QString idSegment = requete.value(ID_SEGMENT).toString();
+        QString ipSegment = requete.value(IP_SEGMENT).toString();
+        bool    consommationExiste =
+          requete.value(CONSOMMATION_EXISTE).toInt() > 0;
 
         QListWidgetItem* item =
           new QListWidgetItem("Segment #" + idSegment + " - ip : " + ipSegment);
@@ -233,7 +235,7 @@ void Salle::chargerConsommationDepuisBDD()
 
     while(requete.next())
     {
-        QVariant consommationBDD = requete.value(0);
+        QVariant consommationBDD = requete.value(CONSOMMATION_BDD);
 
         if(consommationBDD.isValid())
         {

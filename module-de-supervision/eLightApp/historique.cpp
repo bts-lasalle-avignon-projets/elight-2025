@@ -93,9 +93,9 @@ void Historique::chargerHistoriqueDepuisBDD()
 
     while(requete.next())
     {
-        int     idSegment    = requete.value(0).toInt();
-        float   consommation = requete.value(1).toFloat();
-        QString horodatage   = requete.value(2).toString();
+        int     idSegment    = requete.value(ID_SEGMENT).toInt();
+        float   consommation = requete.value(CONSOMMATION).toFloat();
+        QString horodatage   = requete.value(HORODATAGE_RELEVE).toString();
 
         QString ligne = QString("Segment #%1 - %2 kWh - %3")
                           .arg(idSegment)

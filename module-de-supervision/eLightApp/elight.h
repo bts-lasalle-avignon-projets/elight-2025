@@ -7,6 +7,10 @@
 #include "config.h"
 #include "communicationbasededonnees.h"
 
+#define NOM_SALLE 1
+
+#define CONSOMMATION_TOTALE 0
+
 class Historique;
 class Salle;
 

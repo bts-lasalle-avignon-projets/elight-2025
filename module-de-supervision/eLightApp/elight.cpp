@@ -143,8 +143,8 @@ void ELight::chargerSallesDepuisBDD()
     int index = 0;
     while(requete.next())
     {
-        QString nomSalle = requete.value(1).toString();
-        int     idSalle  = requete.value(0).toInt();
+        QString nomSalle = requete.value(NOM_SALLE).toString();
+        int     idSalle  = requete.value(ID_SALLE).toInt();
 
         bool salleActive = estSalleActive(idSalle);
 
@@ -185,7 +185,7 @@ void ELight::chargerConsommationTotaleDepuisBDD()
 
     if(requete.next())
     {
-        float consommationTotale = requete.value(0).toFloat();
+        float consommationTotale = requete.value(CONSOMMATION_TOTALE).toFloat();
         consommationTotaleLabel->setText(
           "Consommation totale : " + QString::number(consommationTotale) +
           " kWh");

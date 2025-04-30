@@ -175,7 +175,7 @@ void EditionSalle::sauvegarderFenetreScenarios()
 
         while(querySegments.next())
         {
-            QString idSegment = querySegments.value(0).toString();
+            QString idSegment = querySegments.value(ID_SEGMENT).toString();
 
             QSqlQuery updateSegmentQuery;
             updateSegmentQuery.prepare(
@@ -267,9 +267,10 @@ void EditionSalle::chargerScenariosDepuisBDD()
 
     while(requete.next())
     {
-        QString idScenario        = requete.value(0).toString();
-        QString nomScenario       = requete.value(1).toString();
-        QString intensiteScenario = requete.value(2).toString();
+        QString idScenario  = requete.value(ID_SCENARIO).toString();
+        QString nomScenario = requete.value(NOM_SCENARIO).toString();
+        QString intensiteScenario =
+          requete.value(INTENSITE_SCENARIO).toString();
 
         menuScenarios->addItem("Scénario #" + idScenario + " - " + nomScenario +
                                " - " + intensiteScenario + " lux");
@@ -296,8 +297,8 @@ void EditionSalle::chargerSegmentsDepuisBDD()
 
     while(requete.next())
     {
-        QString idSegment = requete.value(0).toString();
-        QString ipSegment = requete.value(1).toString();
+        QString idSegment = requete.value(ID_SEGMENT).toString();
+        QString ipSegment = requete.value(IP_SEGMENT).toString();
 
         menuSegments->addItem("Segment #" + idSegment + " - " +
                               "ip : " + ipSegment);
