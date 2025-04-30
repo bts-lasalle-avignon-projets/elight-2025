@@ -86,6 +86,8 @@ PageAccueil::PageAccueil(QWidget* parent) :
     connect(boutonConfirmerSelectionScenario, &QPushButton::clicked, this, [=] {
         selectionnerScenarioActif();
     });
+
+    communicationSegments = new CommunicationSegments(this);
 }
 
 PageAccueil::~PageAccueil()
