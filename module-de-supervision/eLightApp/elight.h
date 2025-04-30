@@ -30,6 +30,7 @@ class ELight : public QWidget
     QLabel*                     consommationTotaleLabel;
 
     void chargerSallesDepuisBDD();
+    bool estSalleActive(int idSalle);
     void chargerConsommationTotaleDepuisBDD();
 };
 

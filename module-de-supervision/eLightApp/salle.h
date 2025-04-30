@@ -29,7 +29,7 @@ class Salle : public QWidget
     QLabel*                     consommation;
     EditionSalle*               editionPage;
     CommunicationBaseDeDonnees* baseDeDonnees;
-    QComboBox*                  menuScenario;
+    QListWidget*                menuScenario;
     QListWidget*                menuSegment;
 
     void chargerSegmentsDepuisBDD();
