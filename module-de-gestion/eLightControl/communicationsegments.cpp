@@ -49,10 +49,31 @@ void CommunicationSegments::traiterTrameRecue()
 {
     while(udpSocket->hasPendingDatagrams())
     {
-        QByteArray trame;
-        trame.resize(static_cast<int>(udpSocket->pendingDatagramSize()));
-        udpSocket->readDatagram(trame.data(), trame.size());
+        QByteArray donneesRecues;
+        donneesRecues.resize(
+          static_cast<int>(udpSocket->pendingDatagramSize()));
 
-        qDebug() << Q_FUNC_INFO << "Trame reçue : " << trame;
+        QHostAddress adresseSource;
+
+        udpSocket->readDatagram(donneesRecues.data(),
+                                donneesRecues.size(),
+                                &adresseSource);
+
+        QString trame = QString::fromUtf8(donneesRecues).trimmed();
+
+        QString adresseSourceReglee = adresseSource.toString();
+
+        if(adresseSourceReglee.startsWith("::ffff:"))
+            adresseSourceReglee = adresseSourceReglee.mid(7);
+
+        if(trame.startsWith("#"))
+        {
+            trame.remove(0, 1);
+
+            float consommation = trame.toFloat();
+
+            qDebug() << "Source : " + adresseSourceReglee +
+                          " consommation : " + QString::number(consommation);
+        }
     }
 }

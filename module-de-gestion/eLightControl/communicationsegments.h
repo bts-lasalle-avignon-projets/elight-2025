@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QUdpSocket>
 #include <QSettings>
+#include "communicationbasededonnees.h"
 
 class CommunicationSegments : public QObject
 {
