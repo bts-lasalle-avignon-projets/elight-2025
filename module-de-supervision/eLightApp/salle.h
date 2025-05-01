@@ -6,17 +6,17 @@
 #include "salle.h"
 #include "communicationbasededonnees.h"
 
-#define ID_SALLE 0
+#define COLONNE_ID_SALLE 0
 
-#define ID_SCENARIO        0
-#define NOM_SCENARIO       1
-#define INTENSITE_SCENARIO 2
+#define COLONNE_ID_SCENARIO        0
+#define COLONNE_NOM_SCENARIO       1
+#define COLONNE_INTENSITE_SCENARIO 2
 
-#define ID_SEGMENT          0
-#define IP_SEGMENT          1
-#define CONSOMMATION_EXISTE 2
+#define COLONNE_ID_SEGMENT        0
+#define COLONNE_IP_SEGMENT        1
+#define CHAMP_CONSOMMATION_EXISTE 2
 
-#define CONSOMMATION_BDD 0
+#define COLONNE_CONSOMMATION_BDD 0
 
 class CommunicationBaseDeDonnees;
 class EditionSalle;

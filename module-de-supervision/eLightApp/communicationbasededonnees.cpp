@@ -4,8 +4,33 @@
 #include <QSettings>
 #include <QCoreApplication>
 
-CommunicationBaseDeDonnees::CommunicationBaseDeDonnees(QObject* parent) :
-    QObject(parent)
+CommunicationBaseDeDonnees* CommunicationBaseDeDonnees::bdd     = nullptr;
+int                         CommunicationBaseDeDonnees::nbAcces = 0;
+
+CommunicationBaseDeDonnees* CommunicationBaseDeDonnees::creerInstance()
+{
+    if(bdd == nullptr)
+    {
+        bdd = new CommunicationBaseDeDonnees();
+    }
+    nbAcces++;
+    qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
+
+    return bdd;
+}
+
+void CommunicationBaseDeDonnees::detruireInstance()
+{
+    if(bdd != nullptr)
+    {
+        nbAcces--;
+        qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
+        if(nbAcces == 0)
+            delete bdd;
+    }
+}
+
+CommunicationBaseDeDonnees::CommunicationBaseDeDonnees()
 {
     qDebug() << Q_FUNC_INFO << this;
     baseDeDonnees = QSqlDatabase::addDatabase("QMYSQL");

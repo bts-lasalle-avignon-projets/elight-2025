@@ -31,12 +31,11 @@
  */
 #define NOM_BASE_DE_DONNEES "eLight"
 
-class CommunicationBaseDeDonnees : public QObject
+class CommunicationBaseDeDonnees
 {
-    Q_OBJECT
   public:
-    explicit CommunicationBaseDeDonnees(QObject* parent = nullptr);
-    ~CommunicationBaseDeDonnees();
+    static CommunicationBaseDeDonnees* creerInstance();
+    static void                        detruireInstance();
 
     bool connecter(QString nomBaseDeDonnees = NOM_BASE_DE_DONNEES,
                    QString nomUtilisateur   = NOM_UTILISATEUR,
@@ -50,9 +49,11 @@ class CommunicationBaseDeDonnees : public QObject
                               QString& motDePasse);
 
   private:
-    QSqlDatabase baseDeDonnees;
-
-  signals:
+    CommunicationBaseDeDonnees();
+    virtual ~CommunicationBaseDeDonnees();
+    static CommunicationBaseDeDonnees* bdd;
+    static int                         nbAcces;
+    QSqlDatabase                       baseDeDonnees;
 };
 
 #endif // COMMUNICATIONBASEDEDONNEES_H

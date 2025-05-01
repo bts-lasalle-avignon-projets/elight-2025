@@ -4,8 +4,8 @@
 #include <QDebug>
 
 Salle::Salle(QString nom, QWidget* parent) :
-    QWidget(parent), nom(nom), editionPage(nullptr),
-    baseDeDonnees(new CommunicationBaseDeDonnees(this)), idSalle(-1)
+    QWidget(parent), nom(nom), idSalle(-1), editionPage(nullptr),
+    baseDeDonnees(CommunicationBaseDeDonnees::creerInstance())
 {
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 
@@ -58,7 +58,7 @@ Salle::Salle(QString nom, QWidget* parent) :
 
         if(requete.exec() && requete.next())
         {
-            idSalle = requete.value(ID_SALLE).toInt();
+            idSalle = requete.value(COLONNE_ID_SALLE).toInt();
         }
         else
         {
@@ -96,6 +96,9 @@ Salle::Salle(QString nom, QWidget* parent) :
 
 Salle::~Salle()
 {
+    if(editionPage != nullptr)
+        delete editionPage;
+    CommunicationBaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 }
 
@@ -107,6 +110,7 @@ Salle::~Salle()
  */
 void Salle::showEvent(QShowEvent* event)
 {
+    Q_UNUSED(event)
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 
     rechargerDonnees();
@@ -155,10 +159,10 @@ void Salle::chargerScenariosDepuisBDD()
 
     while(requete.next())
     {
-        QString idScenario  = requete.value(ID_SCENARIO).toString();
-        QString nomScenario = requete.value(NOM_SCENARIO).toString();
+        QString idScenario  = requete.value(COLONNE_ID_SCENARIO).toString();
+        QString nomScenario = requete.value(COLONNE_NOM_SCENARIO).toString();
         QString intensiteScenario =
-          requete.value(INTENSITE_SCENARIO).toString();
+          requete.value(COLONNE_INTENSITE_SCENARIO).toString();
 
         menuScenario->addItem("Scénario #" + idScenario + " - " + nomScenario +
                               " - " + intensiteScenario + " lux");
@@ -190,10 +194,10 @@ void Salle::chargerSegmentsDepuisBDD()
     menuSegment->clear();
     while(requete.next())
     {
-        QString idSegment = requete.value(ID_SEGMENT).toString();
-        QString ipSegment = requete.value(IP_SEGMENT).toString();
+        QString idSegment = requete.value(COLONNE_ID_SEGMENT).toString();
+        QString ipSegment = requete.value(COLONNE_IP_SEGMENT).toString();
         bool    consommationExiste =
-          requete.value(CONSOMMATION_EXISTE).toInt() > 0;
+          requete.value(CHAMP_CONSOMMATION_EXISTE).toInt() > 0;
 
         QListWidgetItem* item =
           new QListWidgetItem("Segment #" + idSegment + " - ip : " + ipSegment);
@@ -235,7 +239,7 @@ void Salle::chargerConsommationDepuisBDD()
 
     while(requete.next())
     {
-        QVariant consommationBDD = requete.value(CONSOMMATION_BDD);
+        QVariant consommationBDD = requete.value(COLONNE_CONSOMMATION_BDD);
 
         if(consommationBDD.isValid())
         {

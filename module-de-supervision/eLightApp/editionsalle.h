@@ -3,17 +3,19 @@
 
 #include <QtWidgets>
 #include "config.h"
-#include "communicationbasededonnees.h"
-#include "salle.h"
 
+class Salle;
 class CommunicationBaseDeDonnees;
+
 class EditionSalle : public QWidget
 {
     Q_OBJECT
   public:
     explicit EditionSalle(Salle* salle, QWidget* parent = nullptr);
+    virtual ~EditionSalle();
 
   private:
+    Salle*                      salle;
     CommunicationBaseDeDonnees* baseDeDonnees;
     QComboBox*                  menuScenarios;
     QComboBox*                  menuSegments;
@@ -31,8 +33,6 @@ class EditionSalle : public QWidget
     void supprimerScenariosBDD();
     void modifierScenariosBDD();
     void ajouterScenariosBDD();
-
-    Salle* salle;
 
   private slots:
     void fermerFenetre();

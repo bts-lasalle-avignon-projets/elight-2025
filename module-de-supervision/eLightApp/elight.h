@@ -20,7 +20,7 @@ class ELight : public QWidget
 
   public:
     ELight(QWidget* parent = nullptr);
-    ~ELight();
+    virtual ~ELight();
 
   private slots:
     void afficherHistorique();

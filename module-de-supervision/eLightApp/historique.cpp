@@ -9,7 +9,7 @@
 #include <QPair>
 
 Historique::Historique(QWidget* parent) :
-    QWidget(parent), baseDeDonnees(new CommunicationBaseDeDonnees(this))
+    QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::creerInstance())
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -56,11 +56,7 @@ Historique::Historique(QWidget* parent) :
 
 Historique::~Historique()
 {
-    qDebug() << Q_FUNC_INFO << this;
-}
-
-void Historique::showEvent(QShowEvent* event)
-{
+    CommunicationBaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO << this;
 }
 
@@ -70,6 +66,11 @@ void Historique::showEvent(QShowEvent* event)
  * @fn Historique::showEvent
  *
  */
+void Historique::showEvent(QShowEvent* event)
+{
+    Q_UNUSED(event)
+    qDebug() << Q_FUNC_INFO << this;
+}
 
 void Historique::fermerFenetre()
 {
@@ -78,6 +79,7 @@ void Historique::fermerFenetre()
 
 void Historique::chargerHistoriqueDepuisBDD()
 {
+    qDebug() << Q_FUNC_INFO;
     QSqlQuery requete;
     requete.prepare(
       "SELECT id_segment, consommation, horodatage_releve FROM "

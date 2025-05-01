@@ -20,7 +20,7 @@
  */
 ELight::ELight(QWidget* parent) :
     QWidget(parent), historiquePage(nullptr),
-    baseDeDonnees(new CommunicationBaseDeDonnees(this))
+    baseDeDonnees(CommunicationBaseDeDonnees::creerInstance())
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -84,6 +84,7 @@ ELight::ELight(QWidget* parent) :
 
 ELight::~ELight()
 {
+    CommunicationBaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO << this;
 }
 
@@ -144,7 +145,7 @@ void ELight::chargerSallesDepuisBDD()
     while(requete.next())
     {
         QString nomSalle = requete.value(NOM_SALLE).toString();
-        int     idSalle  = requete.value(ID_SALLE).toInt();
+        int     idSalle  = requete.value(COLONNE_ID_SALLE).toInt();
 
         bool salleActive = estSalleActive(idSalle);
 
