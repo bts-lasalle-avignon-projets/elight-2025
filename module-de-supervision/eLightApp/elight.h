@@ -7,6 +7,10 @@
 #include "config.h"
 #include "communicationbasededonnees.h"
 
+#define NOM_SALLE 1
+
+#define CONSOMMATION_TOTALE 0
+
 class Historique;
 class Salle;
 
@@ -16,7 +20,7 @@ class ELight : public QWidget
 
   public:
     ELight(QWidget* parent = nullptr);
-    ~ELight();
+    virtual ~ELight();
 
   private slots:
     void afficherHistorique();
@@ -30,6 +34,7 @@ class ELight : public QWidget
     QLabel*                     consommationTotaleLabel;
 
     void chargerSallesDepuisBDD();
+    bool estSalleActive(int idSalle);
     void chargerConsommationTotaleDepuisBDD();
 };
 

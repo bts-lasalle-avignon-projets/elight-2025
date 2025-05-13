@@ -20,7 +20,7 @@
  */
 ELight::ELight(QWidget* parent) :
     QWidget(parent), historiquePage(nullptr),
-    baseDeDonnees(new CommunicationBaseDeDonnees(this))
+    baseDeDonnees(CommunicationBaseDeDonnees::creerInstance())
 {
     qDebug() << Q_FUNC_INFO << this;
 
@@ -84,6 +84,7 @@ ELight::ELight(QWidget* parent) :
 
 ELight::~ELight()
 {
+    CommunicationBaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO << this;
 }
 
@@ -104,6 +105,31 @@ void ELight::afficherSalle()
     salles[boutonSalle]->show();
 }
 
+bool ELight::estSalleActive(int idSalle)
+{
+    QSqlQuery requete;
+    requete.prepare(
+      "SELECT COUNT(*) FROM segment s "
+      "JOIN historique_consommation_segment h ON s.id_segment = h.id_segment "
+      "WHERE s.id_salle = :idSalle");
+
+    requete.bindValue(":idSalle", idSalle);
+
+    if(!requete.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
+        return false;
+    }
+
+    if(requete.next())
+    {
+        int count = requete.value(0).toInt();
+        return count > 0;
+    }
+
+    return false;
+}
+
 void ELight::chargerSallesDepuisBDD()
 {
     QSqlQuery requete;
@@ -118,13 +144,15 @@ void ELight::chargerSallesDepuisBDD()
     int index = 0;
     while(requete.next())
     {
-        QString nomSalle = requete.value(1).toString();
-        int     idSalle  = requete.value(0).toInt();
+        QString nomSalle = requete.value(NOM_SALLE).toString();
+        int     idSalle  = requete.value(COLONNE_ID_SALLE).toInt();
+
+        bool salleActive = estSalleActive(idSalle);
 
         QPushButton* boutonSalle = new QPushButton(nomSalle, this);
         boutonSalle->setStyleSheet(
-          index == 0 ? "QPushButton{ background-color: #70eb65; }"
-                     : "QPushButton{ background-color: #eb6565; }");
+          salleActive ? "QPushButton{ background-color: #70eb65; }"
+                      : "QPushButton{ background-color: #eb6565; }");
 
         boutonsSalles.push_back(boutonSalle);
         salles[boutonSalle] = nullptr;
@@ -158,7 +186,7 @@ void ELight::chargerConsommationTotaleDepuisBDD()
 
     if(requete.next())
     {
-        float consommationTotale = requete.value(0).toFloat();
+        float consommationTotale = requete.value(CONSOMMATION_TOTALE).toFloat();
         consommationTotaleLabel->setText(
           "Consommation totale : " + QString::number(consommationTotale) +
           " kWh");

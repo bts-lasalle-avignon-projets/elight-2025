@@ -5,6 +5,10 @@
 #include "config.h"
 #include "communicationbasededonnees.h"
 
+#define ID_SEGMENT        0
+#define CONSOMMATION      1
+#define HORODATAGE_RELEVE 2
+
 #define DEMO_HISTORIQUE
 
 class CommunicationBaseDeDonnees;

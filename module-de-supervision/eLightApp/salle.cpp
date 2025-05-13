@@ -4,8 +4,8 @@
 #include <QDebug>
 
 Salle::Salle(QString nom, QWidget* parent) :
-    QWidget(parent), nom(nom), editionPage(nullptr),
-    baseDeDonnees(new CommunicationBaseDeDonnees(this)), idSalle(-1)
+    QWidget(parent), nom(nom), idSalle(-1), editionPage(nullptr),
+    baseDeDonnees(CommunicationBaseDeDonnees::creerInstance())
 {
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 
@@ -18,7 +18,7 @@ Salle::Salle(QString nom, QWidget* parent) :
     consommation                 = new QLabel(this);
     QLabel* segments             = new QLabel(this);
     QLabel* scenarios            = new QLabel(this);
-    menuScenario                 = new QComboBox(this);
+    menuScenario                 = new QListWidget(this);
     menuSegment                  = new QListWidget(this);
     QPushButton* boutonFermeture = new QPushButton("Fermer", this);
     QPushButton* boutonEdition   = new QPushButton("Éditer", this);
@@ -58,7 +58,7 @@ Salle::Salle(QString nom, QWidget* parent) :
 
         if(requete.exec() && requete.next())
         {
-            idSalle = requete.value(0).toInt();
+            idSalle = requete.value(COLONNE_ID_SALLE).toInt();
         }
         else
         {
@@ -96,6 +96,9 @@ Salle::Salle(QString nom, QWidget* parent) :
 
 Salle::~Salle()
 {
+    if(editionPage != nullptr)
+        delete editionPage;
+    CommunicationBaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 }
 
@@ -107,6 +110,7 @@ Salle::~Salle()
  */
 void Salle::showEvent(QShowEvent* event)
 {
+    Q_UNUSED(event)
     qDebug() << Q_FUNC_INFO << this << "nom" << nom;
 
     rechargerDonnees();
@@ -155,9 +159,10 @@ void Salle::chargerScenariosDepuisBDD()
 
     while(requete.next())
     {
-        QString idScenario        = requete.value(0).toString();
-        QString nomScenario       = requete.value(1).toString();
-        QString intensiteScenario = requete.value(2).toString();
+        QString idScenario  = requete.value(COLONNE_ID_SCENARIO).toString();
+        QString nomScenario = requete.value(COLONNE_NOM_SCENARIO).toString();
+        QString intensiteScenario =
+          requete.value(COLONNE_INTENSITE_SCENARIO).toString();
 
         menuScenario->addItem("Scénario #" + idScenario + " - " + nomScenario +
                               " - " + intensiteScenario + " lux");
@@ -165,15 +170,18 @@ void Salle::chargerScenariosDepuisBDD()
 
     if(menuScenario->count() == 0)
     {
-        menuScenario->addItem("Aucun scénario disponible");
+        menuScenario->addItem("Aucun scénario actif");
     }
 }
 
 void Salle::chargerSegmentsDepuisBDD()
 {
     QSqlQuery requete;
-    requete.prepare("SELECT id_segment, ip_segment FROM segment WHERE "
-                    "id_salle = :idSalle");
+    requete.prepare(
+      "SELECT s.id_segment, s.ip_segment, "
+      "(SELECT COUNT(*) FROM historique_consommation_segment h "
+      " WHERE h.id_segment = s.id_segment) AS consommation_existe "
+      "FROM segment s WHERE s.id_salle = :idSalle");
 
     requete.bindValue(":idSalle", idSalle);
 
@@ -186,11 +194,24 @@ void Salle::chargerSegmentsDepuisBDD()
     menuSegment->clear();
     while(requete.next())
     {
-        QString idSegment = requete.value(0).toString();
-        QString ipSegment = requete.value(1).toString();
+        QString idSegment = requete.value(COLONNE_ID_SEGMENT).toString();
+        QString ipSegment = requete.value(COLONNE_IP_SEGMENT).toString();
+        bool    consommationExiste =
+          requete.value(CHAMP_CONSOMMATION_EXISTE).toInt() > 0;
 
-        menuSegment->addItem("Segment #" + idSegment + " - " +
-                             "ip : " + ipSegment);
+        QListWidgetItem* item =
+          new QListWidgetItem("Segment #" + idSegment + " - ip : " + ipSegment);
+
+        if(consommationExiste)
+        {
+            item->setBackground(QBrush(QColor("#70eb65")));
+        }
+        else
+        {
+            item->setBackground(QBrush(QColor("#eb6565")));
+        }
+
+        menuSegment->addItem(item);
     }
 
     if(menuSegment->count() == 0)
@@ -218,7 +239,7 @@ void Salle::chargerConsommationDepuisBDD()
 
     while(requete.next())
     {
-        QVariant consommationBDD = requete.value(0);
+        QVariant consommationBDD = requete.value(COLONNE_CONSOMMATION_BDD);
 
         if(consommationBDD.isValid())
         {

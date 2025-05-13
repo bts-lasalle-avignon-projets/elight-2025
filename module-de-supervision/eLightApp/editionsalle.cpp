@@ -1,17 +1,16 @@
 #include "editionsalle.h"
-
+#include "communicationbasededonnees.h"
+#include "salle.h"
 #include <QDebug>
 
 EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     QWidget(parent), salle(salle),
-    baseDeDonnees(new CommunicationBaseDeDonnees(this))
+    baseDeDonnees(CommunicationBaseDeDonnees::creerInstance())
 {
-    qDebug() << Q_FUNC_INFO << this;
-
     setWindowTitle(QString(TITRE_FENETRE_EDITION));
 
     int idSalle = salle->getIdSalle();
-    qDebug() << "ID de la salle : " << idSalle;
+    qDebug() << Q_FUNC_INFO << this << "idSalle" << idSalle;
 
     QPixmap      logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
     QLabel*      titreEdition    = new QLabel("Édition", this);
@@ -143,6 +142,12 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     setWindowModality(Qt::WindowModal);
 }
 
+EditionSalle::~EditionSalle()
+{
+    CommunicationBaseDeDonnees::detruireInstance();
+    qDebug() << Q_FUNC_INFO << this;
+}
+
 void EditionSalle::fermerFenetre()
 {
     this->close();
@@ -150,10 +155,9 @@ void EditionSalle::fermerFenetre()
 
 void EditionSalle::sauvegarderFenetreScenarios()
 {
-    qDebug() << Q_FUNC_INFO;
-
     int idSalle = salle->getIdSalle();
-    qDebug() << "ID de la salle : " << idSalle;
+    qDebug() << Q_FUNC_INFO << "idSalle" << idSalle;
+
     QString     scenarioChoisi  = menuScenarios->currentText();
     QStringList partiesScenario = scenarioChoisi.split(" - ");
     QString     idScenario = partiesScenario.at(0).split("#").at(1).trimmed();
@@ -168,6 +172,7 @@ void EditionSalle::sauvegarderFenetreScenarios()
         if(!querySegments.exec())
         {
             qDebug()
+              << Q_FUNC_INFO
               << "Erreur SQL lors de la récupération des segments de la salle"
               << querySegments.lastError().text();
             return;
@@ -175,7 +180,7 @@ void EditionSalle::sauvegarderFenetreScenarios()
 
         while(querySegments.next())
         {
-            QString idSegment = querySegments.value(0).toString();
+            QString idSegment = querySegments.value(COLONNE_ID_SEGMENT).toString();
 
             QSqlQuery updateSegmentQuery;
             updateSegmentQuery.prepare(
@@ -186,14 +191,10 @@ void EditionSalle::sauvegarderFenetreScenarios()
 
             if(!updateSegmentQuery.exec())
             {
-                qDebug() << "Erreur SQL lors de la mise à jour du segment avec "
+                qDebug() << Q_FUNC_INFO
+                         << "Erreur SQL lors de la mise à jour du segment avec "
                             "le scénario"
                          << updateSegmentQuery.lastError().text();
-            }
-            else
-            {
-                qDebug() << "Segment " << idSegment
-                         << " mis à jour avec le scénario " << idScenario;
             }
         }
     }
@@ -202,15 +203,12 @@ void EditionSalle::sauvegarderFenetreScenarios()
 
 void EditionSalle::sauvegarderFenetreSegments()
 {
-    qDebug() << Q_FUNC_INFO;
-
     int idSalle = salle->getIdSalle();
-    qDebug() << "ID de la salle : " << idSalle;
+
     QString     segmentChoisi  = menuSegments->currentText();
     QStringList partiesSegment = segmentChoisi.split(" - ");
     QString     idSegment = partiesSegment.at(0).split("#").at(1).trimmed();
-
-    qDebug() << "ID du segment sélectionné : " << idSegment;
+    qDebug() << Q_FUNC_INFO << "idSalle" << idSalle << "idSegment" << idSegment;
 
     if(!idSegment.isEmpty())
     {
@@ -222,6 +220,7 @@ void EditionSalle::sauvegarderFenetreSegments()
         if(!querySegments.exec())
         {
             qDebug()
+              << Q_FUNC_INFO
               << "Erreur SQL lors de la récupération des segments de la salle"
               << querySegments.lastError().text();
             return;
@@ -238,13 +237,9 @@ void EditionSalle::sauvegarderFenetreSegments()
             if(!updateSalleQuery.exec())
             {
                 qDebug()
+                  << Q_FUNC_INFO
                   << "Erreur SQL lors de la mise à jour du id_salle du segment"
                   << updateSalleQuery.lastError().text();
-            }
-            else
-            {
-                qDebug() << "Segment " << idSegment
-                         << " mis à jour avec id_salle " << idSalle;
             }
         }
     }
@@ -253,6 +248,7 @@ void EditionSalle::sauvegarderFenetreSegments()
 
 void EditionSalle::chargerScenariosDepuisBDD()
 {
+    qDebug() << Q_FUNC_INFO;
     QSqlQuery requete;
     requete.prepare(
       "SELECT id_scenario, nom_scenario, intensite_scenario FROM scenario");
@@ -267,9 +263,10 @@ void EditionSalle::chargerScenariosDepuisBDD()
 
     while(requete.next())
     {
-        QString idScenario        = requete.value(0).toString();
-        QString nomScenario       = requete.value(1).toString();
-        QString intensiteScenario = requete.value(2).toString();
+        QString idScenario  = requete.value(COLONNE_ID_SCENARIO).toString();
+        QString nomScenario = requete.value(COLONNE_NOM_SCENARIO).toString();
+        QString intensiteScenario =
+          requete.value(COLONNE_INTENSITE_SCENARIO).toString();
 
         menuScenarios->addItem("Scénario #" + idScenario + " - " + nomScenario +
                                " - " + intensiteScenario + " lux");
@@ -283,6 +280,7 @@ void EditionSalle::chargerScenariosDepuisBDD()
 
 void EditionSalle::chargerSegmentsDepuisBDD()
 {
+    qDebug() << Q_FUNC_INFO;
     QSqlQuery requete;
     requete.prepare("SELECT id_segment, ip_segment FROM segment");
 
@@ -296,8 +294,8 @@ void EditionSalle::chargerSegmentsDepuisBDD()
 
     while(requete.next())
     {
-        QString idSegment = requete.value(0).toString();
-        QString ipSegment = requete.value(1).toString();
+        QString idSegment = requete.value(COLONNE_ID_SEGMENT).toString();
+        QString ipSegment = requete.value(COLONNE_IP_SEGMENT).toString();
 
         menuSegments->addItem("Segment #" + idSegment + " - " +
                               "ip : " + ipSegment);
@@ -315,10 +313,11 @@ void EditionSalle::supprimerSegmentsBDD()
 
     QStringList partiesSegment = segmentChoisi.split(" - ");
     QString     idSegment = partiesSegment.at(0).split("#").at(1).trimmed();
+    qDebug() << Q_FUNC_INFO << "idSegment" << idSegment;
 
     if(idSegment.isEmpty())
     {
-        qDebug() << "Aucun segment sélectionné pour suppression";
+        qDebug() << Q_FUNC_INFO << "Aucun segment sélectionné pour suppression";
         return;
     }
 
@@ -331,10 +330,6 @@ void EditionSalle::supprimerSegmentsBDD()
         qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
     }
-    else
-    {
-        qDebug() << Q_FUNC_INFO << "idSegment" << idSegment;
-    }
 
     chargerSegmentsDepuisBDD();
 }
@@ -346,6 +341,8 @@ void EditionSalle::modifierSegmentsBDD()
     QStringList partiesSegment = segmentChoisi.split(" - ");
     QString     idSegment  = partiesSegment.at(0).split("#").at(1).trimmed();
     QString     ipActuelle = partiesSegment.at(1).split(":").at(1).trimmed();
+    qDebug() << Q_FUNC_INFO << "idSegment" << idSegment << "ipActuelle"
+             << ipActuelle;
 
     if(idSegment.isEmpty())
     {
@@ -378,10 +375,6 @@ void EditionSalle::modifierSegmentsBDD()
     {
         qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO << "idSegment" << idSegment;
     }
 
     chargerSegmentsDepuisBDD();
@@ -417,6 +410,7 @@ void EditionSalle::supprimerScenariosBDD()
 
     QStringList partieScenario = scenarioChoisi.split(" - ");
     QString     idScenario = partieScenario.at(0).split("#").at(1).trimmed();
+    qDebug() << Q_FUNC_INFO << "idScenario" << idScenario;
 
     if(idScenario.isEmpty())
     {
@@ -431,12 +425,8 @@ void EditionSalle::supprimerScenariosBDD()
 
     if(!query.exec())
     {
-        qDebug() << "Erreur SQL" << query.lastError().text();
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO << "idScenario" << idScenario;
     }
 
     chargerScenariosDepuisBDD();
@@ -451,6 +441,7 @@ void EditionSalle::modifierScenariosBDD()
     QString     nomActuel  = partieScenario.at(1).trimmed();
     QString     intensiteActuelle =
       partieScenario.at(2).split("lux").at(0).trimmed();
+    qDebug() << Q_FUNC_INFO << "idScenario" << idScenario;
 
     if(idScenario.isEmpty())
     {
@@ -492,10 +483,6 @@ void EditionSalle::modifierScenariosBDD()
     {
         qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
         return;
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO << "idScenario" << idScenario;
     }
 
     chargerScenariosDepuisBDD();
