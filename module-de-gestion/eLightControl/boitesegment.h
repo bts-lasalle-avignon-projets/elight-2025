@@ -27,6 +27,7 @@ class BoiteSegment : public QWidget
   public:
     explicit BoiteSegment(int segmentId, QWidget* parent = nullptr);
     void setConsommation(double nouvelleConsommation);
+    int  getIdSegment();
 
   private:
     int     idSegment;

@@ -41,3 +41,8 @@ void BoiteSegment::setConsommation(double nouvelleConsommation)
         this->setStyleSheet("background-color: #6bff6b; border-radius: 15px;");
     }
 }
+
+int BoiteSegment::getIdSegment()
+{
+    return idSegment;
+}
