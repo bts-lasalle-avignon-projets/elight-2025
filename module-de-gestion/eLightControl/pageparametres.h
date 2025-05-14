@@ -4,8 +4,6 @@
 #include <QtWidgets>
 #include "communicationbasededonnees.h"
 
-class CommunicationBaseDeDonnees;
-
 class PageParametres : public QWidget
 {
     Q_OBJECT

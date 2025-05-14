@@ -120,7 +120,7 @@ void PageParametres::chargerIpBoitierDepuisBDD()
 
         while(requete.next())
         {
-            boiteIp->setPlaceholderText(requete.value(0).toString());
+            boiteIp->setText(requete.value(0).toString());
         }
     }
     else
