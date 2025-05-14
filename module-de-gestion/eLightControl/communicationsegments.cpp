@@ -1,7 +1,8 @@
 #include "communicationsegments.h"
 #include <QDebug>
 
-CommunicationSegments::CommunicationSegments(QObject* parent) : QObject(parent)
+CommunicationSegments::CommunicationSegments(QObject* parent) :
+    QObject(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
 {
     qDebug() << Q_FUNC_INFO << this << "parent" << parent;
     initialiserSocket();
@@ -28,15 +29,13 @@ void CommunicationSegments::initialiserSocket()
     if(!udpSocket->bind(QHostAddress::Any, portWebSocket))
     {
         qWarning() << Q_FUNC_INFO
-                   << "Erreur de binding sur le port " +
-                        QString::number(portWebSocket);
+                   << " Erreur binding " + QString::number(portWebSocket);
         return;
     }
     else
     {
         qDebug() << Q_FUNC_INFO
-                 << "Connexion réussie sur le port " +
-                      QString::number(portWebSocket);
+                 << " Connexion " + QString::number(portWebSocket);
     }
 
     connect(udpSocket,
@@ -61,19 +60,73 @@ void CommunicationSegments::traiterTrameRecue()
 
         QString trame = QString::fromUtf8(donneesRecues).trimmed();
 
-        QString adresseSourceReglee = adresseSource.toString();
-
-        if(adresseSourceReglee.startsWith("::ffff:"))
-            adresseSourceReglee = adresseSourceReglee.mid(7);
-
         if(trame.startsWith("#"))
         {
             trame.remove(0, 1);
 
-            float consommation = trame.toFloat();
+            QStringList elements = trame.split(";");
 
-            qDebug() << "Source : " + adresseSourceReglee +
-                          " consommation : " + QString::number(consommation);
+            if(elements.size() != 2)
+            {
+                qWarning() << Q_FUNC_INFO << " Trame invalide " << trame;
+                return;
+            }
+
+            QString type    = elements[0].trimmed();
+            QString donnees = elements[1].trimmed();
+
+            QString adresseSourceReglee = adresseSource.toString();
+
+            if(adresseSourceReglee.startsWith("::ffff:"))
+                adresseSourceReglee = adresseSourceReglee.mid(7);
+
+            if(type == "C")
+            {
+                traiterTramePuissance(adresseSourceReglee, donnees);
+            }
+        }
+    }
+}
+
+void CommunicationSegments::traiterTramePuissance(const QString& ipSource,
+                                                  const QString& donnees)
+{
+    int idSegment;
+
+    recupererIdSegment(ipSource, idSegment);
+
+    float consommation = donnees.toFloat();
+
+    emit consommationSegmentRecue(idSegment, consommation);
+
+    qDebug() << "Source : " + ipSource + " idSegment : " + idSegment +
+                  " consommation : " + QString::number(consommation);
+}
+
+void CommunicationSegments::recupererIdSegment(QString adresseSourceReglee,
+                                               int&    idSegment)
+{
+    QSqlQuery requete;
+
+    requete.prepare(
+      "SELECT id_segment FROM segment WHERE ip_segment = :ip_segment");
+
+    requete.bindValue(":ip_segment", adresseSourceReglee);
+
+    if(!requete.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
+    }
+    else
+    {
+        if(requete.next())
+        {
+            idSegment = requete.value(0).toInt();
+            qDebug() << Q_FUNC_INFO << " idSegment " << idSegment;
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << " zero résultat " << adresseSourceReglee;
         }
     }
 }

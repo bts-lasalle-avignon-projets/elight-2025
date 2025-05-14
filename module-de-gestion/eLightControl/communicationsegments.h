@@ -13,13 +13,17 @@ class CommunicationSegments : public QObject
   public:
     explicit CommunicationSegments(QObject* parent = nullptr);
     ~CommunicationSegments();
+    void recupererIdSegment(QString adresseSourceReglee, int& idSegment);
+    void traiterTramePuissance(const QString& ipSource, const QString& donnees);
 
   private:
-    QUdpSocket* udpSocket;
-    int         portWebSocket;
-    void        initialiserSocket();
+    QUdpSocket*                 udpSocket;
+    int                         portWebSocket;
+    CommunicationBaseDeDonnees& baseDeDonnees;
+    void                        initialiserSocket();
 
   signals:
+    void consommationSegmentRecue(int idSegment, float consommation);
 
   private slots:
     void traiterTrameRecue();
