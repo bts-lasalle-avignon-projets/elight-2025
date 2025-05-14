@@ -88,6 +88,20 @@ PageAccueil::PageAccueil(QWidget* parent) :
     });
 
     communicationSegments = new CommunicationSegments(this);
+
+    connect(communicationSegments,
+            &CommunicationSegments::consommationSegmentRecue,
+            this,
+            [=](int idSegment, float consommation) {
+                for(BoiteSegment* segment: listeSegments)
+                {
+                    if(segment->getIdSegment() == idSegment)
+                    {
+                        segment->setConsommation(consommation);
+                        break;
+                    }
+                }
+            });
 }
 
 PageAccueil::~PageAccueil()
