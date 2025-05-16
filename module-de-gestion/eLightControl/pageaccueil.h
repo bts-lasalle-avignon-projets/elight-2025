@@ -11,6 +11,12 @@
  */
 #define COLONNES_MAX 3
 
+/**
+ * @def PUISSANCE_DEFAUT
+ * @brief Puissance par défaut
+ */
+#define PUISSANCE_DEFAUT 0
+
 class BoiteSegment;
 
 class PageAccueil : public QWidget

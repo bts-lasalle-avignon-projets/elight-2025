@@ -90,14 +90,14 @@ PageAccueil::PageAccueil(QWidget* parent) :
     communicationSegments = new CommunicationSegments(this);
 
     connect(communicationSegments,
-            &CommunicationSegments::consommationSegmentRecue,
+            &CommunicationSegments::puissanceInstantaneeSegmentRecue,
             this,
-            [=](int idSegment, float consommation) {
+            [=](int idSegment, float nouvellePuissance) {
                 for(BoiteSegment* segment: listeSegments)
                 {
                     if(segment->getIdSegment() == idSegment)
                     {
-                        segment->setConsommation(consommation);
+                        segment->setPuissance(nouvellePuissance);
                         break;
                     }
                 }
@@ -299,7 +299,7 @@ void PageAccueil::chargerSegmentsDepuisBDD()
 
             layoutSegments->addWidget(labelSegmentId, ligne, colonne);
             layoutSegments->addWidget(segment, ligne + 1, colonne);
-            segment->setConsommation(0);
+            segment->setPuissance(0);
 
             colonne++;
             if(colonne >= COLONNES_MAX)

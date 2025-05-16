@@ -23,7 +23,7 @@ class CommunicationSegments : public QObject
     void                        initialiserSocket();
 
   signals:
-    void consommationSegmentRecue(int idSegment, float consommation);
+    void puissanceInstantaneeSegmentRecue(int idSegment, float puissance);
 
   private slots:
     void traiterTrameRecue();

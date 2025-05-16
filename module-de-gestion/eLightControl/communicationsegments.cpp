@@ -80,7 +80,7 @@ void CommunicationSegments::traiterTrameRecue()
             if(adresseSourceReglee.startsWith("::ffff:"))
                 adresseSourceReglee = adresseSourceReglee.mid(7);
 
-            if(type == "C")
+            if(type == "P")
             {
                 traiterTramePuissance(adresseSourceReglee, donnees);
             }
@@ -95,12 +95,12 @@ void CommunicationSegments::traiterTramePuissance(const QString& ipSource,
 
     recupererIdSegment(ipSource, idSegment);
 
-    float consommation = donnees.toFloat();
+    float puissance = donnees.toFloat();
 
-    emit consommationSegmentRecue(idSegment, consommation);
+    emit puissanceInstantaneeSegmentRecue(idSegment, puissance);
 
     qDebug() << "Source : " + ipSource + " idSegment : " + idSegment +
-                  " consommation : " + QString::number(consommation);
+                  " puissance : " + QString::number(puissance);
 }
 
 void CommunicationSegments::recupererIdSegment(QString adresseSourceReglee,
