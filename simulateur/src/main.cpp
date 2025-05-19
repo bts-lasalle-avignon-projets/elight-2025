@@ -9,13 +9,30 @@
 #include <afficheur.h>
 #include <WiFiManager.h>
 #include <ESPmDNS.h>
+#include <BlueDot_BME280_TSL2591.h>
 
 // Configuration
 
 // cf. platformio.ini (option -D)
 #define NOM_SALLE "B20"
 //#define NUMERO_SEGMENT 1
-#define PERIODE_SIGNALEMENT_SALLE 10000 //!< période de signalement de la salle
+/*
+    Ce segment est équipé de 3 Panneaux LED 120x30 29W Haut Rendement 137 lm/W
+*/
+#define SUPERFICIE_SALLE   150 //!< surface de la salle (en m²)
+#define NB_SEGMENTS        5   //!<
+#define SUPERFICIE_SEGMENT (SUPERFICIE_SALLE / NB_SEGMENTS)
+#define NB_PANNEAUX        3  //!< nombre de panneaux
+#define PUISSANCE_PANNEAU  29 //!< puissance d'un panneau (en W)
+#define PUISSANCE_TOTALE                                                       \
+    (NB_PANNEAUX * PUISSANCE_PANNEAU) //!< puissance totale (en W)
+#define LUMEN_PAR_WATT 137            //!< lumen par watt
+#define LUMEN_PAR_PANNEAU                                                      \
+    (PUISSANCE_PANNEAU * LUMEN_PAR_WATT) //!< lumen par panneau
+#define LUMINOSITE_PAR_DEFAUT 500        //!< luminosité par défaut (en lx)
+
+#define PERIODE_SIGNALEMENT_SALLE 30000 //!< période de signalement de la salle
+#define PERIODE_ACQUISITION       500   // en ms
 
 // Choix communication
 #define COMMUNICATION_UDP       1
@@ -40,17 +57,18 @@
 #define LONGUEUR_CHAMP 16 //!< longueur d'un champ (eeprom)
 
 // Brochages
-#define GPIO_LED_ROUGE   5  //!<
-#define GPIO_LED_ORANGE  17 //!<
-#define GPIO_LED_VERTE   16 //!<
-#define GPIO_SW1         12 //!<
-#define GPIO_SW2         14 //!<
-#define GPIO_ENCODEUR_A  2
-#define GPIO_ENCODEUR_B  4
-#define GPIO_ENCODEUR_E  13
-#define ADRESSE_I2C_OLED 0x3c //!< Adresse I2C de l'OLED
-#define BROCHE_I2C_SDA   21   //!< Broche SDA
-#define BROCHE_I2C_SCL   22   //!< Broche SCL
+#define GPIO_LED_ROUGE      5  //!<
+#define GPIO_LED_ORANGE     17 //!<
+#define GPIO_LED_VERTE      16 //!<
+#define GPIO_SW1            12 //!<
+#define GPIO_SW2            14 //!<
+#define GPIO_ENCODEUR_A     2
+#define GPIO_ENCODEUR_B     4
+#define GPIO_ENCODEUR_E     13
+#define ADRESSE_I2C_OLED    0x3c //!< Adresse I2C de l'OLED
+#define BROCHE_I2C_SDA      21   //!< Broche SDA
+#define BROCHE_I2C_SCL      22   //!< Broche SCL
+#define ADRESSE_I2C_TSL2591 0x29 //!< Adresse I2C du TSL2591
 
 // Protocole (cf. Google Drive)
 #define EN_TETE_TRAME    "#"
@@ -75,6 +93,20 @@ uint16_t        port = PORT_WEBSOCKET; //!< le port de communication
 ClientWebSocket clientWebSocket;       //!< le client WebSocket
 #endif
 
+BlueDot_BME280_TSL2591 tsl2591; //!< capteur d'éclairement lumineux
+bool                   tsl2591Initialise = false;
+uint32_t               luminosite        = 0;
+uint32_t               intensiteScenario =
+  LUMINOSITE_PAR_DEFAUT;           // en lx (NF EN 12464-1 pour les salles)
+uint32_t puissanceInstantanee = 0; // en W
+/*
+40 W -> 440 lm
+75 W -> 990 lm
+100 W -> 1420 lm
+150 W -> 2290 lm
+200 W -> 3200 lm
+*/
+
 String strNomSalle = String(NOM_SALLE);           //!< le nom de la salle
 char   prefNomSalle[LONGUEUR_CHAMP + 1];          //!< le nom de la salle
 int    numeroSegment    = NUMERO_SEGMENT;         //!< le numéro de segment
@@ -82,7 +114,8 @@ String strNumeroSegment = String(NUMERO_SEGMENT); //!< le numéro de segment
 char   prefNumeroSegment[LONGUEUR_CHAMP + 1];     //!< la surface de la salle
 String nomESP32 =
   "elight-" + strNomSalle + "-" + strNumeroSegment; //!< le nom de l'ESP32
-unsigned long tempsPrecedent = 0;
+unsigned long tempsPrecedentSignalement = 0;
+unsigned long tempsPrecedentAcquisition = 0;
 bool          refresh = false; //!< demande rafraichissement de l'écran OLED
 bool          resetEnCours = false; //!< demande de reset
 bool          antiRebond   = false; //!< anti-rebond
@@ -92,6 +125,82 @@ Afficheur     afficheur(ADRESSE_I2C_OLED,
 String        entete     = String(EN_TETE_TRAME);    // caractère séparateur
 String        separateur = String(DELIMITEUR_CHAMP); // caractère séparateur
 String        delimiteurFin = String(DELIMITEURS_FIN); // fin de message
+
+void configurerTSL2591()
+{
+    tsl2591.parameter.I2CAddress = ADRESSE_I2C_TSL2591;
+
+    // 0b00:    Low gain mode
+    // 0b01:    Medium gain mode
+    // 0b10:    High gain mode
+    // 0b11:    Maximum gain mode
+
+    tsl2591.parameter.gain = 0b01;
+
+    // 0b000:   100ms (max count = 37888)
+    // 0b001:   200ms (max count = 65535)
+    // 0b010:   300ms (max count = 65535)
+    // 0b011:   400ms (max count = 65535)
+    // 0b100:   500ms (max count = 65535)
+    // 0b101:   600ms (max count = 65535)
+
+    tsl2591.parameter.integration = 0b000;
+
+    tsl2591.config_TSL2591();
+#ifdef DEBUG
+    Serial.println("[elight] TSL2591     : " +
+                   String(ADRESSE_I2C_TSL2591, HEX));
+    Serial.println("[elight] Gain        : medium");
+    Serial.println("[elight] Integration : 100 ms");
+#endif
+
+    if(tsl2591.init_TSL2591() != 0x50)
+    {
+        tsl2591Initialise = false;
+#ifdef DEBUG
+        Serial.println("[elight] TSL2591     : " + String("non détecté !"));
+#endif
+
+        /*while(true)
+            ;*/
+    }
+    else
+    {
+        tsl2591Initialise = true;
+    }
+}
+
+bool acquerirEclairement()
+{
+    if(!tsl2591Initialise)
+        return false;
+
+    luminosite = uint32_t(tsl2591.readIlluminance_TSL2591());
+#ifdef DEBUG
+    // Serial.println("[elight] Luminosite : " + String(luminosite) +
+    // String(" lx"));
+#endif
+
+    return true;
+}
+
+uint32_t calculerPuissanceInstantanee()
+{
+    if(luminosite < intensiteScenario)
+    {
+        puissanceInstantanee =
+          uint32_t(float(LUMEN_PAR_PANNEAU) / float(SUPERFICIE_SEGMENT));
+    }
+    else
+    {
+        puissanceInstantanee = 0;
+    }
+#ifdef DEBUG
+    // Serial.println("[elight] Puissance : " + String(puissanceInstantanee) +
+    //               String(" W"));
+#endif
+    return puissanceInstantanee;
+}
 
 String extraireChampMessage(const String& message, unsigned int numeroChamp)
 {
@@ -123,7 +232,7 @@ String extraireChampMessage(const String& message, unsigned int numeroChamp)
 
 bool verifierMessage(const String& message)
 {
-    if(message.length() < delimiteurFin.length())
+    if(message.length() <= delimiteurFin.length())
     {
 #ifdef DEBUG
         Serial.println("[elight] erreur longueur !");
@@ -152,14 +261,27 @@ bool verifierMessage(const String& message)
  * @param intervalle unsigned long
  * @return bool true si la durée est arrivée à échéance
  */
-bool estEcheance(unsigned long intervalle)
+bool estEcheanceSignalement(unsigned long intervalle)
 {
     if(intervalle == 0)
         return false;
     unsigned long temps = millis();
-    if(temps - tempsPrecedent >= intervalle)
+    if(temps - tempsPrecedentSignalement >= intervalle)
     {
-        tempsPrecedent = temps;
+        tempsPrecedentSignalement = temps;
+        return true;
+    }
+    return false;
+}
+
+bool estEcheanceAcquisition(unsigned long intervalle)
+{
+    if(intervalle == 0)
+        return false;
+    unsigned long temps = millis();
+    if(temps - tempsPrecedentAcquisition >= intervalle)
+    {
+        tempsPrecedentAcquisition = temps;
         return true;
     }
     return false;
@@ -233,11 +355,11 @@ void afficherAccueil()
                               strChoixCommunication + " " +
                                 WiFi.localIP().toString() + ":" +
                                 strNumeroPort);
-    afficheur.setMessageLigne(Afficheur::Ligne2, "Salle " + strNomSalle);
-    afficheur.setMessageLigne(Afficheur::Ligne3, "Segment " + strNumeroSegment);
+    afficheur.setMessageLigne(Afficheur::Ligne2,
+                              "Salle " + strNomSalle + " - " + "Segment " +
+                                strNumeroSegment);
+    afficheur.setMessageLigne(Afficheur::Ligne3, "");
     afficheur.setMessageLigne(Afficheur::Ligne4, "");
-    afficheur.afficher();
-
     afficheur.afficher();
 }
 
@@ -275,6 +397,8 @@ void setup()
     Serial.begin(115200);
     while(!Serial)
         ;
+    delay(250);
+    Wire.begin();
 
 #ifdef DEBUG
     Serial.println("[elight] elight 2025");
@@ -294,6 +418,9 @@ void setup()
 
     // Pour le reset
     attachInterrupt(digitalPinToInterrupt(GPIO_SW1), demanderReset, FALLING);
+
+    // Initialise le capteur TSL2591
+    configurerTSL2591();
 
     // Initialise l'afficheur OLED
     afficheur.initialiser();
@@ -340,7 +467,6 @@ void setup()
     // chargerInformations();
 
     // initialise le générateur pseudo-aléatoire
-    // Serial.println(randomSeed(analogRead(34)));
     esp_random();
 
     adresseIP   = WiFi.localIP();
@@ -360,6 +486,9 @@ void setup()
 #elif CHOIX_COMMUNICATION == COMMUNICATION_WEBSOCKET
     initialiserWebSocket();
 #endif
+
+    tempsPrecedentSignalement = millis();
+    tempsPrecedentAcquisition = millis();
 }
 
 /**
@@ -396,7 +525,7 @@ void loop()
         lancerReset();
     }
 
-    if(estEcheance(PERIODE_SIGNALEMENT_SALLE)) // timeout
+    if(estEcheanceSignalement(PERIODE_SIGNALEMENT_SALLE)) // timeout
     {
         String messageSignalement = String(EN_TETE_TRAME) + strNomSalle +
                                     separateur + strNumeroSegment +
@@ -408,23 +537,73 @@ void loop()
 #endif
     }
 
+    if(estEcheanceAcquisition(PERIODE_ACQUISITION)) // acquisition
+    {
+        if(acquerirEclairement())
+        {
+            puissanceInstantanee = calculerPuissanceInstantanee();
+            afficheur.setMessageLigne(Afficheur::Ligne4,
+                                      String(luminosite) + " lx -> " +
+                                        String(puissanceInstantanee) + " W");
+            afficheur.afficher();
+        }
+    }
+
 #if CHOIX_COMMUNICATION == COMMUNICATION_UDP
     if(recevoirMessageUDP(clientUDP, DELIMITEUR_FIN))
     {
         if(verifierMessage(clientUDP.message))
         {
-            String nomSalleMessage =
-              extraireChampMessage(clientUDP.message, CHAMP_SALLE_UDP);
+            String typeMessage =
+              extraireChampMessage(clientUDP.message, CHAMP_TYPE_UDP);
             String datasMessage =
               extraireChampMessage(clientUDP.message, CHAMP_DATAS_UDP);
 #ifdef DEBUG
-            Serial.println("[elight] nom salle   : " + nomSalleMessage);
-            Serial.println("[elight] datas salle : " + datasMessage);
+            Serial.println("[elight] type message  : " + typeMessage);
+            Serial.println("[elight] datas message : " + datasMessage);
 #endif
-            // echo
-            envoyerMessageUDP(clientUDP.adresseIP,
-                              clientUDP.port,
-                              clientUDP.message);
+            switch(typeMessage[0])
+            {
+                case 'I': // Intensité
+                    intensiteScenario =
+                      datasMessage.toInt(); // conversion en entier
+                    afficheur.setMessageLigne(Afficheur::Ligne3,
+                                              "I : " + datasMessage + " lx");
+                    afficheur.afficher();
+#if CHOIX_COMMUNICATION == COMMUNICATION_UDP
+                    envoyerMessageUDP(broadcastIP,
+                                      port,
+                                      String(EN_TETE_TRAME) + String("A") +
+                                        separateur + String("0") +
+                                        delimiteurFin);
+#elif CHOIX_COMMUNICATION == COMMUNICATION_WEBSOCKET
+                    envoyerMessageWebSocket(String(EN_TETE_TRAME) +
+                                            String("A") + separateur +
+                                            String("0") + delimiteurFin);
+#endif
+                    break;
+                case 'P': // Demande puissance
+                    puissanceInstantanee = calculerPuissanceInstantanee();
+#if CHOIX_COMMUNICATION == COMMUNICATION_UDP
+                    envoyerMessageUDP(
+                      broadcastIP,
+                      port,
+                      String(EN_TETE_TRAME) + String("P") + separateur +
+                        String(puissanceInstantanee) + delimiteurFin);
+#elif CHOIX_COMMUNICATION == COMMUNICATION_WEBSOCKET
+                    envoyerMessageWebSocket(
+                      String(EN_TETE_TRAME) + String("P") + separateur +
+                      String(puissanceInstantanee) + delimiteurFin);
+#endif
+                    break;
+                case 'A': // Acquittement
+
+                    break;
+                default:
+#ifdef DEBUG
+                    Serial.println("[elight] type message inconnu !");
+#endif
+            }
         }
     }
 #elif CHOIX_COMMUNICATION == COMMUNICATION_WEBSOCKET
