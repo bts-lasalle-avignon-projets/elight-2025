@@ -9,6 +9,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     communicationbasededonnees.cpp \
+    communicationwifi.cpp \
     editionsalle.cpp \
     historique.cpp \
     main.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     communicationbasededonnees.h \
+    communicationwifi.h \
     config.h \
     editionsalle.h \
     elight.h \
