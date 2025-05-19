@@ -12,27 +12,38 @@
 #include <BlueDot_BME280_TSL2591.h>
 
 // Configuration
-
-// cf. platformio.ini (option -D)
 #define NOM_SALLE "B20"
-//#define NUMERO_SEGMENT 1
+//#define NUMERO_SEGMENT 1 // cf. platformio.ini (option -D)
+#define SUPERFICIE_SALLE 150 //!< surface de la salle (en m²)
+#define NB_SEGMENTS      5   //!< nombre de segments
 /*
-    Ce segment est équipé de 3 Panneaux LED 120x30 29W Haut Rendement 137 lm/W
+#define NOM_SALLE "B21"
+//#define NUMERO_SEGMENT 1 // cf. platformio.ini (option -D)
+#define SUPERFICIE_SALLE 95 //!< surface de la salle (en m²)
+#define NB_SEGMENTS      3   //!< nombre de segments
 */
-#define SUPERFICIE_SALLE   150 //!< surface de la salle (en m²)
-#define NB_SEGMENTS        5   //!<
-#define SUPERFICIE_SEGMENT (SUPERFICIE_SALLE / NB_SEGMENTS)
-#define NB_PANNEAUX        3  //!< nombre de panneaux
-#define PUISSANCE_PANNEAU  29 //!< puissance d'un panneau (en W)
-#define PUISSANCE_TOTALE                                                       \
-    (NB_PANNEAUX * PUISSANCE_PANNEAU) //!< puissance totale (en W)
-#define LUMEN_PAR_WATT 137            //!< lumen par watt
-#define LUMEN_PAR_PANNEAU                                                      \
-    (PUISSANCE_PANNEAU * LUMEN_PAR_WATT) //!< lumen par panneau
-#define LUMINOSITE_PAR_DEFAUT 500        //!< luminosité par défaut (en lx)
+/*
+#define NOM_SALLE "B22"
+//#define NUMERO_SEGMENT 1 // cf. platformio.ini (option -D)
+#define SUPERFICIE_SALLE 95 //!< surface de la salle (en m²)
+#define NB_SEGMENTS      3   //!< nombre de segments
+*/
+/*
+    Un segment est équipé par exemple de 3 Panneaux LED 60x60 27W 3200lm 118,5
+   lm/W
+*/
+#define NB_PANNEAUX_SEGMENT 3    //!< nombre de panneaux par segments
+#define PUISSANCE_PANNEAU   29   //!< puissance d'un panneau (en W)
+#define LUMEN_PANNEAU       4000 //!< lumen pour un panneau
+#define PUISSANCE_SEGMENT                                                      \
+    (PUISSANCE_PANNEAU * NB_PANNEAUX_SEGMENT) //!< puissance d'un segment (en W)
+#define LUMINOSITE_PAR_DEFAUT 250 //!< luminosité par défaut (en lx)
 
-#define PERIODE_SIGNALEMENT_SALLE 30000 //!< période de signalement de la salle
-#define PERIODE_ACQUISITION       500   // en ms
+// Périodes
+#define PERIODE_SIGNALEMENT_SALLE                                              \
+    (60 * 1000) //!< période de diffusion des informations de la salle
+#define PERIODE_ACQUISITION                                                    \
+    500 //!< période d'acquisition de l'éclairement (en ms)
 
 // Choix communication
 #define COMMUNICATION_UDP       1
@@ -99,19 +110,15 @@ uint32_t               luminosite        = 0;
 uint32_t               intensiteScenario =
   LUMINOSITE_PAR_DEFAUT;           // en lx (NF EN 12464-1 pour les salles)
 uint32_t puissanceInstantanee = 0; // en W
-/*
-40 W -> 440 lm
-75 W -> 990 lm
-100 W -> 1420 lm
-150 W -> 2290 lm
-200 W -> 3200 lm
-*/
-
-String strNomSalle = String(NOM_SALLE);           //!< le nom de la salle
-char   prefNomSalle[LONGUEUR_CHAMP + 1];          //!< le nom de la salle
-int    numeroSegment    = NUMERO_SEGMENT;         //!< le numéro de segment
-String strNumeroSegment = String(NUMERO_SEGMENT); //!< le numéro de segment
-char   prefNumeroSegment[LONGUEUR_CHAMP + 1];     //!< la surface de la salle
+String   strNomSalle          = String(NOM_SALLE); //!< le nom de la salle
+char     prefNomSalle[LONGUEUR_CHAMP + 1];         //!< le nom de la salle
+int      numeroSegment = NUMERO_SEGMENT;           //!< le numéro de segment
+int      nbSegments    = NB_SEGMENTS;              //!< le numéro de segment
+float    surfaceSegment =
+  float(SUPERFICIE_SALLE / float(NB_SEGMENTS)); //!< la surface d'un segment'
+float lumenParWatt =
+  float(LUMEN_PANNEAU / float(PUISSANCE_PANNEAU)); //!< lumen par watt
+String strNumeroSegment = String(NUMERO_SEGMENT);  //!< le numéro de segment
 String nomESP32 =
   "elight-" + strNomSalle + "-" + strNumeroSegment; //!< le nom de l'ESP32
 unsigned long tempsPrecedentSignalement = 0;
@@ -178,7 +185,7 @@ bool acquerirEclairement()
     luminosite = uint32_t(tsl2591.readIlluminance_TSL2591());
 #ifdef DEBUG
     // Serial.println("[elight] Luminosite : " + String(luminosite) +
-    // String(" lx"));
+    //              String(" lx"));
 #endif
 
     return true;
@@ -186,18 +193,26 @@ bool acquerirEclairement()
 
 uint32_t calculerPuissanceInstantanee()
 {
-    if(luminosite < intensiteScenario)
+    int32_t deficitEclairement = intensiteScenario - luminosite;
+
+    if(deficitEclairement > 0)
     {
         puissanceInstantanee =
-          uint32_t(float(LUMEN_PAR_PANNEAU) / float(SUPERFICIE_SEGMENT));
+          uint32_t((float(deficitEclairement) * surfaceSegment) / lumenParWatt);
+        if(puissanceInstantanee > PUISSANCE_SEGMENT)
+        {
+            puissanceInstantanee = PUISSANCE_SEGMENT;
+        }
     }
     else
     {
         puissanceInstantanee = 0;
     }
 #ifdef DEBUG
-    // Serial.println("[elight] Puissance : " + String(puissanceInstantanee) +
-    //               String(" W"));
+    // Serial.println("[elight] Déficit éclairement : " + String(delta) +
+    // String(" lx"));
+    // Serial.println("[elight] Puissance : " +
+    // String(puissanceInstantanee) + String(" W"));
 #endif
     return puissanceInstantanee;
 }
@@ -235,7 +250,7 @@ bool verifierMessage(const String& message)
     if(message.length() <= delimiteurFin.length())
     {
 #ifdef DEBUG
-        Serial.println("[elight] erreur longueur !");
+        // Serial.println("[elight] erreur longueur !");
 #endif
         return false;
     }
@@ -287,26 +302,6 @@ bool estEcheanceAcquisition(unsigned long intervalle)
     return false;
 }
 
-void chargerInformations()
-{
-#ifdef DEBUG
-    Serial.println("[elight] charge les informations stockées en eeprom");
-#endif
-    // initialise le stockage interne
-    if(preferences.getBytes("salle", prefNomSalle, LONGUEUR_CHAMP) > 0)
-    {
-        strNomSalle = String(prefNomSalle);
-    }
-    else
-        strNomSalle = String(NOM_SALLE);
-    if(preferences.getBytes("segment", prefNumeroSegment, LONGUEUR_CHAMP) > 0)
-    {
-        strNumeroSegment = String(prefNumeroSegment);
-    }
-    else
-        strNumeroSegment = String(NUMERO_SEGMENT);
-}
-
 void reinitialiserAffichage()
 {
     afficheur.setMessageLigne(Afficheur::Ligne1, ""); //
@@ -327,10 +322,10 @@ void afficherWifi(String message, bool etat)
     afficheur.afficher();
 }
 
-void afficherReset()
+void afficherReset(String message)
 {
-    afficheur.setMessageLigne(Afficheur::Ligne1, "Reset parametres WiFi");
-    afficheur.setMessageLigne(Afficheur::Ligne2, "SSID " + WiFi.SSID());
+    afficheur.setMessageLigne(Afficheur::Ligne1, message);
+    afficheur.setMessageLigne(Afficheur::Ligne2, "");
     afficheur.setMessageLigne(Afficheur::Ligne3, "Redemarrage");
     afficheur.setMessageLigne(Afficheur::Ligne4, "dans 2 secondes ...");
     afficheur.afficher();
@@ -358,7 +353,7 @@ void afficherAccueil()
     afficheur.setMessageLigne(Afficheur::Ligne2,
                               "Salle " + strNomSalle + " - " + "Segment " +
                                 strNumeroSegment);
-    afficheur.setMessageLigne(Afficheur::Ligne3, "");
+    // afficheur.setMessageLigne(Afficheur::Ligne3, "");
     afficheur.setMessageLigne(Afficheur::Ligne4, "");
     afficheur.afficher();
 }
@@ -381,8 +376,45 @@ void lancerReset()
 #ifdef DEBUG
     Serial.println("[elight] reset !");
 #endif
-    afficherReset();
+    afficherReset("Reset parametres WiFi");
     wm.resetSettings();
+    ESP.restart();
+}
+
+void chargerConfiguration()
+{
+#ifdef DEBUG
+    Serial.println("[elight] charge la configuration stockée en eeprom");
+#endif
+    if(preferences.getBytes("salle", prefNomSalle, LONGUEUR_CHAMP) > 0)
+    {
+        strNomSalle = String(prefNomSalle);
+    }
+    else
+        strNomSalle = String(NOM_SALLE);
+    numeroSegment    = preferences.getInt("segment", NUMERO_SEGMENT);
+    strNumeroSegment = String(numeroSegment);
+    nbSegments       = preferences.getInt("nbSegments", NB_SEGMENTS);
+    surfaceSegment   = float(SUPERFICIE_SALLE / float(nbSegments));
+    nomESP32 =
+      "elight-" + strNomSalle + "-" + strNumeroSegment; //!< le nom de l'ESP32
+}
+
+void sauvegarderConfiguration(const String& nomSalleMessage,
+                              const String& numeroSegmentMessage,
+                              const String& nbSegmentsMessage,
+                              const String& superficieSalleMessage)
+{
+#ifdef DEBUG
+    Serial.println("[elight] sauvegarde la configuration stockée en eeprom");
+#endif
+    preferences.putBytes("salle",
+                         nomSalleMessage.c_str(),
+                         nomSalleMessage.length() + 1);
+    preferences.putInt("segment", numeroSegmentMessage.toInt());
+    preferences.putInt("nbSegments", nbSegmentsMessage.toInt());
+    preferences.putInt("superficie", superficieSalleMessage.toInt());
+    afficherReset("Reset configuration");
     ESP.restart();
 }
 
@@ -400,11 +432,18 @@ void setup()
     delay(250);
     Wire.begin();
 
+    // Initialise le stockage interne
+    preferences.begin("eeprom", false); // false pour r/w
+
+    chargerConfiguration();
+
 #ifdef DEBUG
     Serial.println("[elight] elight 2025");
-    Serial.println("[elight] salle   : " + String(NOM_SALLE));
-    Serial.println("[elight] segment : " + String(NUMERO_SEGMENT));
-    Serial.println("[elight] adresse MAC : " + WiFi.macAddress());
+    Serial.println("[elight] salle       : " + String(NOM_SALLE));
+    Serial.println("[elight] segment     : " + String(NUMERO_SEGMENT) +
+                   String(" / ") + String(NB_SEGMENTS));
+    Serial.println("[elight] surface     : " + String(SUPERFICIE_SALLE) +
+                   String(" m²"));
 #endif
 
     // Configuration E/S
@@ -430,9 +469,6 @@ void setup()
     afficheur.setTitre(titre);
     afficheur.setSTitre(soustitre);
     afficherWifi("Demarrage Wifi", false);
-
-    // Initialise le stockage interne
-    preferences.begin("eeprom", false); // false pour r/w
 
     // Gestion WiFi
     wm.setTitle("BTS CIEL LaSalle Avignon");
@@ -463,6 +499,11 @@ void setup()
 
     // wm.setConfigResetCallback(lancerReset);
 
+    soustitre = String("== ") + WiFi.macAddress() + String(" ==");
+    afficheur.setSTitre(soustitre);
+    afficheur.setMessageLigne(Afficheur::Ligne3,
+                              "-> " + String(intensiteScenario) + " lx");
+    afficheur.afficher();
     afficherAccueil();
     // chargerInformations();
 
@@ -470,12 +511,13 @@ void setup()
     esp_random();
 
     adresseIP   = WiFi.localIP();
-    broadcastIP = WiFi.broadcastIP();
+    broadcastIP = IPAddress("255.255.255.255"); // WiFi.broadcastIP();
 
 #ifdef DEBUG
     Serial.println("[elight] adresse MAC : " + WiFi.macAddress());
     Serial.println("[elight] Adresse IP : " + adresseIP.toString());
-    Serial.println("[elight] Adresse broadcast : " + broadcastIP.toString());
+    Serial.println("[elight] Adresse broadcast : " + broadcastIP.toString() +
+                   String(" (") + WiFi.broadcastIP().toString() + String(")"));
 #endif
 #if CHOIX_COMMUNICATION == COMMUNICATION_UDP
     multicastIP.fromString(ADRESSE_MULTICAST);
@@ -489,6 +531,15 @@ void setup()
 
     tempsPrecedentSignalement = millis();
     tempsPrecedentAcquisition = millis();
+    String messageDiffusion = String(EN_TETE_TRAME) + String("S") + separateur +
+                              strNomSalle + separateur + strNumeroSegment +
+                              separateur + String(NB_SEGMENTS) + separateur +
+                              String(SUPERFICIE_SALLE) + delimiteurFin;
+#if CHOIX_COMMUNICATION == COMMUNICATION_UDP
+    envoyerMessageUDP(broadcastIP, port, messageDiffusion);
+#elif CHOIX_COMMUNICATION == COMMUNICATION_WEBSOCKET
+    envoyerMessageWebSocket(messageDiffusion);
+#endif
 }
 
 /**
@@ -527,13 +578,14 @@ void loop()
 
     if(estEcheanceSignalement(PERIODE_SIGNALEMENT_SALLE)) // timeout
     {
-        String messageSignalement = String(EN_TETE_TRAME) + strNomSalle +
-                                    separateur + strNumeroSegment +
-                                    delimiteurFin;
+        String messageDiffusion =
+          String(EN_TETE_TRAME) + String("S") + separateur + strNomSalle +
+          separateur + strNumeroSegment + separateur + String(NB_SEGMENTS) +
+          separateur + String(SUPERFICIE_SALLE) + delimiteurFin;
 #if CHOIX_COMMUNICATION == COMMUNICATION_UDP
-        envoyerMessageUDP(broadcastIP, port, messageSignalement);
+        envoyerMessageUDP(broadcastIP, port, messageDiffusion);
 #elif CHOIX_COMMUNICATION == COMMUNICATION_WEBSOCKET
-        envoyerMessageWebSocket(messageSignalement);
+        envoyerMessageWebSocket(messageDiffusion);
 #endif
     }
 
@@ -558,21 +610,44 @@ void loop()
               extraireChampMessage(clientUDP.message, CHAMP_TYPE_UDP);
             String datasMessage =
               extraireChampMessage(clientUDP.message, CHAMP_DATAS_UDP);
+            String nomSalleMessage, numeroSegmentMessage, nbSegmentsMessage,
+              superficieSalleMessage;
 #ifdef DEBUG
             Serial.println("[elight] type message  : " + typeMessage);
             Serial.println("[elight] datas message : " + datasMessage);
 #endif
             switch(typeMessage[0])
             {
+                case 'A': // Acquittement
+                    break;
+                case 'C': // Configuration
+                    // #C;NOM_SALLE;NUMERO_SEGMENT;NB_SEGMENTS;SUPERFICIE_SALLE\r\n
+                    nomSalleMessage =
+                      extraireChampMessage(clientUDP.message,
+                                           CHAMP_DATAS_NOM_SALLE);
+                    numeroSegmentMessage =
+                      extraireChampMessage(clientUDP.message,
+                                           CHAMP_DATAS_NUMERO_SEGMENT);
+                    nbSegmentsMessage =
+                      extraireChampMessage(clientUDP.message,
+                                           CHAMP_DATAS_NB_SEGMENTS);
+                    superficieSalleMessage =
+                      extraireChampMessage(clientUDP.message,
+                                           CHAMP_DATAS_SUPERFICIE_SALLE);
+                    sauvegarderConfiguration(nomSalleMessage,
+                                             numeroSegmentMessage,
+                                             nbSegmentsMessage,
+                                             superficieSalleMessage);
+                    break;
                 case 'I': // Intensité
                     intensiteScenario =
                       datasMessage.toInt(); // conversion en entier
                     afficheur.setMessageLigne(Afficheur::Ligne3,
-                                              "I : " + datasMessage + " lx");
+                                              "-> " + datasMessage + " lx");
                     afficheur.afficher();
 #if CHOIX_COMMUNICATION == COMMUNICATION_UDP
-                    envoyerMessageUDP(broadcastIP,
-                                      port,
+                    envoyerMessageUDP(clientUDP.adresseIP,
+                                      clientUDP.port,
                                       String(EN_TETE_TRAME) + String("A") +
                                         separateur + String("0") +
                                         delimiteurFin);
@@ -586,8 +661,8 @@ void loop()
                     puissanceInstantanee = calculerPuissanceInstantanee();
 #if CHOIX_COMMUNICATION == COMMUNICATION_UDP
                     envoyerMessageUDP(
-                      broadcastIP,
-                      port,
+                      clientUDP.adresseIP,
+                      clientUDP.port,
                       String(EN_TETE_TRAME) + String("P") + separateur +
                         String(puissanceInstantanee) + delimiteurFin);
 #elif CHOIX_COMMUNICATION == COMMUNICATION_WEBSOCKET
@@ -596,9 +671,7 @@ void loop()
                       String(puissanceInstantanee) + delimiteurFin);
 #endif
                     break;
-                case 'A': // Acquittement
 
-                    break;
                 default:
 #ifdef DEBUG
                     Serial.println("[elight] type message inconnu !");

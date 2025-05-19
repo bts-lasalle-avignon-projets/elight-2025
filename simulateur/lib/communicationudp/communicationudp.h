@@ -11,9 +11,13 @@
 #include <WiFi.h>
 #include <WiFiUdp.h>
 
-#define CHAMP_TYPE_UDP  0
-#define CHAMP_DATAS_UDP 1
-#define TAILLE_BUFFER   512 //!< nombre d'octets pour le buffer
+#define CHAMP_TYPE_UDP               0
+#define CHAMP_DATAS_UDP              1
+#define CHAMP_DATAS_NOM_SALLE        1
+#define CHAMP_DATAS_NUMERO_SEGMENT   2
+#define CHAMP_DATAS_NB_SEGMENTS      3
+#define CHAMP_DATAS_SUPERFICIE_SALLE 4
+#define TAILLE_BUFFER                512 //!< nombre d'octets pour le buffer
 
 /**
  * @struct ClientUDP
