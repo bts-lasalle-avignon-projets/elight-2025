@@ -93,7 +93,7 @@ void CommunicationBaseDeDonnees::chargerConfiguration(QString& nomHote,
                                                       QString& motDePasse)
 {
     QString cheminConfiguration =
-      QCoreApplication::applicationDirPath() + "/config-base-de-donnees.ini";
+      QCoreApplication::applicationDirPath() + "/config-elightapp.ini";
 
     if(QFile::exists(cheminConfiguration))
     {

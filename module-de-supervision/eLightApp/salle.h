@@ -6,6 +6,7 @@
 #include "salle.h"
 #include "communicationbasededonnees.h"
 
+#define NOM_SALLE        1
 #define COLONNE_ID_SALLE 0
 
 #define COLONNE_ID_SCENARIO        0
@@ -17,6 +18,7 @@
 #define CHAMP_CONSOMMATION_EXISTE 2
 
 #define COLONNE_CONSOMMATION_BDD 0
+#define CONSOMMATION_TOTALE      0
 
 class CommunicationBaseDeDonnees;
 class EditionSalle;

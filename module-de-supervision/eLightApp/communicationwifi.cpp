@@ -1,170 +1,218 @@
 #include "communicationwifi.h"
+#include <QHostAddress>
+#include <QMap>
+#include <QFile>
+#include <QSettings>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
+#include <QCoreApplication>
 #include <QDebug>
 
-communicationWiFi::communicationWiFi(QObject* parent) : QObject(parent)
+CommunicationWiFi::CommunicationWiFi(QObject* parent) :
+    QObject(parent), udpSocket(nullptr), portSocket(PORT_DEFAUT),
+    rafraichissement(RAFRAICHISSEMENT_DEFAUT)
 {
     qDebug() << Q_FUNC_INFO << this << "parent" << parent;
+    chargerConfiguration();
     initialiserSocket();
 }
 
-communicationWiFi::~communicationWiFi()
+CommunicationWiFi::~CommunicationWiFi()
 {
     if(udpSocket)
     {
         udpSocket->close();
         delete udpSocket;
     }
+    qDebug() << Q_FUNC_INFO << this;
 }
 
-void communicationWiFi::initialiserSocket()
+void CommunicationWiFi::chargerConfiguration()
 {
+    QString cheminConfiguration =
+      QCoreApplication::applicationDirPath() + "/config-elightapp.ini";
+
+    if(QFile::exists(cheminConfiguration))
+    {
+        qDebug() << Q_FUNC_INFO << "cheminConfiguration" << cheminConfiguration;
+
+        QSettings parametres(cheminConfiguration, QSettings::IniFormat);
+
+        portSocket =
+          parametres.value("CommunicationWiFi/port", portSocket).toInt();
+        rafraichissement =
+          parametres
+            .value("CommunicationWiFi/rafraichissement", rafraichissement)
+            .toInt();
+
+        qDebug() << Q_FUNC_INFO << "portSocket" << portSocket
+                 << "rafraichissement" << rafraichissement;
+    }
+    else
+    {
+        qWarning() << Q_FUNC_INFO << "Fichier de configuration non trouvé"
+                   << cheminConfiguration;
+    }
+}
+
+void CommunicationWiFi::initialiserSocket()
+{
+    qDebug() << Q_FUNC_INFO;
+
     udpSocket = new QUdpSocket(this);
-
-    QSettings settings("config-base-de-donnees.ini", QSettings::IniFormat);
-
-    portSocket = settings.value("CommunicationWiFi/port", portSocket).toInt();
 
     if(!udpSocket->bind(QHostAddress::Any, portSocket))
     {
         qWarning() << Q_FUNC_INFO
-                   << " Erreur binding UDP socket:" +
-                        QString::number(portSocket);
+                   << " Erreur bind socket UDP" + QString::number(portSocket);
         return;
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO << " Connexion " + QString::number(portSocket);
     }
 
     connect(udpSocket,
             &QUdpSocket::readyRead,
             this,
-            &communicationWiFi::lireTrame);
+            &CommunicationWiFi::lireDatagramme);
 }
 
-void communicationWiFi::lireTrame()
+void CommunicationWiFi::lireDatagramme()
 {
     while(udpSocket->hasPendingDatagrams())
     {
-        QByteArray datagram;
-        datagram.resize(int(udpSocket->pendingDatagramSize()));
-        QHostAddress sender;
-        quint16      senderPort;
+        QByteArray datagramme;
+        datagramme.resize(int(udpSocket->pendingDatagramSize()));
+        QHostAddress adresse;
+        quint16      port;
 
-        udpSocket->readDatagram(datagram.data(),
-                                datagram.size(),
-                                &sender,
-                                &senderPort);
-        QString trame = QString::fromUtf8(datagram).trimmed();
+        udpSocket->readDatagram(datagramme.data(),
+                                datagramme.size(),
+                                &adresse,
+                                &port);
+        QString datagrammeRecu = QString::fromUtf8(datagramme);
 
-        qDebug() << "Trame reçue:" << trame << "de" << sender.toString() << ":"
-                 << senderPort;
+        qDebug() << Q_FUNC_INFO << "datagramme" << datagramme.trimmed()
+                 << "adresse" << adresse.toString() << "port" << port;
 
-        traiterTrame(trame, sender, senderPort);
+        traiterDatagramme(datagrammeRecu, adresse, port);
     }
 }
 
-void communicationWiFi::envoyerTrame(const QString&      type,
-                                     const QString&      donnees,
-                                     const QHostAddress& adresse,
-                                     quint16             port)
+void CommunicationWiFi::envoyerDatagramme(const QString& type,
+                                          const QString& donnees,
+                                          const QString& adresse,
+                                          quint16        port)
 {
-    QString    trame = QString("#%1;%2\r\n").arg(type, donnees);
-    QByteArray data  = trame.toUtf8();
-    udpSocket->writeDatagram(data, adresse, port);
-    qDebug() << "Trame envoyée:" << trame.trimmed() << "à" << adresse.toString()
-             << ":" << port;
+    QString    datagramme = QString("#%1;%2\r\n").arg(type, donnees);
+    QByteArray data       = datagramme.toUtf8();
+    udpSocket->writeDatagram(data, QHostAddress(adresse), port);
+
+    qDebug() << Q_FUNC_INFO << "datagramme" << datagramme.trimmed() << "adresse"
+             << adresse << "port" << port;
 }
 
-void communicationWiFi::traiterTrame(const QString&      trame,
-                                     const QHostAddress& sender,
-                                     quint16             senderPort)
+void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
+                                          const QHostAddress& adresse,
+                                          quint16             port)
 {
-    if(!trame.startsWith("#") || !trame.endsWith("\r\n"))
+    qDebug() << Q_FUNC_INFO << "datagramme" << datagramme.trimmed() << "adresse"
+             << adresse.toString() << "port" << port;
+
+    if(!datagramme.startsWith(DELIMITEUR_DEBUT) ||
+       !datagramme.endsWith(DELIMITEUR_FIN))
     {
-        qWarning() << "Mauvaise syntaxe de trame:" << trame;
+        qWarning() << Q_FUNC_INFO << "Format invalide !";
         return;
     }
 
-    QString     contenu = trame.mid(1, trame.length() - 3);
-    QStringList parties = contenu.split(";");
+    // Supprime les délimiteurs
+    QString contenu = datagramme.mid(1, datagramme.length() - 3);
+    // Décomposition du datagramme
+    QStringList champs = contenu.split(";");
 
-    if(parties.size() != 2)
+    if(champs.size() != NB_CHAMPS && champs.size() != NB_CHAMPS_CONFIGURATION)
     {
-        qWarning() << "Trame invalide:" << trame;
+        qWarning() << Q_FUNC_INFO << "Nb champs invalide !" << champs.size();
         return;
     }
 
-    QString type    = parties[0];
-    QString donnees = parties[1];
+    int     idSegment = recupererIdSegment(adresse.toString());
+    QString type      = champs[CHAMP_TYPE];
+    QString donnees   = champs[CHAMP_DONNEE]; // par défaut une seule donnée
+    bool    ok        = false;
+    int     puissance;
 
-    QString ipSource  = sender.toString();
-    int     idSegment = -1;
-    recupererIdSegment(ipSource, idSegment);
-
-    if(type == "P")
+    switch(type.at(0).toLatin1())
     {
-        bool ok        = false;
-        int  puissance = donnees.toInt(&ok);
-        if(ok)
-        {
-            qDebug() << "Puissance instantanée reçue du segment" << idSegment
-                     << ":" << puissance << "W";
-            traiterPuissanceTrame(idSegment, puissance);
-
-            envoyerTrame("A", "0", sender, senderPort);
-        }
-        else
-        {
-            qWarning() << "Puissance invalide:" << donnees;
-        }
-    }
-    else if(type == "A" && donnees == "0")
-    {
-        qDebug() << "Acquittement reçu du segment" << idSegment;
-    }
-    else if(type == "I")
-    {
-        bool ok        = false;
-        int  intensite = donnees.toInt(&ok);
-        if(ok)
-        {
-            qDebug() << "Intensité reçue du segment" << idSegment << ":"
-                     << intensite << "lux";
-            emit intensiteSegmentRecue(idSegment, intensite);
-            envoyerTrame("A", "0", sender, senderPort);
-        }
-    }
-    else
-    {
-        qWarning() << "Type de trame inconnu:" << type;
+        case 'A': // Acquittement
+            if(donnees == "0")
+            {
+                emit acquittementRecue(idSegment);
+            }
+            break;
+        case 'S': // Signalement d'un segement d'une salle
+            if(champs.size() == NB_CHAMPS_CONFIGURATION)
+            {
+                qDebug() << Q_FUNC_INFO << "NOM_SALLE"
+                         << champs[CHAMP_NOM_SALLE] << "NUMERO_SEGMENT"
+                         << champs[CHAMP_NUMERO_SEGMENT] << "NB_SEGMENTS"
+                         << champs[CHAMP_NB_SEGMENTS] << "SUPERFICIE_SALLE"
+                         << champs[CHAMP_SUPERFICIE_SALLE];
+                emit configurationRecue(adresse.toString(),
+                                        champs[CHAMP_NOM_SALLE],
+                                        champs[CHAMP_NUMERO_SEGMENT],
+                                        champs[CHAMP_NB_SEGMENTS],
+                                        champs[CHAMP_SUPERFICIE_SALLE]);
+                envoyerDatagramme("A",
+                                  "0",
+                                  adresse.toString(),
+                                  port); // Acquittement
+            }
+            break;
+        case 'P': // Puissance
+            puissance = donnees.toInt(&ok);
+            if(ok)
+            {
+                qDebug() << Q_FUNC_INFO << "idSegment" << idSegment
+                         << "puissance" << puissance << "W";
+                envoyerDatagramme("A",
+                                  "0",
+                                  adresse.toString(),
+                                  port); // Acquittement
+                emit puissanceInstantaneeSegmentRecue(idSegment, puissance);
+            }
+            else
+            {
+                qWarning() << Q_FUNC_INFO << "Puissance invalide !";
+            }
+            break;
+        default:
+            qWarning() << Q_FUNC_INFO << "Type inconnu !";
     }
 }
 
-void communicationWiFi::traiterPuissanceTrame(const QString& ipSource,
+void CommunicationWiFi::traiterPuissanceTrame(const QString& adresseIPSegment,
                                               const QString& donnees)
 {
-    int idSegment;
-
-    recupererIdSegment(ipSource, idSegment);
-
+    int   idSegment = recupererIdSegment(adresseIPSegment);
     float puissance = donnees.toFloat();
 
-    emit puissanceInstantaneeSegmentRecue(idSegment, puissance);
+    qDebug() << Q_FUNC_INFO << "adresseIPSegment" << adresseIPSegment
+             << "idSegment" << idSegment
+             << "puissance" + QString::number(puissance);
 
-    qDebug() << "Source : " + ipSource + " idSegment : " + idSegment +
-                  " puissance : " + QString::number(puissance);
+    emit puissanceInstantaneeSegmentRecue(idSegment, puissance);
 }
 
-void communicationWiFi::recupererIdSegment(QString adresseSourceReglee,
-                                           int&    idSegment)
+int CommunicationWiFi::recupererIdSegment(const QString& adresseIPSegment)
 {
     QSqlQuery requete;
+    int       idSegment = SEGMENT_INDEFINI;
 
     requete.prepare(
       "SELECT id_segment FROM segment WHERE ip_segment = :ip_segment");
 
-    requete.bindValue(":ip_segment", adresseSourceReglee);
+    requete.bindValue(":ip_segment", adresseIPSegment);
 
     if(!requete.exec())
     {
@@ -175,12 +223,11 @@ void communicationWiFi::recupererIdSegment(QString adresseSourceReglee,
         if(requete.next())
         {
             idSegment = requete.value(0).toInt();
-            qDebug() << Q_FUNC_INFO << " idSegment " << idSegment;
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO << " aucun résultat "
-                     << adresseSourceReglee;
         }
     }
+
+    qDebug() << Q_FUNC_INFO << "adresseIPSegment" << adresseIPSegment
+             << "idSegment" << idSegment;
+
+    return idSegment;
 }
