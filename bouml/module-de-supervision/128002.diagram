@@ -1,0 +1,51 @@
+format 224
+
+classcanvas 128002 class_ref 128170 // EditionSalle
+  classdiagramsettings member_max_width 0 end
+  xyz 24.124 21.517 2000
+end
+classcanvas 128130 class_ref 128426 // ELight
+  classdiagramsettings member_max_width 0 end
+  xyz 270.014 37.0182 2000
+end
+classcanvas 128258 class_ref 128554 // Historique
+  classdiagramsettings member_max_width 0 end
+  xyz 338.423 635.701 3005
+end
+classcanvas 128514 class_ref 128682 // Salle
+  classdiagramsettings member_max_width 0 end
+  xyz 65.9112 528.879 3010
+end
+classcanvas 129026 class_ref 128002 // CommunicationBaseDeDonnees
+  classdiagramsettings member_max_width 0 end
+  xyz 853.159 318.791 2000
+end
+classcanvas 130562 class_ref 128002 // CommunicationBaseDeDonnees
+  classdiagramsettings member_max_width 0 end
+  xyz 571.192 459.474 2000
+end
+classcanvas 130690 class_ref 128130 // CommunicationWiFi
+  classdiagramsettings member_max_width 0 end
+  xyz 574.606 127.248 2005
+end
+relationcanvas 128386 relation_ref 128426 // <unidirectional association>
+  from ref 128130 z 3006 to ref 128258
+  role_a_pos 453 605 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128642 relation_ref 128938 // <unidirectional association>
+  from ref 128514 z 3011 to ref 128002
+  role_a_pos 166 373 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128770 relation_ref 128258 // <unidirectional association>
+  from ref 128002 z 3011 to ref 128514
+  role_a_pos 185 493 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128898 relation_ref 128554 // <unidirectional association>
+  from ref 128130 z 3011 stereotype "<<QMap>>" xyz 270 380 3011 to ref 128514
+  role_a_pos 269 493 3000 no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

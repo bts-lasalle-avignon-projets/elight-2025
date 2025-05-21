@@ -1,0 +1,80 @@
+class CommunicationBaseDeDonnees
+!!!128002.cpp!!!	creerInstance() : CommunicationBaseDeDonnees
+    if(bdd == nullptr)
+    {
+        bdd = new CommunicationBaseDeDonnees();
+    }
+    nbAcces++;
+    qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
+
+    return bdd;
+!!!128130.cpp!!!	detruireInstance() : void
+    if(bdd != nullptr)
+    {
+        nbAcces--;
+        qDebug() << Q_FUNC_INFO << "nbAcces" << nbAcces;
+        if(nbAcces == 0)
+            delete bdd;
+    }
+!!!128258.cpp!!!	connecter(in nomBaseDeDonnees : QString = NOM_BASE_DE_DONNEES, in nomUtilisateur : QString = NOM_UTILISATEUR, in motDePasse : QString = MOT_DE_PASSE, in nomHote : QString = NOM_HOTE) : bool
+    if(!estConnecte())
+    {
+        qDebug() << Q_FUNC_INFO << "nomBaseDeDonnees" << nomBaseDeDonnees
+                 << "nomUtilisateur" << nomUtilisateur << "motDePasse"
+                 << motDePasse << "nomHote" << nomHote;
+
+        chargerConfiguration(nomHote,
+                             nomBaseDeDonnees,
+                             nomUtilisateur,
+                             motDePasse);
+
+        baseDeDonnees.setHostName(nomHote);
+        baseDeDonnees.setDatabaseName(nomBaseDeDonnees);
+        baseDeDonnees.setUserName(nomUtilisateur);
+        baseDeDonnees.setPassword(motDePasse);
+        if(!baseDeDonnees.open())
+        {
+            qCritical() << "Erreur connexion MySQL"
+                        << baseDeDonnees.lastError().text();
+            return false;
+        }
+    }
+
+    return true;
+!!!128386.cpp!!!	deconnecter() : void
+    if(baseDeDonnees.isOpen())
+    {
+        baseDeDonnees.close();
+    }
+!!!128514.cpp!!!	estConnecte() : bool
+    return baseDeDonnees.isOpen();
+!!!128642.cpp!!!	chargerConfiguration(inout nomHote : QString, inout nomBaseDeDonnees : QString, inout nomUtilisateur : QString, inout motDePasse : QString) : void
+    QString cheminConfiguration =
+      QCoreApplication::applicationDirPath() + "/config-elightapp.ini";
+
+    if(QFile::exists(cheminConfiguration))
+    {
+        qDebug() << Q_FUNC_INFO << "cheminConfiguration" << cheminConfiguration;
+
+        QSettings parametres(cheminConfiguration, QSettings::IniFormat);
+
+        nomHote = parametres.value("BaseDeDonnees/hote", nomHote).toString();
+        nomBaseDeDonnees =
+          parametres.value("BaseDeDonnees/nom", nomBaseDeDonnees).toString();
+        nomUtilisateur =
+          parametres.value("BaseDeDonnees/utilisateur", nomUtilisateur)
+            .toString();
+        motDePasse =
+          parametres.value("BaseDeDonnees/motDePasse", motDePasse).toString();
+    }
+    else
+    {
+        qWarning() << Q_FUNC_INFO << "Fichier de configuration non trouvé"
+                   << cheminConfiguration;
+    }
+!!!128770.cpp!!!	CommunicationBaseDeDonnees()
+    qDebug() << Q_FUNC_INFO << this;
+    baseDeDonnees = QSqlDatabase::addDatabase("QMYSQL");
+!!!128898.cpp!!!	~CommunicationBaseDeDonnees()
+    deconnecter();
+    qDebug() << Q_FUNC_INFO << this;
