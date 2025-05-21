@@ -68,7 +68,8 @@ class CommunicationSegments : public QObject
     bool initialiserTempsRafraichissement();
     int  getTempsRafraichissement();
     bool recupererPort(int& port);
-    void envoyerTrameUDP(const QString& adresse);
+    void envoyerTrameDemandePuissance(const QString& adresse);
+    void envoyerTrameIntensite(const QString& adresse, const int& intensite);
     QString     recupererAdresseDestination(const int& idSegment);
     QStringList recupererAdressesDestinations();
     bool        recupererNomSalle(QString& adresse);

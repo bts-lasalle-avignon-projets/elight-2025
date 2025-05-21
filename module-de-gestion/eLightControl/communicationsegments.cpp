@@ -13,7 +13,7 @@ CommunicationSegments::CommunicationSegments(QObject* parent) :
         QStringList adresses = recupererAdressesDestinations();
         for(const QString& adresse: adresses)
         {
-            envoyerTrameUDP(adresse);
+            envoyerTrameDemandePuissance(adresse);
         }
     });
 
@@ -208,7 +208,7 @@ bool CommunicationSegments::recupererPort(int& port)
     }
 }
 
-void CommunicationSegments::envoyerTrameUDP(const QString& adresse)
+void CommunicationSegments::envoyerTrameDemandePuissance(const QString& adresse)
 {
     QString    trame   = "#P;0\r\n";
     QByteArray donnees = trame.toUtf8();
@@ -233,7 +233,44 @@ void CommunicationSegments::envoyerTrameUDP(const QString& adresse)
         }
         else
         {
-            qDebug() << Q_FUNC_INFO << " Trame " << trame.trimmed();
+            qDebug() << Q_FUNC_INFO << "Adresse " << adresse << " Trame "
+                     << trame.trimmed();
+        }
+    }
+    else
+    {
+        qWarning() << Q_FUNC_INFO << " Port non trouvé ";
+    }
+}
+
+void CommunicationSegments::envoyerTrameIntensite(const QString& adresse,
+                                                  const int&     intensite)
+{
+    QString    trame   = "#I;" + QString::number(intensite) + "\r\n";
+    QByteArray donnees = trame.toUtf8();
+
+    QHostAddress adresseDestinataire(adresse);
+
+    int port;
+
+    if(recupererPort(port))
+    {
+        quint16 portDestinataire = port;
+
+        qint64 octetsEnvoyes =
+          udpSocketEmission->writeDatagram(donnees,
+                                           adresseDestinataire,
+                                           portDestinataire);
+
+        if(octetsEnvoyes == -1)
+        {
+            qWarning() << Q_FUNC_INFO << " Erreur envoi "
+                       << udpSocketEmission->errorString();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "Adresse " << adresse << " Trame "
+                     << trame.trimmed();
         }
     }
     else
