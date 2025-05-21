@@ -510,8 +510,12 @@ void setup()
     // initialise le générateur pseudo-aléatoire
     esp_random();
 
-    adresseIP   = WiFi.localIP();
+    adresseIP = WiFi.localIP();
+#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 2, 0)
     broadcastIP = IPAddress("255.255.255.255"); // WiFi.broadcastIP();
+#else
+    broadcastIP = IPAddress(0xff, 0xff, 0xff, 0xff); // WiFi.broadcastIP();
+#endif
 
 #ifdef DEBUG
     Serial.println("[elight] adresse MAC : " + WiFi.macAddress());
