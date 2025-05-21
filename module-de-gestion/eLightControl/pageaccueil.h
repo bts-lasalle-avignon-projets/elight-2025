@@ -11,6 +11,12 @@
  */
 #define COLONNES_MAX 3
 
+/**
+ * @def PUISSANCE_DEFAUT
+ * @brief Puissance par défaut
+ */
+#define PUISSANCE_DEFAUT 0
+
 class BoiteSegment;
 
 class PageAccueil : public QWidget
@@ -35,6 +41,8 @@ class PageAccueil : public QWidget
     CommunicationBaseDeDonnees& baseDeDonnees;
     QLabel*                     nomScenarioActif;
     QLabel*                     intensiteScenarioActif;
+    int                         intensiteScenarioActifEntier;
+    QPushButton*                boutonConfirmerSelectionScenario;
     QVector<int>                idsSegmentsSalle;
 
     CommunicationSegments* communicationSegments;
@@ -43,6 +51,7 @@ class PageAccueil : public QWidget
     void placerSegments();
 
   signals:
+    void signalEnvoyerTrameIntensite(int idSegment, int intensite);
 };
 
 #endif // PAGEACCUEIL_H

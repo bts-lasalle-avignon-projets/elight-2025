@@ -26,14 +26,21 @@ class BoiteSegment : public QWidget
     Q_OBJECT
   public:
     explicit BoiteSegment(int segmentId, QWidget* parent = nullptr);
-    void setConsommation(double nouvelleConsommation);
+    void setPuissance(double nouvellePuissance);
+    int  getIdSegment();
 
   private:
     int     idSegment;
-    double  consommation;
+    double  puissance;
     QLabel* imageLabel;
-    QLabel* consommationLabel;
+    QLabel* puissanceLabel;
     void    recupererDonnees();
+
+  protected:
+    void mousePressEvent(QMouseEvent* event) override;
+
+  signals:
+    void segmentClique(int idSegment);
 };
 
 #endif // BOITESEGMENT_H

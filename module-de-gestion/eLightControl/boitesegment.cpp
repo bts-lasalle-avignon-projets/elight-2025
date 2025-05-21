@@ -7,9 +7,9 @@ BoiteSegment::BoiteSegment(int segmentId, QWidget* parent) :
 {
     QPixmap iconeLampe(QString(CHEMIN_RESSOURCES) + QString(ICONE_SEGMENT));
 
-    imageLabel        = new QLabel(this);
-    consommationLabel = new QLabel(this);
-    consommationLabel->setStyleSheet("font-size: 16px; font-weight: bold;");
+    imageLabel     = new QLabel(this);
+    puissanceLabel = new QLabel(this);
+    puissanceLabel->setStyleSheet("font-size: 16px; font-weight: bold;");
 
     imageLabel->setPixmap(
       iconeLampe.scaled(LARGEUR_ICONE, HAUTEUR_ICONE, Qt::KeepAspectRatio));
@@ -18,26 +18,39 @@ BoiteSegment::BoiteSegment(int segmentId, QWidget* parent) :
 
     layout->addWidget(imageLabel);
     layout->addStretch();
-    layout->addWidget(consommationLabel);
+    layout->addWidget(puissanceLabel);
     layout->addStretch();
     layout->setAlignment(imageLabel, Qt::AlignLeft);
-    layout->setAlignment(consommationLabel, Qt::AlignCenter);
+    layout->setAlignment(puissanceLabel, Qt::AlignCenter);
 
     this->setAttribute(Qt::WA_StyledBackground, true);
 }
 
-void BoiteSegment::setConsommation(double nouvelleConsommation)
+void BoiteSegment::setPuissance(double nouvellePuissance)
 {
-    consommation = nouvelleConsommation;
+    puissance = nouvellePuissance;
 
-    consommationLabel->setText(QString::number(nouvelleConsommation, 'f', 2) +
-                               " W");
-    if(nouvelleConsommation == 0)
+    puissanceLabel->setText(QString::number(nouvellePuissance, 'f', 2) + " W");
+
+    if(nouvellePuissance == 0)
     {
         this->setStyleSheet("background-color: #ff5353; border-radius: 15px;");
     }
     else
     {
         this->setStyleSheet("background-color: #6bff6b; border-radius: 15px;");
+    }
+}
+
+int BoiteSegment::getIdSegment()
+{
+    return idSegment;
+}
+
+void BoiteSegment::mousePressEvent(QMouseEvent* event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        emit segmentClique(idSegment);
     }
 }

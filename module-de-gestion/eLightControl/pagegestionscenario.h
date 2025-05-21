@@ -16,8 +16,6 @@
  */
 #define INTENSITE_MAX 750
 
-class CommunicationBaseDeDonnees;
-
 class PageGestionScenario : public QWidget
 {
     Q_OBJECT
