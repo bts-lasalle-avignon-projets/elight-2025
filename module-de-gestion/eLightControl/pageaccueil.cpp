@@ -18,9 +18,9 @@ PageAccueil::PageAccueil(QWidget* parent) :
     intensiteScenarioActif                  = new QLabel(this);
     QPushButton* boutonRetirerScenarioActif = new QPushButton(this);
 
-    QLabel* texteSelectionScenario                = new QLabel(this);
-    menuDeroulantScenarios                        = new QComboBox(this);
-    QPushButton* boutonConfirmerSelectionScenario = new QPushButton(this);
+    QLabel* texteSelectionScenario   = new QLabel(this);
+    menuDeroulantScenarios           = new QComboBox(this);
+    boutonConfirmerSelectionScenario = new QPushButton(this);
 
     QLabel* titreSegments = new QLabel(this);
 
@@ -90,17 +90,29 @@ PageAccueil::PageAccueil(QWidget* parent) :
 
     if(baseDeDonnees.connecter())
     {
-        chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
         chargerScenarioActifDepuisBDD();
+        chargerSegmentsDepuisBDD();
     }
 
     connect(boutonRetirerScenarioActif, &QPushButton::clicked, this, [=] {
         retirerScenarioActif();
+        for(BoiteSegment* segment: listeSegments)
+        {
+            emit signalEnvoyerTrameIntensite(segment->getIdSegment(),
+                                             intensiteScenarioActifEntier);
+            break;
+        }
     });
 
     connect(boutonConfirmerSelectionScenario, &QPushButton::clicked, this, [=] {
         selectionnerScenarioActif();
+        for(BoiteSegment* segment: listeSegments)
+        {
+            emit signalEnvoyerTrameIntensite(segment->getIdSegment(),
+                                             intensiteScenarioActifEntier);
+            break;
+        }
     });
 }
 
@@ -174,17 +186,20 @@ void PageAccueil::chargerScenarioActifDepuisBDD()
             {
                 nomScenarioActif->setText("Aucun scénario actif");
                 intensiteScenarioActif->setText("");
+                intensiteScenarioActifEntier = 0;
             }
             else
             {
                 nomScenarioActif->setText(nomScenario);
                 intensiteScenarioActif->setText(intensiteScenario + " lux");
+                intensiteScenarioActifEntier = intensiteScenario.toInt();
             }
         }
         else
         {
             nomScenarioActif->setText("Aucune donnée trouvée");
             intensiteScenarioActif->setText("");
+            intensiteScenarioActifEntier = 0;
         }
     }
     else
@@ -306,10 +321,20 @@ void PageAccueil::chargerSegmentsDepuisBDD()
                     this,
                     [=](int idSegment) {
                         qDebug() << Q_FUNC_INFO << idSegment;
-                        communicationSegments->envoyerTrameUDP(
+                        communicationSegments->envoyerTrameDemandePuissance(
                           communicationSegments->recupererAdresseDestination(
                             idSegment));
                     });
+
+            connect(this, &PageAccueil::signalEnvoyerTrameIntensite, this, [=] {
+                communicationSegments->envoyerTrameIntensite(
+                  communicationSegments->recupererAdresseDestination(idSegment),
+                  intensiteScenarioActifEntier);
+            });
+
+            communicationSegments->envoyerTrameIntensite(
+              communicationSegments->recupererAdresseDestination(idSegment),
+              intensiteScenarioActifEntier);
 
             colonne++;
             if(colonne >= COLONNES_MAX)

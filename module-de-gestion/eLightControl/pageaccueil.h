@@ -41,6 +41,8 @@ class PageAccueil : public QWidget
     CommunicationBaseDeDonnees& baseDeDonnees;
     QLabel*                     nomScenarioActif;
     QLabel*                     intensiteScenarioActif;
+    int                         intensiteScenarioActifEntier;
+    QPushButton*                boutonConfirmerSelectionScenario;
     QVector<int>                idsSegmentsSalle;
 
     CommunicationSegments* communicationSegments;
@@ -49,6 +51,7 @@ class PageAccueil : public QWidget
     void placerSegments();
 
   signals:
+    void signalEnvoyerTrameIntensite(int idSegment, int intensite);
 };
 
 #endif // PAGEACCUEIL_H
