@@ -9,7 +9,7 @@ class Historique
     QLabel*      labelLogoeLight = new QLabel(this);
     QPixmap      logoeLight(QString(CHEMIN_RESSOURCE) + "logo-elight.png");
     QPushButton* boutonFermeture = new QPushButton("Fermer", this);
-    table                        = new QTableWidget(this);
+    listeHistorique              = new QListWidget(this);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     QHBoxLayout* entete = new QHBoxLayout;
@@ -19,8 +19,13 @@ class Historique
     entete->addWidget(titreHistorique, Qt::AlignBaseline);
 
     layout->addLayout(entete);
-    layout->addWidget(table);
+    layout->addWidget(listeHistorique);
     layout->addWidget(boutonFermeture);
+
+    if(baseDeDonnees->connecter())
+    {
+        chargerHistoriqueDepuisBDD();
+    }
 
     connect(boutonFermeture,
             &QPushButton::clicked,
@@ -30,18 +35,17 @@ class Historique
     this->setStyleSheet("background-color: #FFFFFF;");
     titreHistorique->setStyleSheet("font-weight: 900; font-size: 50px;");
 #ifdef RASPBERRY_PI
-    setWindowFlags(Qt::FramelessWindowHint |
-                   Qt::Dialog); // Ajouter Qt::WindowStaysOnTopHint*/
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 #else
     setWindowFlags(Qt::Dialog);
 #endif
 
     setWindowModality(Qt::WindowModal);
-
-    initialiserTable();
 !!!129194.cpp!!!	~Historique()
+    CommunicationBaseDeDonnees::detruireInstance();
     qDebug() << Q_FUNC_INFO << this;
 !!!129322.cpp!!!	showEvent(inout event : QShowEvent) : void
+    Q_UNUSED(event)
     qDebug() << Q_FUNC_INFO << this;
 !!!129450.cpp!!!	initialiserTable() : void
     QStringList nomColonnesTable;
@@ -95,5 +99,33 @@ class Historique
 
     table->resizeColumnsToContents();
     table->resizeRowsToContents();
+!!!132354.cpp!!!	chargerHistoriqueDepuisBDD() : void
+    qDebug() << Q_FUNC_INFO;
+    QSqlQuery requete;
+    requete.prepare(
+      "SELECT id_segment, consommation, horodatage_releve FROM "
+      "historique_consommation_segment ORDER BY horodatage_releve DESC");
+
+    if(!requete.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
+        return;
+    }
+
+    listeHistorique->clear();
+
+    while(requete.next())
+    {
+        int     idSegment    = requete.value(ID_SEGMENT).toInt();
+        float   consommation = requete.value(CONSOMMATION).toFloat();
+        QString horodatage   = requete.value(HORODATAGE_RELEVE).toString();
+
+        QString ligne = QString("Segment #%1 - %2 kWh - %3")
+                          .arg(idSegment)
+                          .arg(consommation, 0, 'f', 2)
+                          .arg(horodatage);
+
+        listeHistorique->addItem(ligne);
+    }
 !!!129578.cpp!!!	fermerFenetre() : void
     this->close();
