@@ -72,21 +72,6 @@ PageAccueil::PageAccueil(QWidget* parent) :
 
     layoutEnteteSegments->addWidget(titreSegments);
 
-    if(baseDeDonnees.connecter())
-    {
-        chargerSegmentsDepuisBDD();
-        chargerScenariosDepuisBDD();
-        chargerScenarioActifDepuisBDD();
-    }
-
-    connect(boutonRetirerScenarioActif, &QPushButton::clicked, this, [=] {
-        retirerScenarioActif();
-    });
-
-    connect(boutonConfirmerSelectionScenario, &QPushButton::clicked, this, [=] {
-        selectionnerScenarioActif();
-    });
-
     communicationSegments = new CommunicationSegments(this);
 
     connect(communicationSegments,
@@ -102,6 +87,21 @@ PageAccueil::PageAccueil(QWidget* parent) :
                     }
                 }
             });
+
+    if(baseDeDonnees.connecter())
+    {
+        chargerSegmentsDepuisBDD();
+        chargerScenariosDepuisBDD();
+        chargerScenarioActifDepuisBDD();
+    }
+
+    connect(boutonRetirerScenarioActif, &QPushButton::clicked, this, [=] {
+        retirerScenarioActif();
+    });
+
+    connect(boutonConfirmerSelectionScenario, &QPushButton::clicked, this, [=] {
+        selectionnerScenarioActif();
+    });
 }
 
 PageAccueil::~PageAccueil()
@@ -300,6 +300,16 @@ void PageAccueil::chargerSegmentsDepuisBDD()
             layoutSegments->addWidget(labelSegmentId, ligne, colonne);
             layoutSegments->addWidget(segment, ligne + 1, colonne);
             segment->setPuissance(0);
+
+            connect(segment,
+                    &BoiteSegment::segmentClique,
+                    this,
+                    [=](int idSegment) {
+                        qDebug() << Q_FUNC_INFO << idSegment;
+                        communicationSegments->envoyerTrameUDP(
+                          communicationSegments->recupererAdresseDestination(
+                            idSegment));
+                    });
 
             colonne++;
             if(colonne >= COLONNES_MAX)
