@@ -46,3 +46,11 @@ int BoiteSegment::getIdSegment()
 {
     return idSegment;
 }
+
+void BoiteSegment::mousePressEvent(QMouseEvent* event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        emit segmentClique(idSegment);
+    }
+}

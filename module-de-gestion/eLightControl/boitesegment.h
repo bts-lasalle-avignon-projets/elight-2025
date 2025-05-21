@@ -35,6 +35,12 @@ class BoiteSegment : public QWidget
     QLabel* imageLabel;
     QLabel* puissanceLabel;
     void    recupererDonnees();
+
+  protected:
+    void mousePressEvent(QMouseEvent* event) override;
+
+  signals:
+    void segmentClique(int idSegment);
 };
 
 #endif // BOITESEGMENT_H
