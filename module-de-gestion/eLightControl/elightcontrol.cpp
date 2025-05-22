@@ -75,8 +75,7 @@ void ELightControl::gererNavigation()
     connect(menuNavigation->getBoutonAccueil(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();
@@ -85,25 +84,19 @@ void ELightControl::gererNavigation()
     connect(menuNavigation->getBoutonGestionScenarios(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::GESTION);
                 pageGestionScenarios->chargerScenariosDepuisBDD();
             });
 
-    connect(menuNavigation->getBoutonGuide(),
-            &QPushButton::clicked,
-            this,
-            [=]
-            {
-                changerPage(Page::GUIDE);
-            });
+    connect(menuNavigation->getBoutonGuide(), &QPushButton::clicked, this, [=] {
+        changerPage(Page::GUIDE);
+    });
 
     connect(menuNavigation->getBoutonParametres(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::PARAMETRES);
                 pageParametres->chargerIpBoitierDepuisBDD();
             });
@@ -111,8 +104,7 @@ void ELightControl::gererNavigation()
     connect(pageAccueil->getBoutonGererScenarios(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::GESTION);
                 pageGestionScenarios->chargerScenariosDepuisBDD();
             });
@@ -120,8 +112,7 @@ void ELightControl::gererNavigation()
     connect(pageGestionScenarios->getBoutonRetourGestionScenario(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();
@@ -130,8 +121,7 @@ void ELightControl::gererNavigation()
     connect(pageGuide->getBoutonRetourGuide(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();
@@ -140,8 +130,7 @@ void ELightControl::gererNavigation()
     connect(pageParametres->getBoutonRetourParametre(),
             &QPushButton::clicked,
             this,
-            [=]
-            {
+            [=] {
                 changerPage(Page::ACCUEIL);
                 pageAccueil->chargerScenariosDepuisBDD();
                 pageAccueil->chargerSegmentsDepuisBDD();

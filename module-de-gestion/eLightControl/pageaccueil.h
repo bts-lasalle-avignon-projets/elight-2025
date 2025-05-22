@@ -3,12 +3,19 @@
 
 #include <QtWidgets>
 #include "communicationbasededonnees.h"
+#include "communicationsegments.h"
 
 /**
  * @def COLONNES_MAX
  * @brief Le nombre de colonnes max pour l'affichage des segments
  */
 #define COLONNES_MAX 3
+
+/**
+ * @def PUISSANCE_DEFAUT
+ * @brief Puissance par défaut
+ */
+#define PUISSANCE_DEFAUT 0
 
 class BoiteSegment;
 
@@ -34,12 +41,17 @@ class PageAccueil : public QWidget
     CommunicationBaseDeDonnees& baseDeDonnees;
     QLabel*                     nomScenarioActif;
     QLabel*                     intensiteScenarioActif;
+    int                         intensiteScenarioActifEntier;
+    QPushButton*                boutonConfirmerSelectionScenario;
     QVector<int>                idsSegmentsSalle;
+
+    CommunicationSegments* communicationSegments;
 
     void creerSegments(const int nombreScenarios);
     void placerSegments();
 
   signals:
+    void signalEnvoyerTrameIntensite(int idSegment, int intensite);
 };
 
 #endif // PAGEACCUEIL_H

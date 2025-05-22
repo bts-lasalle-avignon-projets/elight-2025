@@ -18,9 +18,9 @@ PageAccueil::PageAccueil(QWidget* parent) :
     intensiteScenarioActif                  = new QLabel(this);
     QPushButton* boutonRetirerScenarioActif = new QPushButton(this);
 
-    QLabel* texteSelectionScenario                = new QLabel(this);
-    menuDeroulantScenarios                        = new QComboBox(this);
-    QPushButton* boutonConfirmerSelectionScenario = new QPushButton(this);
+    QLabel* texteSelectionScenario   = new QLabel(this);
+    menuDeroulantScenarios           = new QComboBox(this);
+    boutonConfirmerSelectionScenario = new QPushButton(this);
 
     QLabel* titreSegments = new QLabel(this);
 
@@ -72,19 +72,47 @@ PageAccueil::PageAccueil(QWidget* parent) :
 
     layoutEnteteSegments->addWidget(titreSegments);
 
+    communicationSegments = new CommunicationSegments(this);
+
+    connect(communicationSegments,
+            &CommunicationSegments::puissanceInstantaneeSegmentRecue,
+            this,
+            [=](int idSegment, float nouvellePuissance) {
+                for(BoiteSegment* segment: listeSegments)
+                {
+                    if(segment->getIdSegment() == idSegment)
+                    {
+                        segment->setPuissance(nouvellePuissance);
+                        break;
+                    }
+                }
+            });
+
     if(baseDeDonnees.connecter())
     {
-        chargerSegmentsDepuisBDD();
         chargerScenariosDepuisBDD();
         chargerScenarioActifDepuisBDD();
+        chargerSegmentsDepuisBDD();
     }
 
     connect(boutonRetirerScenarioActif, &QPushButton::clicked, this, [=] {
         retirerScenarioActif();
+        for(BoiteSegment* segment: listeSegments)
+        {
+            emit signalEnvoyerTrameIntensite(segment->getIdSegment(),
+                                             intensiteScenarioActifEntier);
+            break;
+        }
     });
 
     connect(boutonConfirmerSelectionScenario, &QPushButton::clicked, this, [=] {
         selectionnerScenarioActif();
+        for(BoiteSegment* segment: listeSegments)
+        {
+            emit signalEnvoyerTrameIntensite(segment->getIdSegment(),
+                                             intensiteScenarioActifEntier);
+            break;
+        }
     });
 }
 
@@ -158,17 +186,20 @@ void PageAccueil::chargerScenarioActifDepuisBDD()
             {
                 nomScenarioActif->setText("Aucun scénario actif");
                 intensiteScenarioActif->setText("");
+                intensiteScenarioActifEntier = 0;
             }
             else
             {
                 nomScenarioActif->setText(nomScenario);
                 intensiteScenarioActif->setText(intensiteScenario + " lux");
+                intensiteScenarioActifEntier = intensiteScenario.toInt();
             }
         }
         else
         {
             nomScenarioActif->setText("Aucune donnée trouvée");
             intensiteScenarioActif->setText("");
+            intensiteScenarioActifEntier = 0;
         }
     }
     else
@@ -283,7 +314,27 @@ void PageAccueil::chargerSegmentsDepuisBDD()
 
             layoutSegments->addWidget(labelSegmentId, ligne, colonne);
             layoutSegments->addWidget(segment, ligne + 1, colonne);
-            segment->setConsommation(0);
+            segment->setPuissance(0);
+
+            connect(segment,
+                    &BoiteSegment::segmentClique,
+                    this,
+                    [=](int idSegment) {
+                        qDebug() << Q_FUNC_INFO << idSegment;
+                        communicationSegments->envoyerTrameDemandePuissance(
+                          communicationSegments->recupererAdresseDestination(
+                            idSegment));
+                    });
+
+            connect(this, &PageAccueil::signalEnvoyerTrameIntensite, this, [=] {
+                communicationSegments->envoyerTrameIntensite(
+                  communicationSegments->recupererAdresseDestination(idSegment),
+                  intensiteScenarioActifEntier);
+            });
+
+            communicationSegments->envoyerTrameIntensite(
+              communicationSegments->recupererAdresseDestination(idSegment),
+              intensiteScenarioActifEntier);
 
             colonne++;
             if(colonne >= COLONNES_MAX)
