@@ -47,7 +47,7 @@ Salle::Salle(QString nom, QWidget* parent) :
     layout->addWidget(boutonEdition);
 
     segments->setText("Segments :");
-    scenarios->setText("Scénarios :");
+    scenarios->setText("Scénario actif :");
 
     if(baseDeDonnees->connecter())
     {

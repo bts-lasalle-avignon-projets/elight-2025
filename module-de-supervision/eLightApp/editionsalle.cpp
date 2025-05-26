@@ -20,15 +20,15 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
       new QPushButton("Sauvegarder scénarios", this);
     QPushButton* boutonSauvegardeSegments =
       new QPushButton("Sauvegarder segments", this);
-    QLabel* segments             = new QLabel(this);
-    QLabel* scenarios            = new QLabel(this);
-    menuScenarios                = new QComboBox(this);
-    menuSegments                 = new QComboBox(this);
-    ajoutIPSegment               = new QLineEdit(this);
-    ajoutScenario                = new QLineEdit(this);
-    ajoutIntensiteScenario       = new QLineEdit(this);
-    QPushButton* validerSegment  = new QPushButton("Ajouter", this);
-    QPushButton* modifSegment    = new QPushButton("Modifier", this);
+    QLabel* segments            = new QLabel(this);
+    QLabel* scenarios           = new QLabel(this);
+    menuScenarios               = new QComboBox(this);
+    menuSegments                = new QComboBox(this);
+    ajoutIPSegment              = new QLineEdit(this);
+    ajoutScenario               = new QLineEdit(this);
+    ajoutIntensiteScenario      = new QLineEdit(this);
+    QPushButton* validerSegment = new QPushButton("Ajouter", this);
+    // QPushButton* modifSegment    = new QPushButton("Modifier", this);
     QPushButton* supprSegment    = new QPushButton("Supprimer", this);
     QPushButton* validerScenario = new QPushButton("Ajouter", this);
     QPushButton* modifScenario   = new QPushButton("Modifier", this);
@@ -44,7 +44,7 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     entete->addWidget(labelLogoeLight);
     entete->addWidget(titreEdition, Qt::AlignBaseline);
 
-    editionSegment->addWidget(modifSegment, 0, 0);
+    // editionSegment->addWidget(modifSegment, 0, 0);
     editionSegment->addWidget(supprSegment, 0, 1);
     editionSegment->addWidget(ajoutIPSegment, 1, 0);
     ajoutIPSegment->setPlaceholderText("xxx.xxx.xxx.xxx");
@@ -104,10 +104,10 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
             this,
             &EditionSalle::supprimerSegmentsBDD);
 
-    connect(modifSegment,
+    /*connect(modifSegment,
             &QPushButton::clicked,
             this,
-            &EditionSalle::modifierSegmentsBDD);
+            &EditionSalle::modifierSegmentsBDD);*/
 
     connect(validerScenario,
             &QPushButton::clicked,
@@ -127,7 +127,7 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     this->setStyleSheet("background-color: #FFFFFF;");
     titreEdition->setStyleSheet("font-weight: 900; font-size: 50px;");
     validerSegment->setStyleSheet("border: 1px solid black;");
-    modifSegment->setStyleSheet("border: 1px solid black;");
+    // modifSegment->setStyleSheet("border: 1px solid black;");
     supprSegment->setStyleSheet("border: 1px solid black;");
     validerScenario->setStyleSheet("border: 1px solid black;");
     modifScenario->setStyleSheet("border: 1px solid black;");
@@ -180,7 +180,8 @@ void EditionSalle::sauvegarderFenetreScenarios()
 
         while(querySegments.next())
         {
-            QString idSegment = querySegments.value(COLONNE_ID_SEGMENT).toString();
+            QString idSegment =
+              querySegments.value(COLONNE_ID_SEGMENT).toString();
 
             QSqlQuery updateSegmentQuery;
             updateSegmentQuery.prepare(
@@ -334,7 +335,7 @@ void EditionSalle::supprimerSegmentsBDD()
     chargerSegmentsDepuisBDD();
 }
 
-void EditionSalle::modifierSegmentsBDD()
+/*void EditionSalle::modifierSegmentsBDD()
 {
     QString segmentChoisi = menuSegments->currentText();
 
@@ -378,7 +379,7 @@ void EditionSalle::modifierSegmentsBDD()
     }
 
     chargerSegmentsDepuisBDD();
-}
+}*/
 
 void EditionSalle::ajouterSegmentsBDD()
 {
