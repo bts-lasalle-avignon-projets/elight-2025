@@ -168,7 +168,7 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
         return;
     }
 
-    int     idSegment = recupererIdSegment(adresseReglee, idSegment);
+    int     idSegment = recupererIdSegment(adresseReglee);
     QString type      = champs[CHAMP_TYPE];
     QString donnees   = champs[CHAMP_DONNEE]; // par défaut une seule donnée
     bool    ok        = false;
@@ -179,10 +179,11 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
         case 'A': // Acquittement
             if(donnees == "0")
             {
-                emit acquittementRecue(idSegment);
+                if(idSegment != SEGMENT_INDEFINI)
+                    emit acquittementRecue(adresseReglee, idSegment);
             }
             break;
-        case 'S': // Signalement d'un segement d'une salle
+        case 'S': // Signalement d'un segment d'une salle
             if(champs.size() == NB_CHAMPS_CONFIGURATION)
             {
                 qDebug() << Q_FUNC_INFO << "NOM_SALLE"
@@ -190,7 +191,7 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
                          << champs[CHAMP_NUMERO_SEGMENT] << "NB_SEGMENTS"
                          << champs[CHAMP_NB_SEGMENTS] << "SUPERFICIE_SALLE"
                          << champs[CHAMP_SUPERFICIE_SALLE];
-                emit configurationRecue(adresse.toString(),
+                emit configurationRecue(adresseReglee,
                                         champs[CHAMP_NOM_SALLE],
                                         champs[CHAMP_NUMERO_SEGMENT],
                                         champs[CHAMP_NB_SEGMENTS],
@@ -202,6 +203,8 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
             }
             break;
         case 'P': // Puissance
+            if(idSegment == SEGMENT_INDEFINI)
+                return;
             puissance = donnees.toInt(&ok);
             if(ok)
             {
@@ -211,7 +214,9 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
                                   "0",
                                   adresseReglee,
                                   port); // Acquittement
-                emit puissanceInstantaneeSegmentRecue(idSegment, puissance);
+                emit puissanceInstantaneeSegmentRecue(adresseReglee,
+                                                      idSegment,
+                                                      puissance);
             }
             else
             {
@@ -223,27 +228,10 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
     }
 }
 
-void CommunicationWiFi::traiterPuissanceTrame(const QString& adresseIPSegment,
-                                              const QString& donnees)
-{
-    int idSegment;
-
-    recupererIdSegment(adresseIPSegment, idSegment);
-
-    float puissance = donnees.toFloat();
-
-    emit puissanceInstantaneeSegmentRecue(idSegment, puissance);
-
-    qDebug() << Q_FUNC_INFO << "adresseIPSegment" << adresseIPSegment
-             << "idSegment" << idSegment
-             << "puissance" + QString::number(puissance);
-}
-
-int CommunicationWiFi::recupererIdSegment(const QString& adresseIPSegment,
-                                          int&           idSegment)
+int CommunicationWiFi::recupererIdSegment(const QString& adresseIPSegment)
 {
     QSqlQuery requete;
-    idSegment = SEGMENT_INDEFINI;
+    int       idSegment = SEGMENT_INDEFINI;
 
     requete.prepare(
       "SELECT id_segment FROM segment WHERE ip_segment = :ip_segment");
@@ -259,10 +247,6 @@ int CommunicationWiFi::recupererIdSegment(const QString& adresseIPSegment,
         if(requete.next())
         {
             idSegment = requete.value(0).toInt();
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO << " zero résultat " << adresseIPSegment;
         }
     }
 

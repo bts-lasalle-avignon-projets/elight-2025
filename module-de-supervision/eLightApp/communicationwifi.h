@@ -46,12 +46,10 @@ class CommunicationWiFi : public QObject
                               const QString& donnees,
                               const QString& adresse,
                               quint16        port);
-    int     recupererIdSegment(const QString& adresseIPSegment, int& idSegment);
+    int     recupererIdSegment(const QString& adresseIPSegment);
     void    traiterDatagramme(const QString&      datagramme,
                               const QHostAddress& adresse,
                               quint16             port);
-    void    traiterPuissanceTrame(const QString& adresseIPSegment,
-                                  const QString& donnees);
     bool    recupererPort(int& port);
     void    envoyerTrameDemandePuissance(const QString& adresse);
     void    envoyerTrameIntensite(const QString& adresse, const int& intensite);
@@ -73,8 +71,10 @@ class CommunicationWiFi : public QObject
     int         portWebSocket;
 
   signals:
-    void puissanceInstantaneeSegmentRecue(int idSegment, int puissance);
-    void acquittementRecue(int idSegment);
+    void puissanceInstantaneeSegmentRecue(QString adresse,
+                                          int     idSegment,
+                                          int     puissance);
+    void acquittementRecue(QString adresse, int idSegment);
     void configurationRecue(QString adresse,
                             QString nomSalle,
                             QString numeroSegment,
