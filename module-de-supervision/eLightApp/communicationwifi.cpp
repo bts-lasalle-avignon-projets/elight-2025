@@ -103,6 +103,21 @@ void CommunicationWiFi::initialiserSocket()
             &QUdpSocket::readyRead,
             this,
             &CommunicationWiFi::lireDatagramme);
+
+    connect(this,
+            &CommunicationWiFi::puissanceInstantaneeSegmentRecue,
+            this,
+            &CommunicationWiFi::traiterPuissance);
+
+    connect(this,
+            &CommunicationWiFi::acquittementRecue,
+            this,
+            &CommunicationWiFi::traiterAcquittement);
+
+    connect(this,
+            &CommunicationWiFi::configurationRecue,
+            this,
+            &CommunicationWiFi::traiterConfiguration);
 }
 
 void CommunicationWiFi::lireDatagramme()
@@ -158,7 +173,10 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
     }
 
     // Supprime les délimiteurs
-    QString contenu = datagramme.mid(1, datagramme.length() - 3);
+    QString contenu = datagramme;
+    contenu         = contenu.trimmed();
+    contenu         = contenu.mid(1, contenu.length() - 1);
+
     // Décomposition du datagramme
     QStringList champs = contenu.split(";");
 
@@ -202,10 +220,17 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
                                   port); // Acquittement
             }
             break;
-        case 'P': // Puissance
+        case 'P': // Puissance instantanée
             if(idSegment == SEGMENT_INDEFINI)
                 return;
+
+            donnees = donnees.trimmed();
+
+            qDebug() << Q_FUNC_INFO
+                     << "Valeur brute de la puissance (donnees):" << donnees;
+
             puissance = donnees.toInt(&ok);
+
             if(ok)
             {
                 qDebug() << Q_FUNC_INFO << "idSegment" << idSegment
@@ -220,7 +245,7 @@ void CommunicationWiFi::traiterDatagramme(const QString&      datagramme,
             }
             else
             {
-                qWarning() << Q_FUNC_INFO << "Puissance invalide !";
+                qWarning() << Q_FUNC_INFO << "Puissance invalide !" << donnees;
             }
             break;
         default:
@@ -376,57 +401,45 @@ QString CommunicationWiFi::recupererAdresseDestination(const int& idSegment)
     return adresse;
 }
 
-/*bool CommunicationWiFi::recupererNomSalle(QString& adresse)
+void CommunicationWiFi::traiterPuissance(QString adresse,
+                                         int     idSegment,
+                                         int     puissance)
 {
-    QString cheminConfiguration =
-      QCoreApplication::applicationDirPath() + "/config.ini";
+    qDebug() << Q_FUNC_INFO << "Puissance reçue" << puissance << "W de"
+             << adresse;
 
-    if(QFile::exists(cheminConfiguration))
+    QSqlQuery requete;
+    requete.prepare(
+      "INSERT INTO historique_consommation_segment (id_segment, consommation) "
+      "VALUES (:id_segment, :consommation)");
+    requete.bindValue(":id_segment", idSegment);
+    requete.bindValue(":consommation", puissance);
+
+    if(!requete.exec())
     {
-        qDebug() << Q_FUNC_INFO << "cheminConfiguration" << cheminConfiguration;
-
-        QSettings parametres(cheminConfiguration, QSettings::IniFormat);
-        adresse = parametres.value("Salle/nom").toString();
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-QStringList CommunicationWiFi::recupererAdressesDestinations()
-{
-    QStringList adresses;
-    QSqlQuery   requete;
-    QString     salle;
-
-    if(recupererNomSalle(salle))
-    {
-        requete.prepare(
-          "SELECT ip_segment FROM segment WHERE id_salle = "
-          "(SELECT id_salle FROM salle WHERE nom_salle = :nomSalle)");
-
-        requete.bindValue(":nomSalle", salle);
-
-        if(!requete.exec())
-        {
-            qDebug() << Q_FUNC_INFO << "Erreur SQL"
-                     << requete.lastError().text();
-        }
-        else
-        {
-            while(requete.next())
-            {
-                adresses << requete.value(0).toString();
-            }
-        }
+        qWarning() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
     }
     else
     {
         qDebug() << Q_FUNC_INFO
-                 << "Erreur SQL : " << requete.lastError().text();
+                 << "Puissance enregistrée dans l'historique pour le segment"
+                 << idSegment;
     }
-    return adresses;
-}*/
+}
+
+void CommunicationWiFi::traiterAcquittement(QString adresse, int idSegment)
+{
+    qDebug() << Q_FUNC_INFO << "Acquittement reçu de" << adresse << "segment"
+             << idSegment;
+}
+
+void CommunicationWiFi::traiterConfiguration(QString adresse,
+                                             QString nomSalle,
+                                             QString numeroSegment,
+                                             QString nbSegments,
+                                             QString superficie)
+{
+    qDebug() << Q_FUNC_INFO << "Configuration reçue de" << adresse
+             << "Salle:" << nomSalle << "Segment:" << numeroSegment
+             << "Nb:" << nbSegments << "Superficie:" << superficie;
+}

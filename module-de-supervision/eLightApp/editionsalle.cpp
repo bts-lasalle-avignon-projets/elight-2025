@@ -20,15 +20,14 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
       new QPushButton("Sauvegarder scénarios", this);
     QPushButton* boutonSauvegardeSegments =
       new QPushButton("Sauvegarder segments", this);
-    QLabel* segments            = new QLabel(this);
-    QLabel* scenarios           = new QLabel(this);
-    menuScenarios               = new QComboBox(this);
-    menuSegments                = new QComboBox(this);
-    ajoutIPSegment              = new QLineEdit(this);
-    ajoutScenario               = new QLineEdit(this);
-    ajoutIntensiteScenario      = new QLineEdit(this);
-    QPushButton* validerSegment = new QPushButton("Ajouter", this);
-    // QPushButton* modifSegment    = new QPushButton("Modifier", this);
+    QLabel* segments             = new QLabel(this);
+    QLabel* scenarios            = new QLabel(this);
+    menuScenarios                = new QComboBox(this);
+    menuSegments                 = new QComboBox(this);
+    ajoutIPSegment               = new QLineEdit(this);
+    ajoutScenario                = new QLineEdit(this);
+    ajoutIntensiteScenario       = new QLineEdit(this);
+    QPushButton* validerSegment  = new QPushButton("Ajouter", this);
     QPushButton* supprSegment    = new QPushButton("Supprimer", this);
     QPushButton* validerScenario = new QPushButton("Ajouter", this);
     QPushButton* modifScenario   = new QPushButton("Modifier", this);
@@ -44,7 +43,6 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     entete->addWidget(labelLogoeLight);
     entete->addWidget(titreEdition, Qt::AlignBaseline);
 
-    // editionSegment->addWidget(modifSegment, 0, 0);
     editionSegment->addWidget(supprSegment, 0, 1);
     editionSegment->addWidget(ajoutIPSegment, 1, 0);
     ajoutIPSegment->setPlaceholderText("xxx.xxx.xxx.xxx");
@@ -79,6 +77,8 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
         chargerSegmentsDepuisBDD();
     }
 
+    emit scenarioModifie();
+
     connect(boutonFermeture,
             &QPushButton::clicked,
             this,
@@ -104,11 +104,6 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
             this,
             &EditionSalle::supprimerSegmentsBDD);
 
-    /*connect(modifSegment,
-            &QPushButton::clicked,
-            this,
-            &EditionSalle::modifierSegmentsBDD);*/
-
     connect(validerScenario,
             &QPushButton::clicked,
             this,
@@ -127,7 +122,6 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     this->setStyleSheet("background-color: #FFFFFF;");
     titreEdition->setStyleSheet("font-weight: 900; font-size: 50px;");
     validerSegment->setStyleSheet("border: 1px solid black;");
-    // modifSegment->setStyleSheet("border: 1px solid black;");
     supprSegment->setStyleSheet("border: 1px solid black;");
     validerScenario->setStyleSheet("border: 1px solid black;");
     modifScenario->setStyleSheet("border: 1px solid black;");
@@ -334,52 +328,6 @@ void EditionSalle::supprimerSegmentsBDD()
 
     chargerSegmentsDepuisBDD();
 }
-
-/*void EditionSalle::modifierSegmentsBDD()
-{
-    QString segmentChoisi = menuSegments->currentText();
-
-    QStringList partiesSegment = segmentChoisi.split(" - ");
-    QString     idSegment  = partiesSegment.at(0).split("#").at(1).trimmed();
-    QString     ipActuelle = partiesSegment.at(1).split(":").at(1).trimmed();
-    qDebug() << Q_FUNC_INFO << "idSegment" << idSegment << "ipActuelle"
-             << ipActuelle;
-
-    if(idSegment.isEmpty())
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "Aucun segment sélectionné pour modification";
-        return;
-    }
-    bool    ok;
-    QString nouvelleIp = QInputDialog::getText(this,
-                                               "Modifier l'adresse IP",
-                                               "Nouvelle adresse IP:",
-                                               QLineEdit::Normal,
-                                               ipActuelle,
-                                               &ok);
-
-    if(!ok || nouvelleIp.isEmpty())
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "Modification annulée ou adresse IP invalide.";
-        return;
-    }
-
-    QSqlQuery query;
-    query.prepare("UPDATE segment SET ip_segment = :ip_segment WHERE "
-                  "id_segment = :id_segment");
-    query.bindValue(":ip_segment", nouvelleIp);
-    query.bindValue(":id_segment", idSegment);
-
-    if(!query.exec())
-    {
-        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
-        return;
-    }
-
-    chargerSegmentsDepuisBDD();
-}*/
 
 void EditionSalle::ajouterSegmentsBDD()
 {

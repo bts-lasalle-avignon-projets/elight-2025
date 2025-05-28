@@ -62,6 +62,13 @@ class CommunicationWiFi : public QObject
 
   private slots:
     void lireDatagramme();
+    void traiterPuissance(QString adresse, int idSegment, int puissance);
+    void traiterAcquittement(QString adresse, int idSegment);
+    void traiterConfiguration(QString adresse,
+                              QString nomSalle,
+                              QString numeroSegment,
+                              QString nbSegments,
+                              QString superficie);
 
   private:
     QUdpSocket* udpSocket;

@@ -258,6 +258,8 @@ void Salle::chargerConsommationDepuisBDD()
     }
     else
     {
+        consommation->setText(QString::number(consommationTotale, '0', 2) +
+                              " kWh");
         qDebug() << Q_FUNC_INFO << "Aucune donnée trouvée pour la consommation";
     }
 }

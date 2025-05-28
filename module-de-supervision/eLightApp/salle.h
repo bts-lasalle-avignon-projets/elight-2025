@@ -5,6 +5,7 @@
 #include "config.h"
 #include "salle.h"
 #include "communicationbasededonnees.h"
+#include "communicationwifi.h"
 
 #define NOM_SALLE        1
 #define COLONNE_ID_SALLE 0
