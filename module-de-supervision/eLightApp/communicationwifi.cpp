@@ -59,7 +59,7 @@ void CommunicationWiFi::chargerConfiguration()
 
 void CommunicationWiFi::initialiserSocket()
 {
-    qDebug() << Q_FUNC_INFO;
+    qDebug() << Q_FUNC_INFO << "portSocket" << portSocket;
 
     udpSocket = new QUdpSocket(this);
 
@@ -68,35 +68,7 @@ void CommunicationWiFi::initialiserSocket()
         qWarning() << Q_FUNC_INFO << "Erreur bind sur port" << portSocket << ":"
                    << udpSocket->errorString();
 
-        // Tentative automatique avec un autre port (facultatif mais utile pour
-        // test)
-        quint16 portFallback = 5500;
-        if(portSocket != portFallback)
-        {
-            qWarning() << Q_FUNC_INFO << "Tentative sur port de secours"
-                       << portFallback;
-
-            if(!udpSocket->bind(QHostAddress::Any, portFallback))
-            {
-                qWarning() << Q_FUNC_INFO << "Échec aussi sur port de secours"
-                           << ":" << udpSocket->errorString();
-                return;
-            }
-            else
-            {
-                qInfo() << Q_FUNC_INFO << "Bind réussi sur port de secours"
-                        << portFallback;
-                portSocket = portFallback; // Met à jour la valeur utilisée
-            }
-        }
-        else
-        {
-            return;
-        }
-    }
-    else
-    {
-        qInfo() << Q_FUNC_INFO << "Bind réussi sur port" << portSocket;
+        return;
     }
 
     connect(udpSocket,
@@ -281,94 +253,50 @@ int CommunicationWiFi::recupererIdSegment(const QString& adresseIPSegment)
     return idSegment;
 }
 
-bool CommunicationWiFi::recupererPort(int& port)
-{
-    QString cheminConfiguration =
-      QCoreApplication::applicationDirPath() + "/config-elightapp.ini";
-
-    if(QFile::exists(cheminConfiguration))
-    {
-        qDebug() << Q_FUNC_INFO << "cheminConfiguration" << cheminConfiguration;
-
-        QSettings parametres(cheminConfiguration, QSettings::IniFormat);
-        port = parametres.value("CommunicationWifi/port").toInt();
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-void CommunicationWiFi::envoyerTrameDemandePuissance(const QString& adresse)
+void CommunicationWiFi::envoyerTrameDemandePuissance(const QString& adresse,
+                                                     quint16        port)
 {
     QString    trame   = "#P;0\r\n";
     QByteArray donnees = trame.toUtf8();
 
     QHostAddress adresseDestinataire(adresse);
 
-    int port;
+    qint64 octetsEnvoyes =
+      udpSocketEmission->writeDatagram(donnees, adresseDestinataire, port);
 
-    if(recupererPort(port))
+    if(octetsEnvoyes == -1)
     {
-        quint16 portDestinataire = port;
-
-        qint64 octetsEnvoyes =
-          udpSocketEmission->writeDatagram(donnees,
-                                           adresseDestinataire,
-                                           portDestinataire);
-
-        if(octetsEnvoyes == -1)
-        {
-            qWarning() << Q_FUNC_INFO << " Erreur envoi "
-                       << udpSocketEmission->errorString();
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO << "Adresse " << adresse << " Trame "
-                     << trame.trimmed();
-        }
+        qWarning() << Q_FUNC_INFO << "Erreur envoi"
+                   << udpSocketEmission->errorString();
     }
     else
     {
-        qWarning() << Q_FUNC_INFO << " Port non trouvé ";
+        qDebug() << Q_FUNC_INFO << "adresse" << adresse << "port" << port
+                 << "trame" << trame.trimmed();
     }
 }
 
-void CommunicationWiFi::envoyerTrameIntensite(const QString& adresse,
-                                              const int&     intensite)
+void CommunicationWiFi::envoyerTrameIntensite(const int&     intensite,
+                                              const QString& adresse,
+                                              quint16        port)
 {
     QString    trame   = "#I;" + QString::number(intensite) + "\r\n";
     QByteArray donnees = trame.toUtf8();
 
     QHostAddress adresseDestinataire(adresse);
 
-    int port;
+    qint64 octetsEnvoyes =
+      udpSocketEmission->writeDatagram(donnees, adresseDestinataire, port);
 
-    if(recupererPort(port))
+    if(octetsEnvoyes == -1)
     {
-        quint16 portDestinataire = port;
-
-        qint64 octetsEnvoyes =
-          udpSocketEmission->writeDatagram(donnees,
-                                           adresseDestinataire,
-                                           portDestinataire);
-
-        if(octetsEnvoyes == -1)
-        {
-            qWarning() << Q_FUNC_INFO << " Erreur envoi "
-                       << udpSocketEmission->errorString();
-        }
-        else
-        {
-            qDebug() << Q_FUNC_INFO << "Adresse " << adresse << " Trame "
-                     << trame.trimmed();
-        }
+        qWarning() << Q_FUNC_INFO << " Erreur envoi "
+                   << udpSocketEmission->errorString();
     }
     else
     {
-        qWarning() << Q_FUNC_INFO << " Port non trouvé ";
+        qDebug() << Q_FUNC_INFO << "adresse" << adresse << "port" << port
+                 << "trame" << trame.trimmed();
     }
 }
 
@@ -391,13 +319,15 @@ QString CommunicationWiFi::recupererAdresseDestination(const int& idSegment)
         if(requete.next())
         {
             adresse = requete.value(0).toString();
-            qDebug() << Q_FUNC_INFO << " ipSegment " << adresse;
+            qDebug() << Q_FUNC_INFO << "adresse" << adresse;
         }
         else
         {
-            qDebug() << Q_FUNC_INFO << " zero résultat " << idSegment;
+            qDebug() << Q_FUNC_INFO << "aucun résultat !"
+                     << "idSegment" << idSegment;
         }
     }
+
     return adresse;
 }
 
@@ -405,10 +335,16 @@ void CommunicationWiFi::traiterPuissance(QString adresse,
                                          int     idSegment,
                                          int     puissance)
 {
-    qDebug() << Q_FUNC_INFO << "Puissance reçue" << puissance << "W de"
-             << adresse;
+    qDebug() << Q_FUNC_INFO << "puissance" << puissance << "W" << adresse
+             << adresse << "idSegment" << idSegment;
 
-    QSqlQuery requete;
+    /**
+     * @todo Calculer la consommation
+     */
+    /**
+     * @fixme Une puissance n'est pas une consommation !
+     */
+    /*QSqlQuery requete;
     requete.prepare(
       "INSERT INTO historique_consommation_segment (id_segment, consommation) "
       "VALUES (:id_segment, :consommation)");
@@ -418,19 +354,12 @@ void CommunicationWiFi::traiterPuissance(QString adresse,
     if(!requete.exec())
     {
         qWarning() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
-    }
-    else
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "Puissance enregistrée dans l'historique pour le segment"
-                 << idSegment;
-    }
+    }*/
 }
 
 void CommunicationWiFi::traiterAcquittement(QString adresse, int idSegment)
 {
-    qDebug() << Q_FUNC_INFO << "Acquittement reçu de" << adresse << "segment"
-             << idSegment;
+    qDebug() << Q_FUNC_INFO << "adresse" << adresse << "idSegment" << idSegment;
 }
 
 void CommunicationWiFi::traiterConfiguration(QString adresse,
@@ -439,7 +368,10 @@ void CommunicationWiFi::traiterConfiguration(QString adresse,
                                              QString nbSegments,
                                              QString superficie)
 {
-    qDebug() << Q_FUNC_INFO << "Configuration reçue de" << adresse
-             << "Salle:" << nomSalle << "Segment:" << numeroSegment
-             << "Nb:" << nbSegments << "Superficie:" << superficie;
+    qDebug() << Q_FUNC_INFO << "adresse" << adresse << "nomSalle" << nomSalle
+             << "numeroSegment" << numeroSegment << "nbSegments" << nbSegments
+             << "superficie" << superficie;
+    /**
+     * @todo Gérer cette configuration de salle
+     */
 }

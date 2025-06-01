@@ -42,18 +42,20 @@ class CommunicationWiFi : public QObject
     CommunicationWiFi(QObject* parent = nullptr);
     ~CommunicationWiFi();
 
-    void    envoyerDatagramme(const QString& type,
-                              const QString& donnees,
-                              const QString& adresse,
-                              quint16        port);
-    int     recupererIdSegment(const QString& adresseIPSegment);
-    void    traiterDatagramme(const QString&      datagramme,
-                              const QHostAddress& adresse,
-                              quint16             port);
-    bool    recupererPort(int& port);
-    void    envoyerTrameDemandePuissance(const QString& adresse);
-    void    envoyerTrameIntensite(const QString& adresse, const int& intensite);
-    QString recupererAdresseDestination(const int& idSegment);
+    void        envoyerDatagramme(const QString& type,
+                                  const QString& donnees,
+                                  const QString& adresse,
+                                  quint16        port);
+    int         recupererIdSegment(const QString& adresseIPSegment);
+    void        traiterDatagramme(const QString&      datagramme,
+                                  const QHostAddress& adresse,
+                                  quint16             port);
+    void        envoyerTrameDemandePuissance(const QString& adresse,
+                                             quint16        port = PORT_DEFAUT);
+    void        envoyerTrameIntensite(const int&     intensite,
+                                      const QString& adresse,
+                                      quint16        port = PORT_DEFAUT);
+    QString     recupererAdresseDestination(const int& idSegment);
     QStringList recupererAdressesDestinations();
     bool        recupererNomSalle(QString& adresse);
     QString     recupererAdresseDestination();
