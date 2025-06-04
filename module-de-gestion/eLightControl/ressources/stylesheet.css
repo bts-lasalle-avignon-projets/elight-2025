@@ -29,15 +29,20 @@ QPushButton:pressed {
     border-color: #c98a2b;
 }
 
-QPushButton#boutonRetirerScenarioActif {
+QPushButton#boutonSupprimerScenario {
     background-color: #a0a0a0;
     border: 2px solid #808080;
     color: #222;
 }
 
-QPushButton#boutonRetirerScenarioActif:hover {
+QPushButton#boutonSupprimerScenario:hover {
     background-color: #727272;
     border-color: #5a5a5a;
+}
+
+QPushButton#boutonSupprimerScenario:pressed {
+    background-color: #636363;
+    border-color: #4e4e4e;
 }
 
 QPushButton#boutonConfirmerSelectionScenario,
@@ -65,8 +70,8 @@ QPushButton#boutonValiderModifierScenario:pressed {
     border-color: #4a9a34;
 }
 
-QPushButton#boutonSupprimerScenario {
-    background-color: #f28b82;
+QPushButton#boutonRetirerScenarioActif {
+    background-color: #ff5353;
     border: 2px solid #d93025;
     border-radius: 6px;
     padding: 6px 12px;
@@ -74,12 +79,12 @@ QPushButton#boutonSupprimerScenario {
     font-weight: bold;
 }
 
-QPushButton#boutonSupprimerScenario:hover {
+QPushButton#boutonRetirerScenarioActif:hover {
     background-color: #f66c6c;
     border-color: #c5221f;
 }
 
-QPushButton#boutonSupprimerScenario:pressed {
+QPushButton#boutonRetirerScenarioActif:pressed {
     background-color: #e63946;
     border-color: #9c1c1c;
 }

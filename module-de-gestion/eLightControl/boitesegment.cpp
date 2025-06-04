@@ -9,8 +9,12 @@ BoiteSegment::BoiteSegment(int segmentId, QWidget* parent) :
     QFont   police;
     police.setPointSize(TAILLE_POLICE);
 
-    imageLabel     = new QLabel(this);
+    this->setObjectName("segment");
+
+    imageLabel = new QLabel(this);
+    imageLabel->setObjectName("imageLabelSegment");
     puissanceLabel = new QLabel(this);
+    puissanceLabel->setObjectName("puissanceLabelSegment");
     puissanceLabel->setStyleSheet("font-weight: bold;");
     puissanceLabel->setFont(police);
 
@@ -39,11 +43,21 @@ void BoiteSegment::setPuissance(double nouvellePuissance)
 
     if(nouvellePuissance == 0)
     {
-        this->setStyleSheet("background-color: #ff5353; border-radius: 15px;");
+        this->setStyleSheet("#segment { "
+                            "background-color: #ff5353;"
+                            "border-radius: 9px; "
+                            "border: 2px solid #d93025; }"
+                            "#imageLabelSegment, #puissanceLabelSegment { "
+                            "background-color: #ff5353; }");
     }
     else
     {
-        this->setStyleSheet("background-color: #6bff6b; border-radius: 15px;");
+        this->setStyleSheet("#segment { "
+                            "background-color: #a6e36e;"
+                            "border-radius: 9px; "
+                            "border: 2px solid #78c850; }"
+                            "#imageLabelSegment, #puissanceLabelSegment { "
+                            "background-color: #a6e36e; }");
     }
 }
 

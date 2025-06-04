@@ -350,6 +350,7 @@ void PageAccueil::chargerSegmentsDepuisBDD()
             labelSegmentId->setAlignment(Qt::AlignCenter);
 
             BoiteSegment* segment = new BoiteSegment(idSegment, this);
+            segment->setObjectName("segment");
             listeSegments.append(segment);
 
             layoutSegments->addWidget(labelSegmentId, ligne, colonne);
