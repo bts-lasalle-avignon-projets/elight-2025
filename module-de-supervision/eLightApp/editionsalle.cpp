@@ -32,6 +32,8 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     QPushButton* validerScenario = new QPushButton("Ajouter", this);
     QPushButton* modifScenario   = new QPushButton("Modifier", this);
     QPushButton* supprScenario   = new QPushButton("Supprimer", this);
+    QPushButton* boutonDemandePuissance =
+      new QPushButton("Demande puissance", this);
 
     QVBoxLayout* layout          = new QVBoxLayout(this);
     QHBoxLayout* entete          = new QHBoxLayout;
@@ -43,6 +45,7 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     entete->addWidget(labelLogoeLight);
     entete->addWidget(titreEdition, Qt::AlignBaseline);
 
+    editionSegment->addWidget(boutonDemandePuissance);
     editionSegment->addWidget(supprSegment, 0, 1);
     editionSegment->addWidget(ajoutIPSegment, 1, 0);
     ajoutIPSegment->setPlaceholderText("xxx.xxx.xxx.xxx");
@@ -119,6 +122,11 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
             this,
             &EditionSalle::supprimerScenariosBDD);
 
+    connect(boutonDemandePuissance,
+            &QPushButton::clicked,
+            this,
+            &EditionSalle::envoyerDemandePuissanceSegment);
+
     this->setStyleSheet("background-color: #FFFFFF;");
     titreEdition->setStyleSheet("font-weight: 900; font-size: 50px;");
     validerSegment->setStyleSheet("border: 1px solid black;");
@@ -126,6 +134,8 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     validerScenario->setStyleSheet("border: 1px solid black;");
     modifScenario->setStyleSheet("border: 1px solid black;");
     supprScenario->setStyleSheet("border: 1px solid black;");
+    boutonDemandePuissance->setStyleSheet("border: 1px solid black;");
+
 #ifdef RASPBERRY_PI
     setWindowFlags(Qt::FramelessWindowHint |
                    Qt::Dialog); // Ajouter Qt::WindowStaysOnTopHint*/
@@ -516,4 +526,43 @@ void EditionSalle::ajouterScenariosBDD()
     ajoutIntensiteScenario->clear();
 
     chargerScenariosDepuisBDD();
+}
+
+void EditionSalle::envoyerDemandePuissanceSegment()
+{
+    qDebug() << Q_FUNC_INFO;
+    QString     segmentChoisi  = menuSegments->currentText();
+    QStringList partiesSegment = segmentChoisi.split(" - ");
+    if(partiesSegment.size() < 2)
+    {
+        qDebug() << Q_FUNC_INFO << "Format du segment invalide";
+        return;
+    }
+
+    QString ipSegment = partiesSegment.at(1).split("ip :").last().trimmed();
+    if(ipSegment.isEmpty())
+    {
+        qDebug() << Q_FUNC_INFO << "IP segment vide ou invalide";
+        return;
+    }
+
+    QString    trame   = "#P;0\r\n";
+    QByteArray donnees = trame.toUtf8();
+
+    QHostAddress adresse(ipSegment);
+    quint16      port = 5000;
+
+    QUdpSocket socket;
+    qint64     bytesEnvoyes = socket.writeDatagram(donnees, adresse, port);
+
+    if(bytesEnvoyes == -1)
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur lors de l'envoi de la trame à"
+                 << ipSegment << socket.errorString();
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "Trame envoyée à" << ipSegment << "->"
+                 << trame.trimmed();
+    }
 }

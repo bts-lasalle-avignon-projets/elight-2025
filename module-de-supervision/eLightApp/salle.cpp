@@ -164,6 +164,7 @@ void Salle::chargerScenariosDepuisBDD()
         QString intensiteScenario =
           requete.value(COLONNE_INTENSITE_SCENARIO).toString();
 
+        // Extraction IP dans le texte format : "Segment #X - ip : 192.168.1.Y"
         menuScenario->addItem("Scénario #" + idScenario + " - " + nomScenario +
                               " - " + intensiteScenario + " lux");
     }
