@@ -22,6 +22,11 @@
       - [Page d'accueil](#page-daccueil)
       - [Page gestion des scénarios](#page-gestion-des-scénarios)
       - [Page guide d'utilisation](#page-guide-dutilisation)
+    - [IHM - Module de supervision](#module-de-supervision)
+      - [Page d'accueil](#page-daccueil)
+      - [Page d'information de salle](#page-dinformation-de-salle)
+      - [Page d'édition de salle](#page-dédition-de-salle)
+      - [Page de l'historique de consommation](#page-de-lhistorique-de-consommation)
   - [Changelog](#changelog)
   - [Documentation](#documentation)
   - [Créateurs](#créateurs)
@@ -86,21 +91,21 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ### Recette - Module de supervision
 
-- [ ] L’état de n’importe quelle salle est affichable
-- [ ] L’édition des informations associées à une salle est possible
-- [ ] L‘état de n’importe quel segment est affichable
-- [ ] L’assignation d’un segment à une salle est possible
-- [ ] Tous les scénarios d’éclairage sont gérables
-- [ ] La consommation d’éclairage est visible à l’instant T
-- [ ] L’historique des consommations d’éclairage est visualisable
+- [x] L’état de n’importe quelle salle est affichable
+- [x] L’édition des informations associées à une salle est possible
+- [x] L‘état de n’importe quel segment est affichable
+- [x] L’assignation d’un segment à une salle est possible
+- [x] Tous les scénarios d’éclairage sont gérables
+- [x] La consommation d’éclairage est visible à l’instant T
+- [x] L’historique des consommations d’éclairage est visualisable
 - [ ] La liaison sans fil est opérationnelle
 
 **Production attendue :**
 
-- [ ] Une application informatique fonctionnelle ;
-- [ ] Un modèle UML complet de la partie à développer ;
-- [ ] Le code source commenté de l'application ;
-- [ ] Les documentations associées au module.
+- [x] Une application informatique fonctionnelle ;
+- [x] Un modèle UML complet de la partie à développer ;
+- [x] Le code source commenté de l'application ;
+- [x] Les documentations associées au module.
 
 ## Diagrammes
 
@@ -110,13 +115,13 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ### Diagrammes de cas d'utilisation - Module de supervision
 
-![Diagramme de cas d'utilisation](images/diagramme-cas-dutilisation-module-de-supervision.png)
+![Diagramme de cas d'utilisation](images/diagramme-cas-utilisation-supervision.png)
 
 ## Base de données
 
 ![Schéma de la base de données](images/diagramme-de-la-base-de-donnees.png)
 
-> TODO
+![Guide d'installation](base-de-donnees/GUIDE-D-INSTALLATION.md)
 
 ## Utilisation
 
@@ -142,24 +147,45 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 #### Page d'accueil
 
-![Page d'accueil](images/page-d-acceuil-module-de-supervision.png)
+![Page d'accueil](images/page-d-accueil-supervision.png)
 
 #### Page d'information de salle
 
-![Page d'accueil](images/page-info-salle-module-de-supervision.png)
+![Premier exemple de salle](images/page-salle-exemple-1-supervision.png)
+
+![Deuxième exemple de salle](images/page-salle-exemple-2-supervision.png)
+
+![Troisième exemple de salle](images/page-salle-exemple-3-supervision.png)
 
 #### Page d'édition de salle
 
-![Page d'accueil](images/page-d-edition-de-salle-module-de-supervision.png)
+![Page d'édition de salle](images/page-edition-salle-supervision.png)
 
+![Page modification du nom du scénario](images/modif-scenario-1-supervision.png)
+
+![Page modification de l'intensité du scénario](images/modif-scenario-2-supervision.png)
+
+#### Page de l'historique de consommation
+
+![Page de l'historique de consommation](images/page-historique-supervision.png)
 
 ## Changelog
 
-> TODO
+#### v1.0.0 - 2025-06-04
+- Version finale stable du projet eLight
+- Implémentation complète des modules de gestion par salle et de supervision
+- Fonctionnalités clés :
+  - Création, suppression et gestion des scénarios d’éclairage
+  - Supervision en temps réel des salles et segments
+  - Visualisation de la consommation instantanée et historique
+  - Interface utilisateur complète et ergonomique
+- Base de données opérationnelle et synchronisée
+- Documentation et modèles UML fournis
 
-## Documentation
-
-> TODO
+### Versions futures (à prévoir)
+- Corrections de bugs mineurs
+- Optimisations de la liaison sans fil
+- Ajout possible de fonctionnalités avancées
 
 ## Créateurs
 
