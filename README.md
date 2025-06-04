@@ -172,7 +172,6 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 ## Changelog
 
 #### v1.0.0 - 2025-06-04
-- Version finale stable du projet eLight
 - Implémentation complète des modules de gestion par salle et de supervision
 - Fonctionnalités clés :
   - Création, suppression et gestion des scénarios d’éclairage
