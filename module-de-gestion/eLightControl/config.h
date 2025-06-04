@@ -31,4 +31,10 @@
  */
 #define FICHIER_CONFIGURATION "config.ini"
 
+/**
+ * @def TAILLE_POLICE
+ * @brief Police de texte par défaut
+ */
+#define TAILLE_POLICE 16
+
 #endif // CONFIG_H

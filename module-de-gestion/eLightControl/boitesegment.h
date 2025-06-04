@@ -10,16 +10,16 @@
 #define ICONE_SEGMENT "lampe.png"
 
 /**
- * @def LARGEUR_ICONE
+ * @def LARGEUR_ICONE_LAMPE
  * @brief La largeur de l'icone de la lampe
  */
-#define LARGEUR_ICONE 100
+#define LARGEUR_ICONE_LAMPE 43
 
 /**
- * @def HAUTEUR_ICONE
+ * @def HAUTEUR_ICONE_LAMPE
  * @brief La hauteur de l'icone de la lampe
  */
-#define HAUTEUR_ICONE 100
+#define HAUTEUR_ICONE_LAMPE 100
 
 class BoiteSegment : public QWidget
 {

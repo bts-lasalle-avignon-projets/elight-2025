@@ -6,13 +6,18 @@ BoiteSegment::BoiteSegment(int segmentId, QWidget* parent) :
     QWidget(parent), idSegment(segmentId)
 {
     QPixmap iconeLampe(QString(CHEMIN_RESSOURCES) + QString(ICONE_SEGMENT));
+    QFont   police;
+    police.setPointSize(TAILLE_POLICE);
 
     imageLabel     = new QLabel(this);
     puissanceLabel = new QLabel(this);
-    puissanceLabel->setStyleSheet("font-size: 16px; font-weight: bold;");
+    puissanceLabel->setStyleSheet("font-weight: bold;");
+    puissanceLabel->setFont(police);
 
-    imageLabel->setPixmap(
-      iconeLampe.scaled(LARGEUR_ICONE, HAUTEUR_ICONE, Qt::KeepAspectRatio));
+    imageLabel->setPixmap(iconeLampe.scaled(LARGEUR_ICONE_LAMPE,
+                                            HAUTEUR_ICONE_LAMPE,
+                                            Qt::KeepAspectRatio,
+                                            Qt::FastTransformation));
 
     QHBoxLayout* layout = new QHBoxLayout(this);
 

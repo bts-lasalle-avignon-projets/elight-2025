@@ -1,11 +1,15 @@
 #include "pagegestionscenario.h"
+#include "config.h"
 #include <QDebug>
 
 PageGestionScenario::PageGestionScenario(QWidget* parent) :
     QWidget(parent), baseDeDonnees(CommunicationBaseDeDonnees::getInstance())
 {
+    QString cheminRessources = "./" + QString(CHEMIN_RESSOURCES) + "/";
+    QIcon   iconeValider(cheminRessources + QString(ICONE_VALIDER_GESTION));
+    QIcon   iconeSupprimer(cheminRessources + QString(ICONE_SUPPRIMER_GESTION));
+
     QLabel* titreCreationScenario = new QLabel(this);
-    boutonRetourGestionScenario   = new QPushButton(this);
 
     QLabel* texteEnregistrerScenario           = new QLabel(this);
     QLabel* nomEnregistrerScenario             = new QLabel(this);
@@ -29,17 +33,50 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     boiteNouvelleIntensite                     = new QLineEdit(this);
     QPushButton* boutonValiderModifierScenario = new QPushButton(this);
 
-    titreCreationScenario->setText("<h1>Création</h1>");
-    boutonRetourGestionScenario->setText("Retour");
+    QFont police;
+    police.setPointSize(TAILLE_POLICE);
 
-    texteEnregistrerScenario->setText("Enregistrer un scénario : ");
+    titreCreationScenario->setFont(police);
+    texteEnregistrerScenario->setFont(police);
+    nomEnregistrerScenario->setFont(police);
+    intensiteEnregistrerScenario->setFont(police);
+    titreModificationSuppressionScenario->setFont(police);
+    texteListeScenarios->setFont(police);
+    listeScenarios->setFont(police);
+    texteModifierScenarioExistant->setFont(police);
+    nouveauNomModifierScenario->setFont(police);
+    nouvelleIntensiteModifierScenario->setFont(police);
+    boiteNouveauNom->setFont(police);
+    boiteNouvelleIntensite->setFont(police);
+
+    titreCreationScenario->setText("<h1>Création</h1><br>");
+
+    texteEnregistrerScenario->setText("<b>Enregistrer un scénario : </b>");
     nomEnregistrerScenario->setText("Nom");
+    nomEnregistrerScenario->setSizePolicy(QSizePolicy::Expanding,
+                                          QSizePolicy::Preferred);
+    nomEnregistrerScenario->setObjectName("nomEnregistrerScenario");
     boiteNomScenario->setPlaceholderText("...");
+    boiteNomScenario->setSizePolicy(QSizePolicy::Expanding,
+                                    QSizePolicy::Preferred);
     intensiteEnregistrerScenario->setText("Intensité lumineuse - 750 max");
+    intensiteEnregistrerScenario->setSizePolicy(QSizePolicy::Expanding,
+                                                QSizePolicy::Preferred);
+    intensiteEnregistrerScenario->setObjectName("intensiteEnregistrerScenario");
     boiteIntensiteScenario->setPlaceholderText("...");
+    boiteIntensiteScenario->setSizePolicy(QSizePolicy::Expanding,
+                                          QSizePolicy::Preferred);
     boiteIntensiteScenario->setValidator(
       new QIntValidator(INTENSITE_MIN, INTENSITE_MAX, this));
-    boutonValiderCreationScenario->setText("Confirmer");
+
+    boutonValiderCreationScenario->setIcon(iconeValider);
+    boutonValiderCreationScenario->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS_GESTION, HAUTEUR_ICONES_BOUTONS_GESTION));
+    boutonValiderCreationScenario->setFixedSize(
+      LARGEUR_ICONES_BOUTONS_GESTION + PADDING_ICONES_GESTION,
+      HAUTEUR_ICONES_BOUTONS_GESTION + PADDING_ICONES_GESTION);
+    boutonValiderCreationScenario->setObjectName(
+      "boutonValiderCreationScenario");
 
     separateurGestionScenarios->setFrameShape(QFrame::HLine);
     separateurGestionScenarios->setFrameShadow(QFrame::Sunken);
@@ -47,19 +84,42 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     separateurGestionScenarios->setFixedHeight(10);
 
     titreModificationSuppressionScenario->setText(
-      "<h1>Modification & Suppression</h1>");
+      "<h1>Modification & Suppression</h1><br>");
 
-    texteListeScenarios->setText("Liste des scénarios : ");
-    boutonSupprimerScenario->setText("Supprimer");
+    texteListeScenarios->setText("<b>Liste des scénarios : </b>");
+    listeScenarios->setSizePolicy(QSizePolicy::Expanding,
+                                  QSizePolicy::Preferred);
+    boutonSupprimerScenario->setIcon(iconeSupprimer);
+    boutonSupprimerScenario->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS_GESTION, HAUTEUR_ICONES_BOUTONS_GESTION));
+    boutonSupprimerScenario->setFixedSize(
+      LARGEUR_ICONES_BOUTONS_GESTION + PADDING_ICONES_GESTION,
+      HAUTEUR_ICONES_BOUTONS_GESTION + PADDING_ICONES_GESTION);
+    boutonSupprimerScenario->setObjectName("boutonSupprimerScenario");
 
-    texteModifierScenarioExistant->setText("Modifier un scénario existant : ");
+    texteModifierScenarioExistant->setText("<b>Modifier un scénario : </b>");
     nouveauNomModifierScenario->setText("Nouveau nom");
+    nouveauNomModifierScenario->setObjectName("nouveauNomModifierScenario");
     boiteNouveauNom->setPlaceholderText("...");
+    boiteNouveauNom->setSizePolicy(QSizePolicy::Expanding,
+                                   QSizePolicy::Preferred);
     nouvelleIntensiteModifierScenario->setText("Nouvelle intensité lumineuse");
+    nouvelleIntensiteModifierScenario->setObjectName(
+      "nouvelleIntensiteModifierScenario");
     boiteNouvelleIntensite->setPlaceholderText("...");
+    boiteNouvelleIntensite->setSizePolicy(QSizePolicy::Expanding,
+                                          QSizePolicy::Preferred);
     boiteNouvelleIntensite->setValidator(
       new QIntValidator(INTENSITE_MIN, INTENSITE_MAX, this));
-    boutonValiderModifierScenario->setText("Valider");
+
+    boutonValiderModifierScenario->setIcon(iconeValider);
+    boutonValiderModifierScenario->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS_GESTION, HAUTEUR_ICONES_BOUTONS_GESTION));
+    boutonValiderModifierScenario->setFixedSize(
+      LARGEUR_ICONES_BOUTONS_GESTION + PADDING_ICONES_GESTION,
+      HAUTEUR_ICONES_BOUTONS_GESTION + PADDING_ICONES_GESTION);
+    boutonValiderModifierScenario->setObjectName(
+      "boutonValiderModifierScenario");
 
     QVBoxLayout* layoutVerticalPageGestionScenario = new QVBoxLayout(this);
     QHBoxLayout* layoutEnteteCreationScenario      = new QHBoxLayout;
@@ -67,24 +127,26 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     QVBoxLayout* layoutCreationScenarioNom         = new QVBoxLayout;
     QVBoxLayout* layoutCreationScenarioIntensite   = new QVBoxLayout;
 
-    QHBoxLayout* layoutEnteteModificationCreationScenario = new QHBoxLayout;
-    QHBoxLayout* layoutListeScenarios                     = new QHBoxLayout;
-    QHBoxLayout* layoutModifierScenario                   = new QHBoxLayout;
-    QVBoxLayout* layoutModifierScenarioNom                = new QVBoxLayout;
-    QVBoxLayout* layoutModifierScenarioIntensite          = new QVBoxLayout;
+    QHBoxLayout* layoutEnteteModificationSuppressionScenario = new QHBoxLayout;
+
+    QGridLayout* layoutGridModificationSuppressionScenario = new QGridLayout;
+
+    QHBoxLayout* layoutModifierScenario = new QHBoxLayout;
+
+    QVBoxLayout* layoutModifierScenarioNom       = new QVBoxLayout;
+    QVBoxLayout* layoutModifierScenarioIntensite = new QVBoxLayout;
 
     layoutVerticalPageGestionScenario->addLayout(layoutEnteteCreationScenario);
     layoutVerticalPageGestionScenario->addLayout(layoutCreationScenario);
     layoutVerticalPageGestionScenario->addStretch();
     layoutVerticalPageGestionScenario->addWidget(separateurGestionScenarios);
     layoutVerticalPageGestionScenario->addLayout(
-      layoutEnteteModificationCreationScenario);
+      layoutEnteteModificationSuppressionScenario);
+    layoutVerticalPageGestionScenario->addLayout(
+      layoutGridModificationSuppressionScenario);
     layoutVerticalPageGestionScenario->addStretch();
-    layoutVerticalPageGestionScenario->addLayout(layoutListeScenarios);
-    layoutVerticalPageGestionScenario->addLayout(layoutModifierScenario);
 
     layoutEnteteCreationScenario->addWidget(titreCreationScenario);
-    layoutEnteteCreationScenario->addWidget(boutonRetourGestionScenario);
 
     layoutCreationScenario->addWidget(texteEnregistrerScenario);
     layoutCreationScenario->addLayout(layoutCreationScenarioNom);
@@ -95,17 +157,31 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     layoutCreationScenario->addLayout(layoutCreationScenarioIntensite);
     layoutCreationScenario->addWidget(boutonValiderCreationScenario);
 
-    layoutEnteteModificationCreationScenario->addWidget(
+    layoutEnteteModificationSuppressionScenario->addWidget(
       titreModificationSuppressionScenario);
 
-    layoutListeScenarios->addWidget(texteListeScenarios);
-    layoutListeScenarios->addWidget(listeScenarios);
-    layoutListeScenarios->addWidget(boutonSupprimerScenario);
+    layoutGridModificationSuppressionScenario->addWidget(texteListeScenarios,
+                                                         0,
+                                                         0);
+    layoutGridModificationSuppressionScenario->addWidget(
+      texteModifierScenarioExistant,
+      1,
+      0);
+    layoutGridModificationSuppressionScenario->addWidget(listeScenarios, 0, 1);
+    layoutGridModificationSuppressionScenario->addLayout(layoutModifierScenario,
+                                                         1,
+                                                         1);
+    layoutGridModificationSuppressionScenario->addWidget(
+      boutonSupprimerScenario,
+      0,
+      2);
+    layoutGridModificationSuppressionScenario->addWidget(
+      boutonValiderModifierScenario,
+      1,
+      2);
 
-    layoutModifierScenario->addWidget(texteModifierScenarioExistant);
     layoutModifierScenario->addLayout(layoutModifierScenarioNom);
     layoutModifierScenario->addLayout(layoutModifierScenarioIntensite);
-    layoutModifierScenario->addWidget(boutonValiderModifierScenario);
 
     layoutModifierScenarioNom->addWidget(nouveauNomModifierScenario);
     layoutModifierScenarioNom->addWidget(boiteNouveauNom);
@@ -114,37 +190,20 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
       nouvelleIntensiteModifierScenario);
     layoutModifierScenarioIntensite->addWidget(boiteNouvelleIntensite);
 
-    connect(boutonValiderCreationScenario,
-            &QPushButton::clicked,
-            this,
-            [=]
-            {
-                enregistrerScenario();
-            });
-    connect(boutonSupprimerScenario,
-            &QPushButton::clicked,
-            this,
-            [=]
-            {
-                supprimerScenario();
-            });
-    connect(boutonValiderModifierScenario,
-            &QPushButton::clicked,
-            this,
-            [=]
-            {
-                modifierScenario();
-            });
+    connect(boutonValiderCreationScenario, &QPushButton::clicked, this, [=] {
+        enregistrerScenario();
+    });
+    connect(boutonSupprimerScenario, &QPushButton::clicked, this, [=] {
+        supprimerScenario();
+    });
+    connect(boutonValiderModifierScenario, &QPushButton::clicked, this, [=] {
+        modifierScenario();
+    });
 
     if(baseDeDonnees.connecter())
     {
         chargerScenariosDepuisBDD();
     }
-}
-
-QPushButton* PageGestionScenario::getBoutonRetourGestionScenario() const
-{
-    return boutonRetourGestionScenario;
 }
 
 void PageGestionScenario::chargerScenariosDepuisBDD()
