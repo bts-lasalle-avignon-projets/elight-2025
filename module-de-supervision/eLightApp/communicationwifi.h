@@ -33,6 +33,8 @@
 #define NUMERO_SEGMENT_TRAME        2
 #define NOMBRE_SEGMENTS_TRAME       3
 #define SUPERFICIE_SALLE            4
+#include <QHash>
+#include <QDateTime>
 
 class CommunicationWiFi : public QObject
 {
@@ -73,11 +75,12 @@ class CommunicationWiFi : public QObject
                               QString superficie);
 
   private:
-    QUdpSocket* udpSocket;
-    quint16     portSocket;
-    quint32     rafraichissement;
-    QUdpSocket* udpSocketEmission;
-    int         portWebSocket;
+    QUdpSocket*           udpSocket;
+    quint16               portSocket;
+    quint32               rafraichissement;
+    QUdpSocket*           udpSocketEmission;
+    int                   portWebSocket;
+    QHash<int, QDateTime> m_lastTimestampParSegment;
 
   signals:
     void puissanceInstantaneeSegmentRecue(QString adresse,

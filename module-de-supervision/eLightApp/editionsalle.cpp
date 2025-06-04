@@ -194,6 +194,54 @@ void EditionSalle::sauvegarderFenetreScenarios()
         }
     }
     chargerScenariosDepuisBDD();
+
+    // Récupérer les lux du scénario sélectionné
+    QString luxStr =
+      partiesScenario.at(2).split(" ").at(0).trimmed(); // "intensité lux"
+    bool ok;
+    int  intensite = luxStr.toInt(&ok);
+    if(!ok)
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur conversion intensité lux";
+        return;
+    }
+
+    // Récupérer les IP des segments de la salle
+    QSqlQuery querySegments;
+    querySegments.prepare(
+      "SELECT ip_segment FROM segment WHERE id_salle = :id_salle");
+    querySegments.bindValue(":id_salle", idSalle);
+
+    if(!querySegments.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL"
+                 << querySegments.lastError().text();
+        return;
+    }
+
+    while(querySegments.next())
+    {
+        QString ipSegment = querySegments.value(0).toString();
+
+        QString    trame   = "#I;" + QString::number(intensite) + "\r\n";
+        QByteArray donnees = trame.toUtf8();
+
+        QHostAddress adresse(ipSegment);
+        quint16      port = 5000;
+
+        QUdpSocket socket;
+        qint64     bytes = socket.writeDatagram(donnees, adresse, port);
+        if(bytes == -1)
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur envoi vers" << ipSegment
+                     << socket.errorString();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "Trame envoyée à" << ipSegment << "->"
+                     << trame.trimmed();
+        }
+    }
 }
 
 void EditionSalle::sauvegarderFenetreSegments()

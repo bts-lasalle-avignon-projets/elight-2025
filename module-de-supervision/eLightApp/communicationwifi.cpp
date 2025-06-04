@@ -338,23 +338,50 @@ void CommunicationWiFi::traiterPuissance(QString adresse,
     qDebug() << Q_FUNC_INFO << "puissance" << puissance << "W" << adresse
              << adresse << "idSegment" << idSegment;
 
-    /**
-     * @todo Calculer la consommation
-     */
-    /**
-     * @fixme Une puissance n'est pas une consommation !
-     */
-    /*QSqlQuery requete;
-    requete.prepare(
-      "INSERT INTO historique_consommation_segment (id_segment, consommation) "
-      "VALUES (:id_segment, :consommation)");
-    requete.bindValue(":id_segment", idSegment);
-    requete.bindValue(":consommation", puissance);
+    QDateTime now = QDateTime::currentDateTimeUtc();
 
-    if(!requete.exec())
+    double dureeHeures = 0;
+
+    if(m_lastTimestampParSegment.contains(idSegment) &&
+       m_lastTimestampParSegment[idSegment].isValid())
     {
-        qWarning() << Q_FUNC_INFO << "Erreur SQL" << requete.lastError().text();
-    }*/
+        qint64 msecs = m_lastTimestampParSegment[idSegment].msecsTo(now);
+        dureeHeures  = msecs / 1000.0 / 3600.0; // conversion ms -> heures
+    }
+    else
+    {
+        // Première mesure pour ce segment
+        dureeHeures = 0;
+    }
+
+    m_lastTimestampParSegment[idSegment] = now;
+
+    if(dureeHeures > 0)
+    {
+        double consommation = (puissance * dureeHeures) / 1000.0;
+
+        qDebug() << Q_FUNC_INFO << "Segment" << idSegment
+                 << "Intervalle (h):" << dureeHeures
+                 << "Consommation calculée:" << consommation << "kWh";
+
+        QSqlQuery requete;
+        requete.prepare("INSERT INTO historique_consommation_segment "
+                        "(id_segment, consommation) "
+                        "VALUES (:id_segment, :consommation)");
+        requete.bindValue(":id_segment", idSegment);
+        requete.bindValue(":consommation", consommation);
+
+        if(!requete.exec())
+        {
+            qWarning() << Q_FUNC_INFO << "Erreur SQL"
+                       << requete.lastError().text();
+        }
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "Segment" << idSegment
+                 << "Première mesure reçue, pas de calcul de consommation";
+    }
 }
 
 void CommunicationWiFi::traiterAcquittement(QString adresse, int idSegment)
