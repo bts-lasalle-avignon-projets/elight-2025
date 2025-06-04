@@ -98,42 +98,6 @@ void ELightControl::gererNavigation()
             this,
             [=] {
                 changerPage(Page::PARAMETRES);
-                pageParametres->chargerIpBoitierDepuisBDD();
-            });
-
-    connect(pageAccueil->getBoutonGererScenarios(),
-            &QPushButton::clicked,
-            this,
-            [=] {
-                changerPage(Page::GESTION);
-                pageGestionScenarios->chargerScenariosDepuisBDD();
-            });
-
-    connect(pageGestionScenarios->getBoutonRetourGestionScenario(),
-            &QPushButton::clicked,
-            this,
-            [=] {
-                changerPage(Page::ACCUEIL);
-                pageAccueil->chargerScenariosDepuisBDD();
-                pageAccueil->chargerSegmentsDepuisBDD();
-            });
-
-    connect(pageGuide->getBoutonRetourGuide(),
-            &QPushButton::clicked,
-            this,
-            [=] {
-                changerPage(Page::ACCUEIL);
-                pageAccueil->chargerScenariosDepuisBDD();
-                pageAccueil->chargerSegmentsDepuisBDD();
-            });
-
-    connect(pageParametres->getBoutonRetourParametre(),
-            &QPushButton::clicked,
-            this,
-            [=] {
-                changerPage(Page::ACCUEIL);
-                pageAccueil->chargerScenariosDepuisBDD();
-                pageAccueil->chargerSegmentsDepuisBDD();
             });
 }
 

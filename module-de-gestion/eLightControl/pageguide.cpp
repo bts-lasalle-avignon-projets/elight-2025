@@ -1,13 +1,17 @@
 #include "pageguide.h"
+#include "config.h"
 #include <QDebug>
 
 PageGuide::PageGuide(QWidget* parent) : QWidget(parent)
 {
     QLabel* titrePageGuide = new QLabel(this);
-    boutonRetourGuide      = new QPushButton(this);
 
-    titrePageGuide->setText("<h1>Guide</h1>");
-    boutonRetourGuide->setText("RETOUR");
+    QFont police;
+    police.setPointSize(TAILLE_POLICE);
+
+    titrePageGuide->setFont(police);
+
+    titrePageGuide->setText("<h1>Guide</h1><br>");
 
     QVBoxLayout* layoutVertical   = new QVBoxLayout(this);
     QHBoxLayout* layoutEntetePage = new QHBoxLayout();
@@ -16,10 +20,4 @@ PageGuide::PageGuide(QWidget* parent) : QWidget(parent)
     layoutVertical->addStretch();
 
     layoutEntetePage->addWidget(titrePageGuide);
-    layoutEntetePage->addWidget(boutonRetourGuide);
-}
-
-QPushButton* PageGuide::getBoutonRetourGuide() const
-{
-    return boutonRetourGuide;
 }
