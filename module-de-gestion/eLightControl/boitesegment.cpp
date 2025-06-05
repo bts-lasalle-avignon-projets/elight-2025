@@ -6,13 +6,22 @@ BoiteSegment::BoiteSegment(int segmentId, QWidget* parent) :
     QWidget(parent), idSegment(segmentId)
 {
     QPixmap iconeLampe(QString(CHEMIN_RESSOURCES) + QString(ICONE_SEGMENT));
+    QFont   police;
+    police.setPointSize(TAILLE_POLICE);
 
-    imageLabel     = new QLabel(this);
+    this->setObjectName("segment");
+
+    imageLabel = new QLabel(this);
+    imageLabel->setObjectName("imageLabelSegment");
     puissanceLabel = new QLabel(this);
-    puissanceLabel->setStyleSheet("font-size: 16px; font-weight: bold;");
+    puissanceLabel->setObjectName("puissanceLabelSegment");
+    puissanceLabel->setStyleSheet("font-weight: bold;");
+    puissanceLabel->setFont(police);
 
-    imageLabel->setPixmap(
-      iconeLampe.scaled(LARGEUR_ICONE, HAUTEUR_ICONE, Qt::KeepAspectRatio));
+    imageLabel->setPixmap(iconeLampe.scaled(LARGEUR_ICONE_LAMPE,
+                                            HAUTEUR_ICONE_LAMPE,
+                                            Qt::KeepAspectRatio,
+                                            Qt::FastTransformation));
 
     QHBoxLayout* layout = new QHBoxLayout(this);
 
@@ -34,11 +43,21 @@ void BoiteSegment::setPuissance(double nouvellePuissance)
 
     if(nouvellePuissance == 0)
     {
-        this->setStyleSheet("background-color: #ff5353; border-radius: 15px;");
+        this->setStyleSheet("#segment { "
+                            "background-color: #ff5353;"
+                            "border-radius: 9px; "
+                            "border: 2px solid #d93025; }"
+                            "#imageLabelSegment, #puissanceLabelSegment { "
+                            "background-color: #ff5353; }");
     }
     else
     {
-        this->setStyleSheet("background-color: #6bff6b; border-radius: 15px;");
+        this->setStyleSheet("#segment { "
+                            "background-color: #a6e36e;"
+                            "border-radius: 9px; "
+                            "border: 2px solid #78c850; }"
+                            "#imageLabelSegment, #puissanceLabelSegment { "
+                            "background-color: #a6e36e; }");
     }
 }
 

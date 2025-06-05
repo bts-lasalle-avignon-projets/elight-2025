@@ -1,5 +1,5 @@
-ELightControl {
-    background-color: #FFFFFF;
+QWidget {
+    background-color: #ffffff;
 }
 
 QFrame#separateurMenuNavigation,
@@ -12,16 +12,200 @@ QFrame#separateurGestionScenarios {
 
 QPushButton {
     background-color: #ffef82;
+    border: 2px solid #d6ba4c;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #333333;
+    font-weight: bold;
 }
 
 QPushButton:hover {
     background-color: #ffc55a;
+    border-color: #e0a744;
+}
+
+QPushButton:pressed {
+    background-color: #e0a744;
+    border-color: #c98a2b;
+}
+
+QPushButton#boutonSupprimerScenario {
+    background-color: #a0a0a0;
+    border: 2px solid #808080;
+    color: #222;
+}
+
+QPushButton#boutonSupprimerScenario:hover {
+    background-color: #727272;
+    border-color: #5a5a5a;
+}
+
+QPushButton#boutonSupprimerScenario:pressed {
+    background-color: #636363;
+    border-color: #4e4e4e;
+}
+
+QPushButton#boutonConfirmerSelectionScenario,
+QPushButton#boutonValiderCreationScenario,
+QPushButton#boutonValiderModifierScenario {
+    background-color: #b8e994;
+    border: 2px solid #78c850;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #1e4620;
+    font-weight: bold;
+}
+
+QPushButton#boutonConfirmerSelectionScenario:hover,
+QPushButton#boutonValiderCreationScenario:hover,
+QPushButton#boutonValiderModifierScenario:hover {
+    background-color: #a6e36e;
+    border-color: #5fad3d;
+}
+
+QPushButton#boutonConfirmerSelectionScenario:pressed,
+QPushButton#boutonValiderCreationScenario:pressed,
+QPushButton#boutonValiderModifierScenario:pressed {
+    background-color: #85cc5e;
+    border-color: #4a9a34;
 }
 
 QPushButton#boutonRetirerScenarioActif {
-    background-color: #a0a0a0;
+    background-color: #ff5353;
+    border: 2px solid #d93025;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #6a0000;
+    font-weight: bold;
 }
 
 QPushButton#boutonRetirerScenarioActif:hover {
-    background-color: #727272;
+    background-color: #f66c6c;
+    border-color: #c5221f;
+}
+
+QPushButton#boutonRetirerScenarioActif:pressed {
+    background-color: #e63946;
+    border-color: #9c1c1c;
+}
+
+
+QComboBox {
+    background-color: #ffef82;
+    border: 2px solid #d6ba4c;
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #333333;
+    font-weight: bold;
+}
+
+QComboBox:hover {
+    background-color: #ffc55a;
+    border-color: #e0a744;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #fff8cc;
+    selection-background-color: #ffc55a;
+    selection-color: #000000;
+    border: 1px solid #d6ba4c;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 24px;
+    border: none;
+    background: transparent;
+}
+
+QComboBox::down-arrow {
+    image: url(./ressources/down_arrow.svg);
+    width: 20px;
+    height: 20px;
+}
+
+QLineEdit {
+    background-color: #ffffff;
+    border: 2px solid #d6ba4c;
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #333333;
+}
+
+QLineEdit:focus {
+    border-color: #ffc55a;
+    background-color: #fffde6;
+}
+
+
+QLabel#nomScenarioActif,
+QLabel#intensiteScenarioActif,
+QLabel#nomEnregistrerScenario,
+QLabel#intensiteEnregistrerScenario,
+QLabel#nouveauNomModifierScenario,
+QLabel#nouvelleIntensiteModifierScenario,
+QLabel#labelValeurIntensiteScenario,
+QLabel#labelValeurNouvelleIntensite {
+    background-color: #dfdfdf;
+    border: 2px solid #b8b8b8;
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #333333;
+    font-weight: bold;
+}
+
+QLabel#labelReponseGuide {
+    color: #333333;
+    font-weight: bold;
+}
+
+QPushButton#boutonFAQferme {
+    background-color: #dfdfdf;
+    border: 2px solid #b8b8b8;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: left;
+}
+
+QPushButton#boutonFAQouvert {
+    background-color: #dfdfdf;
+    border: 2px solid #b8b8b8;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding: 10px;
+    text-align: left;
+}
+
+QFrame#cadreReponseFAQ {
+    background-color: #ffffff;
+    border: 2px solid #b8b8b8;
+    border-radius: 12px;
+    margin-top: -10px;
+    padding: 12px;
+}
+
+#sliderIntensite,
+#sliderNouvelleIntensite {
+    min-height: 30px;
+}
+
+#sliderIntensite::groove:horizontal,
+#sliderNouvelleIntensite::groove:horizontal {
+    background: #dfdfdf;
+    border: 2px solid #b8b8b8;
+    height: 15px;
+    border-radius: 4px;
+}
+
+#sliderIntensite::handle:horizontal,
+#sliderNouvelleIntensite::handle:horizontal {
+    background: #ffef82;
+    border: 2px solid #d6ba4c;
+    width: 30px;
+    height: 30px;
+    margin: -7px 0;
+    border-radius: 4px;
 }

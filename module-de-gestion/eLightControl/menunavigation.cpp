@@ -7,26 +7,51 @@ MenuNavigation::MenuNavigation(QWidget* parent) : QWidget(parent)
     QLabel* labelLogoeLight  = new QLabel(this);
     QString cheminRessources = "./" + QString(CHEMIN_RESSOURCES) + "/";
     QPixmap logoeLight(cheminRessources + QString(LOGO_APPLICATION));
+    QIcon   iconeAccueil(cheminRessources + QString(ICONE_ACCUEIL));
+    QIcon   iconeGestion(cheminRessources + QString(ICONE_GESTION));
+    QIcon   iconeGuide(cheminRessources + QString(ICONE_GUIDE));
+    QIcon   iconeParametre(cheminRessources + QString(ICONE_PARAMETRE));
 
     boutonAccueil          = new QPushButton(this);
     boutonGestionScenarios = new QPushButton(this);
     boutonGuide            = new QPushButton(this);
     boutonParametres       = new QPushButton(this);
 
-    boutonAccueil->setText("Accueil");
-    boutonAccueil->setFixedHeight(boutonAccueil->width());
+    QFont police;
+    police.setPointSize(TAILLE_POLICE);
 
-    boutonGestionScenarios->setText("Scénarios");
-    boutonGestionScenarios->setFixedHeight(boutonGestionScenarios->width());
+    boutonAccueil->setFont(police);
+    boutonGestionScenarios->setFont(police);
+    boutonGuide->setFont(police);
+    boutonParametres->setFont(police);
 
-    boutonGuide->setText("Guide");
-    boutonGuide->setFixedHeight(boutonGuide->width());
+    boutonAccueil->setIcon(iconeAccueil);
+    boutonAccueil->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS, HAUTEUR_ICONES_BOUTONS));
+    boutonAccueil->setFixedSize(LARGEUR_ICONES_BOUTONS + PADDING_ICONES,
+                                HAUTEUR_ICONES_BOUTONS + PADDING_ICONES);
 
-    boutonParametres->setText("Paramètres");
-    boutonParametres->setFixedHeight(boutonParametres->width());
+    boutonGestionScenarios->setIcon(iconeGestion);
+    boutonGestionScenarios->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS, HAUTEUR_ICONES_BOUTONS));
+    boutonGestionScenarios->setFixedSize(
+      LARGEUR_ICONES_BOUTONS + PADDING_ICONES,
+      HAUTEUR_ICONES_BOUTONS + PADDING_ICONES);
 
-    labelLogoeLight->setPixmap(logoeLight.scaled(LARGEUR_LOGO,
-                                                 HAUTEUR_LOGO,
+    boutonGuide->setIcon(iconeGuide);
+    boutonGuide->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS, HAUTEUR_ICONES_BOUTONS));
+    boutonGuide->setFixedSize(LARGEUR_ICONES_BOUTONS + PADDING_ICONES,
+                              HAUTEUR_ICONES_BOUTONS + PADDING_ICONES);
+
+    boutonParametres->setIcon(iconeParametre);
+    boutonParametres->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS, HAUTEUR_ICONES_BOUTONS));
+    boutonParametres->setFixedSize(LARGEUR_ICONES_BOUTONS + PADDING_ICONES,
+                                   HAUTEUR_ICONES_BOUTONS + PADDING_ICONES);
+
+    labelLogoeLight->setPixmap(logoeLight.scaled(LARGEUR_LOGO_APPLICATION,
+                                                 HAUTEUR_LOGO_APPLICATION,
                                                  Qt::KeepAspectRatio,
                                                  Qt::SmoothTransformation));
 

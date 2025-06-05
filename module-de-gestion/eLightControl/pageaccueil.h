@@ -17,6 +17,36 @@
  */
 #define PUISSANCE_DEFAUT 0
 
+/**
+ * @def ICONE_VALIDER_ACCUEIL
+ * @brief L'icone sur le bouton de validation sur la page accueil
+ */
+#define ICONE_VALIDER_ACCUEIL "valider.png"
+
+/**
+ * @def ICONE_RETIRER_ACCUEIL
+ * @brief L'icone sur le bouton de retrait sur la page accueil
+ */
+#define ICONE_RETIRER_ACCUEIL "retirer.png"
+
+/**
+ * @def LARGEUR_ICONES_BOUTONS_ACCUEIL
+ * @brief La largeur des icones des boutons sur la page accueil en pixels
+ */
+#define LARGEUR_ICONES_BOUTONS_ACCUEIL 50
+
+/**
+ * @def HAUTEUR_ICONES_BOUTONS_ACCUEIL
+ * @brief La hauteur des icones des boutons sur la page accueil en pixels
+ */
+#define HAUTEUR_ICONES_BOUTONS_ACCUEIL 50
+
+/**
+ * @def PADDING_ICONES_ACCUEIL
+ * @brief L'écart entre les extrémités du bouton et les icones en pixels
+ */
+#define PADDING_ICONES_ACCUEIL 15
+
 class BoiteSegment;
 
 class PageAccueil : public QWidget
@@ -34,7 +64,6 @@ class PageAccueil : public QWidget
     void         retirerScenarioActif();
 
   private:
-    QPushButton*                boutonGererScenarios;
     QGridLayout*                layoutSegments;
     QList<BoiteSegment*>        listeSegments;
     QComboBox*                  menuDeroulantScenarios;
@@ -42,6 +71,7 @@ class PageAccueil : public QWidget
     QLabel*                     nomScenarioActif;
     QLabel*                     intensiteScenarioActif;
     int                         intensiteScenarioActifEntier;
+    QPushButton*                boutonRetirerScenarioActif;
     QPushButton*                boutonConfirmerSelectionScenario;
     QVector<int>                idsSegmentsSalle;
 

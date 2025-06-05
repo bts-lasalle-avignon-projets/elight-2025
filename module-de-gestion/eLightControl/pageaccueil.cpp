@@ -8,15 +8,18 @@ PageAccueil::PageAccueil(QWidget* parent) :
 {
     qDebug() << Q_FUNC_INFO << this;
 
+    QString cheminRessources = "./" + QString(CHEMIN_RESSOURCES) + "/";
+    QIcon   iconeValider(cheminRessources + QString(ICONE_VALIDER_ACCUEIL));
+    QIcon   iconeRetirer(cheminRessources + QString(ICONE_RETIRER_ACCUEIL));
+
     QFrame* separateurPageAccueil = new QFrame(this);
 
     QLabel* titreScenarioActif = new QLabel(this);
-    boutonGererScenarios       = new QPushButton(this);
 
-    QLabel* texteScenarioActif              = new QLabel(this);
-    nomScenarioActif                        = new QLabel(this);
-    intensiteScenarioActif                  = new QLabel(this);
-    QPushButton* boutonRetirerScenarioActif = new QPushButton(this);
+    QLabel* texteScenarioActif = new QLabel(this);
+    nomScenarioActif           = new QLabel(this);
+    intensiteScenarioActif     = new QLabel(this);
+    boutonRetirerScenarioActif = new QPushButton(this);
 
     QLabel* texteSelectionScenario   = new QLabel(this);
     menuDeroulantScenarios           = new QComboBox(this);
@@ -24,49 +27,87 @@ PageAccueil::PageAccueil(QWidget* parent) :
 
     QLabel* titreSegments = new QLabel(this);
 
+    QFont police;
+    police.setPointSize(TAILLE_POLICE);
+
+    titreScenarioActif->setFont(police);
+    texteScenarioActif->setFont(police);
+    nomScenarioActif->setFont(police);
+    intensiteScenarioActif->setFont(police);
+    texteSelectionScenario->setFont(police);
+    menuDeroulantScenarios->setFont(police);
+
+    boutonRetirerScenarioActif->setIcon(iconeRetirer);
+    boutonRetirerScenarioActif->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS_ACCUEIL, HAUTEUR_ICONES_BOUTONS_ACCUEIL));
+    boutonRetirerScenarioActif->setFixedSize(
+      LARGEUR_ICONES_BOUTONS_ACCUEIL + PADDING_ICONES_ACCUEIL,
+      HAUTEUR_ICONES_BOUTONS_ACCUEIL + PADDING_ICONES_ACCUEIL);
+
+    boutonConfirmerSelectionScenario->setIcon(iconeValider);
+    boutonConfirmerSelectionScenario->setIconSize(
+      QSize(LARGEUR_ICONES_BOUTONS_ACCUEIL, HAUTEUR_ICONES_BOUTONS_ACCUEIL));
+    boutonConfirmerSelectionScenario->setFixedSize(
+      LARGEUR_ICONES_BOUTONS_ACCUEIL + PADDING_ICONES_ACCUEIL,
+      HAUTEUR_ICONES_BOUTONS_ACCUEIL + PADDING_ICONES_ACCUEIL);
+    boutonConfirmerSelectionScenario->setObjectName(
+      "boutonConfirmerSelectionScenario");
+
+    titreSegments->setFont(police);
+
     separateurPageAccueil->setFrameShape(QFrame::HLine);
     separateurPageAccueil->setFrameShadow(QFrame::Sunken);
     separateurPageAccueil->setObjectName("separateurPageAccueil");
     separateurPageAccueil->setFixedHeight(10);
 
-    titreScenarioActif->setText("<h1>Scénario</h1>");
-    boutonGererScenarios->setText("Gérer les scénarios");
+    titreScenarioActif->setText("<h1>Scénario</h1><br>");
 
-    texteScenarioActif->setText("Scénario actif : ");
-    boutonRetirerScenarioActif->setText("Retirer");
+    texteScenarioActif->setText("<b>Scénario actif : </b>");
+    nomScenarioActif->setObjectName("nomScenarioActif");
+    intensiteScenarioActif->setObjectName("intensiteScenarioActif");
+
     boutonRetirerScenarioActif->setObjectName("boutonRetirerScenarioActif");
 
-    texteSelectionScenario->setText("Sélection scénario : ");
-    boutonConfirmerSelectionScenario->setText("Valider");
+    texteSelectionScenario->setText("<b>Sélection scénario : </b>");
 
-    titreSegments->setText("<h1>Segments</h1>");
+    menuDeroulantScenarios->setSizePolicy(QSizePolicy::Expanding,
+                                          QSizePolicy::Preferred);
 
-    QVBoxLayout* layoutVerticalPageAccueil = new QVBoxLayout(this);
-    QHBoxLayout* layoutEnteteScenarioActif = new QHBoxLayout;
-    QHBoxLayout* layoutScenarioActif       = new QHBoxLayout;
-    QHBoxLayout* layoutSelectionScenario   = new QHBoxLayout;
-    QHBoxLayout* layoutEnteteSegments      = new QHBoxLayout;
-    layoutSegments                         = new QGridLayout;
+    titreSegments->setText("<h1>Segments</h1><br>");
+
+    QVBoxLayout* layoutVerticalPageAccueil            = new QVBoxLayout(this);
+    QHBoxLayout* layoutEnteteScenarioActif            = new QHBoxLayout;
+    QHBoxLayout* layoutHorizontalScenario             = new QHBoxLayout;
+    QVBoxLayout* layoutScenarioActifSelectionScenario = new QVBoxLayout;
+    QVBoxLayout* layoutNomIntensiteListeScenarios     = new QVBoxLayout;
+    QHBoxLayout* layoutScenarioActif                  = new QHBoxLayout;
+    QHBoxLayout* layoutSelectionScenario              = new QHBoxLayout;
+    QHBoxLayout* layoutEnteteSegments                 = new QHBoxLayout;
+    layoutSegments                                    = new QGridLayout;
 
     layoutVerticalPageAccueil->addLayout(layoutEnteteScenarioActif);
+    layoutVerticalPageAccueil->addLayout(layoutHorizontalScenario);
     layoutVerticalPageAccueil->addStretch();
-    layoutVerticalPageAccueil->addLayout(layoutScenarioActif);
-    layoutVerticalPageAccueil->addStretch();
-    layoutVerticalPageAccueil->addLayout(layoutSelectionScenario);
     layoutVerticalPageAccueil->addWidget(separateurPageAccueil);
     layoutVerticalPageAccueil->addLayout(layoutEnteteSegments);
-    layoutVerticalPageAccueil->addStretch();
     layoutVerticalPageAccueil->addLayout(layoutSegments);
+    layoutVerticalPageAccueil->addStretch();
 
     layoutEnteteScenarioActif->addWidget(titreScenarioActif);
-    layoutEnteteScenarioActif->addWidget(boutonGererScenarios);
 
-    layoutScenarioActif->addWidget(texteScenarioActif);
+    layoutHorizontalScenario->addLayout(layoutScenarioActifSelectionScenario);
+    layoutHorizontalScenario->addLayout(layoutNomIntensiteListeScenarios);
+
+    layoutScenarioActifSelectionScenario->addWidget(texteScenarioActif);
+    layoutScenarioActifSelectionScenario->addWidget(texteSelectionScenario);
+
+    layoutNomIntensiteListeScenarios->addLayout(layoutScenarioActif);
+    layoutNomIntensiteListeScenarios->addLayout(layoutSelectionScenario);
+
     layoutScenarioActif->addWidget(nomScenarioActif);
     layoutScenarioActif->addWidget(intensiteScenarioActif);
     layoutScenarioActif->addWidget(boutonRetirerScenarioActif);
 
-    layoutSelectionScenario->addWidget(texteSelectionScenario);
     layoutSelectionScenario->addWidget(menuDeroulantScenarios);
     layoutSelectionScenario->addWidget(boutonConfirmerSelectionScenario);
 
@@ -119,11 +160,6 @@ PageAccueil::PageAccueil(QWidget* parent) :
 PageAccueil::~PageAccueil()
 {
     qDebug() << Q_FUNC_INFO << this;
-}
-
-QPushButton* PageAccueil::getBoutonGererScenarios() const
-{
-    return boutonGererScenarios;
 }
 
 void PageAccueil::chargerScenariosDepuisBDD()
@@ -305,11 +341,16 @@ void PageAccueil::chargerSegmentsDepuisBDD()
             int idSegment = requete.value(0).toInt();
             idsSegmentsSalle.append(idSegment);
 
+            QFont police;
+            police.setPointSize(TAILLE_POLICE);
+
             QLabel* labelSegmentId =
               new QLabel(QString("<h2>Segment %1</h2>").arg(idSegment));
+            labelSegmentId->setFont(police);
             labelSegmentId->setAlignment(Qt::AlignCenter);
 
             BoiteSegment* segment = new BoiteSegment(idSegment, this);
+            segment->setObjectName("segment");
             listeSegments.append(segment);
 
             layoutSegments->addWidget(labelSegmentId, ligne, colonne);
