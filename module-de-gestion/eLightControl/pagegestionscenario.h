@@ -59,10 +59,12 @@ class PageGestionScenario : public QWidget
   private:
     CommunicationBaseDeDonnees& baseDeDonnees;
     QLineEdit*                  boiteNomScenario;
-    QLineEdit*                  boiteIntensiteScenario;
+    QSlider*                    sliderIntensiteScenario;
+    QLabel*                     labelValeurIntensiteScenario;
     QComboBox*                  listeScenarios;
     QLineEdit*                  boiteNouveauNom;
-    QLineEdit*                  boiteNouvelleIntensite;
+    QSlider*                    sliderNouvelleIntensite;
+    QLabel*                     labelValeurNouvelleIntensite;
 
   signals:
 };

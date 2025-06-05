@@ -144,7 +144,9 @@ QLabel#intensiteScenarioActif,
 QLabel#nomEnregistrerScenario,
 QLabel#intensiteEnregistrerScenario,
 QLabel#nouveauNomModifierScenario,
-QLabel#nouvelleIntensiteModifierScenario {
+QLabel#nouvelleIntensiteModifierScenario,
+QLabel#labelValeurIntensiteScenario,
+QLabel#labelValeurNouvelleIntensite {
     background-color: #dfdfdf;
     border: 2px solid #b8b8b8;
     border-radius: 6px;
@@ -183,4 +185,27 @@ QFrame#cadreReponseFAQ {
     border-radius: 12px;
     margin-top: -10px;
     padding: 12px;
+}
+
+#sliderIntensite,
+#sliderNouvelleIntensite {
+    min-height: 30px;
+}
+
+#sliderIntensite::groove:horizontal,
+#sliderNouvelleIntensite::groove:horizontal {
+    background: #dfdfdf;
+    border: 2px solid #b8b8b8;
+    height: 15px;
+    border-radius: 4px;
+}
+
+#sliderIntensite::handle:horizontal,
+#sliderNouvelleIntensite::handle:horizontal {
+    background: #ffef82;
+    border: 2px solid #d6ba4c;
+    width: 30px;
+    height: 30px;
+    margin: -7px 0;
+    border-radius: 4px;
 }
