@@ -10,8 +10,10 @@
     - [Itérations 3](#itérations-3)
     - [Itérations 4](#itérations-4)
   - [Recette](#recette)
-    - [Recette - Module de gestion par salle](#recette---module-de-gestion-par-salle)
-    - [Recette - Module de supervision](#recette---module-de-supervision)
+    - [Module de gestion par salle](#module-de-gestion-par-salle-1)
+    - [Production attendue](#production-attendue)
+    - [Module de supervision](#module-de-supervision-1)
+    - [Production attendue](#production-attendue-1)
   - [Diagrammes](#diagrammes)
     - [Diagrammes de cas d'utilisation - Module de gestion par salle](#diagrammes-de-cas-dutilisation---module-de-gestion-par-salle)
     - [Diagrammes de cas d'utilisation - Module de supervision](#diagrammes-de-cas-dutilisation---module-de-supervision)
@@ -26,6 +28,9 @@
     - [Page d'information de salle](#page-dinformation-de-salle)
     - [Page d'édition de salle](#page-dédition-de-salle)
     - [Page de l'historique de consommation](#page-de-lhistorique-de-consommation)
+  - [Diagramme de classes](#diagramme-de-classes)
+    - [Module de gestion par salle](#module-de-gestion-par-salle-2)
+    - [Module de supervision](#module-de-supervision-2)
   - [Changelog](#changelog)
     - [v1.0.0 - 2025-06-04](#v100---2025-06-04)
     - [Versions futures (à prévoir)](#versions-futures-à-prévoir)
@@ -71,41 +76,51 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ## Recette
 
-### Recette - Module de gestion par salle
+### Module de gestion par salle
 
-- [x] La salle à gérer est paramétrable
-- [x] L’état générale de la salle est consultable
-- [x] Les segments de la salle et leur état sont visualisables
-- [x] Un scénario est sélectionnable pour la salle
-- [x] La création d’un scénario pour la salle est possible
-- [x] La gestion des scénarios est possible
-- [x] La synchronisation des scénarios avec la BDD centrale est possible
-- [x] La liaison sans fil est opérationnelle
+| Fonctionnalité                                                                | À faire | En cours | Achevé |
+|-------------------------------------------------------------------------------| :-----: | :------: | :----: |
+| La salle à gérer est paramétrable                                             |         |          | X      |
+| L’état général de la salle est consultable                                    |         |          | X      |
+| Les segments de la salle et leur état sont visualisables                      |         |          | X      |
+| Un scénario est sélectionnable pour la salle                                  |         |          | X      |
+| La création d’un scénario pour la salle est possible                          |         |          | X      |
+| La gestion des scénarios est possible                                         |         |          | X      |
+| La synchronisation des scénarios avec la BDD centrale est possible            |         |          | X      |
+| La liaison sans fil est opérationnelle                                        |         |          | X      |
 
-**Production attendue :**
+### Production attendue
 
-- [x] Une application informatique fonctionnelle ;
-- [x] Un modèle UML complet de la partie à développer ;
-- [x] Le code source commenté de l'application ;
-- [x] Les documentations associées au module.
+| Livrable                                      | À faire | En cours | Achevé |
+|-----------------------------------------------| :-----: | :------: | :----: |
+| Application informatique fonctionnelle        |         |          | X      |
+| Modèle UML complet                            |         |          | X      |
+| Code source commenté                          |         |          | X      |
+| Documentations associées                      |         |          | X      |
 
-### Recette - Module de supervision
+---
 
-- [x] L’état de n’importe quelle salle est affichable
-- [x] L’édition des informations associées à une salle est possible
-- [x] L‘état de n’importe quel segment est affichable
-- [x] L’assignation d’un segment à une salle est possible
-- [x] Tous les scénarios d’éclairage sont gérables
-- [x] La consommation d’éclairage est visible à l’instant T
-- [x] L’historique des consommations d’éclairage est visualisable
-- [ ] La liaison sans fil est opérationnelle
+### Module de supervision
 
-**Production attendue :**
+| Fonctionnalité                                                                | À faire | En cours | Achevé |
+|-------------------------------------------------------------------------------| :-----: | :------: | :----: |
+| L’état de n’importe quelle salle est affichable                               |         |          | X      |
+| L’édition des informations associées à une salle est possible                 |         |          | X      |
+| L‘état de n’importe quel segment est affichable                               |         |          | X      |
+| L’assignation d’un segment à une salle est possible                           |         |          | X      |
+| Tous les scénarios d’éclairage sont gérables                                  |         |          | X      |
+| La consommation d’éclairage est visible à l’instant T                         |         |          | X      |
+| L’historique des consommations d’éclairage est visualisable                   |         |          | X      |
+| La liaison sans fil est opérationnelle                                        |         | X        |        |
 
-- [x] Une application informatique fonctionnelle ;
-- [x] Un modèle UML complet de la partie à développer ;
-- [x] Le code source commenté de l'application ;
-- [x] Les documentations associées au module.
+### Production attendue
+
+| Livrable                                      | À faire | En cours | Achevé |
+|-----------------------------------------------| :-----: | :------: | :----: |
+| Application informatique fonctionnelle        |         |          | X      |
+| Modèle UML complet                            |         |          | X      |
+| Code source commenté                          |         |          | X      |
+| Documentations associées                      |         |          | X      |
 
 ## Diagrammes
 
@@ -166,6 +181,12 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 ### Page de l'historique de consommation
 
 ![Page de l'historique de consommation](images/page-historique-supervision.png)
+
+## Diagramme de classes
+
+### Module de gestion par salle
+
+### Module de supervision
 
 ## Changelog
 
