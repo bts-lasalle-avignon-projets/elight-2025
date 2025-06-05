@@ -12,8 +12,12 @@ BlocFAQ::BlocFAQ(const QString& question,
     cadreReponse   = new QFrame;
     labelReponse   = new QLabel(reponse);
 
+    QFont police;
+    police.setPointSize(TAILLE_POLICE);
+
     labelReponse->setWordWrap(true);
     labelReponse->setObjectName("labelReponseGuide");
+    labelReponse->setFont(police);
     cadreReponse->setVisible(false);
     cadreReponse->setLayout(new QVBoxLayout);
     cadreReponse->layout()->addWidget(labelReponse);
@@ -21,6 +25,7 @@ BlocFAQ::BlocFAQ(const QString& question,
     cadreReponse->raise();
 
     boutonQuestion->setObjectName("boutonFAQferme");
+    boutonQuestion->setFont(police);
 
     cadreReponse->setObjectName("cadreReponseFAQ");
 

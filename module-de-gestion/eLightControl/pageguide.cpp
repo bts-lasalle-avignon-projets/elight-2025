@@ -39,14 +39,14 @@ PageGuide::PageGuide(QWidget* parent) : QWidget(parent)
       "entrez un nom, l'intensité lumineuse voulue puis confirmez en appuyant "
       "sur valider (<img src='./ressources/valider.png' width='24' height='24' "
       "style='vertical-align: middle;'>).");
-    BlocFAQ* faq4 =
-      new BlocFAQ("Comment faire pour supprimer un scénario ?",
-                  "Sur la page de gestion (<img src='./ressources/gestion.png' "
-                  "width='24' height='24' style='vertical-align: middle;'>), "
-                  "dans la partie modification & suppression : Sélectionnez le "
-                  "scénario voulu puis supprimez le appuyant sur de "
-                  "suppression (<img src='./ressources/poubelle.png' "
-                  "width='24' height='24' style='vertical-align: middle;'>).");
+    BlocFAQ* faq4 = new BlocFAQ(
+      "Comment faire pour supprimer un scénario ?",
+      "Sur la page de gestion (<img src='./ressources/gestion.png' "
+      "width='24' height='24' style='vertical-align: middle;'>), "
+      "dans la partie modification & suppression : Sélectionnez le "
+      "scénario voulu puis supprimez le en appuyant sur le bouton de "
+      "suppression (<img src='./ressources/poubelle.png' "
+      "width='24' height='24' style='vertical-align: middle;'>).");
 
     layoutPage->addWidget(faq1);
     layoutPage->addWidget(faq2);
