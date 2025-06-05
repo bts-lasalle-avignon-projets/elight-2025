@@ -17,18 +17,18 @@
     - [Diagrammes de cas d'utilisation - Module de supervision](#diagrammes-de-cas-dutilisation---module-de-supervision)
   - [Base de données](#base-de-données)
   - [Utilisation](#utilisation)
-  - [Maquettes](#maquettes)
-    - [IHM - Module de gestion par salle](#ihm---module-de-gestion-par-salle)
-      - [Page d'accueil](#page-daccueil)
-      - [Page gestion des scénarios](#page-gestion-des-scénarios)
-      - [Page guide d'utilisation](#page-guide-dutilisation)
-    - [IHM - Module de supervision](#module-de-supervision)
-      - [Page d'accueil](#page-daccueil)
-      - [Page d'information de salle](#page-dinformation-de-salle)
-      - [Page d'édition de salle](#page-dédition-de-salle)
-      - [Page de l'historique de consommation](#page-de-lhistorique-de-consommation)
+  - [IHM - Module de gestion par salle](#ihm---module-de-gestion-par-salle)
+    - [Page d'accueil](#page-daccueil)
+    - [Page gestion des scénarios](#page-gestion-des-scénarios)
+    - [Page guide d'utilisation](#page-guide-dutilisation)
+  - [IHM - Module de supervision](#ihm---module-de-supervision)
+    - [Page  d'accueil](#page--daccueil)
+    - [Page d'information de salle](#page-dinformation-de-salle)
+    - [Page d'édition de salle](#page-dédition-de-salle)
+    - [Page de l'historique de consommation](#page-de-lhistorique-de-consommation)
   - [Changelog](#changelog)
-  - [Documentation](#documentation)
+    - [v1.0.0 - 2025-06-04](#v100---2025-06-04)
+    - [Versions futures (à prévoir)](#versions-futures-à-prévoir)
   - [Créateurs](#créateurs)
 
 ---
@@ -73,21 +73,21 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ### Recette - Module de gestion par salle
 
-- [ ] La salle à gérer est paramétrable
-- [ ] L’état générale de la salle est consultable
-- [ ] Les segments de la salle et leur état sont visualisables
-- [ ] Un scénario est sélectionnable pour la salle
-- [ ] La création d’un scénario pour la salle est possible
-- [ ] La gestion des scénarios est possible
-- [ ] La synchronisation des scénarios avec la BDD centrale est possible
-- [ ] La liaison sans fil est opérationnelle
+- [x] La salle à gérer est paramétrable
+- [x] L’état générale de la salle est consultable
+- [x] Les segments de la salle et leur état sont visualisables
+- [x] Un scénario est sélectionnable pour la salle
+- [x] La création d’un scénario pour la salle est possible
+- [x] La gestion des scénarios est possible
+- [x] La synchronisation des scénarios avec la BDD centrale est possible
+- [x] La liaison sans fil est opérationnelle
 
 **Production attendue :**
 
-- [ ] Une application informatique fonctionnelle ;
-- [ ] Un modèle UML complet de la partie à développer ;
-- [ ] Le code source commenté de l'application ;
-- [ ] Les documentations associées au module.
+- [x] Une application informatique fonctionnelle ;
+- [x] Un modèle UML complet de la partie à développer ;
+- [x] Le code source commenté de l'application ;
+- [x] Les documentations associées au module.
 
 ### Recette - Module de supervision
 
@@ -127,29 +127,27 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 > TODO
 
-## Maquettes
+## IHM - Module de gestion par salle
 
-### IHM - Module de gestion par salle
-
-#### Page d'accueil
+### Page d'accueil
 
 ![Page d'accueil](images/page-d-accueil-module-de-gestion.png)
 
-#### Page gestion des scénarios
+### Page gestion des scénarios
 
 ![Page d'accueil](images/page-des-scenarios-module-de-gestion.png)
 
-#### Page guide d'utilisation
+### Page guide d'utilisation
 
 ![Page d'accueil](images/page-de-guide-d-utilisation-module-de-gestion.png)
 
-### IHM - Module de supervision
+## IHM - Module de supervision
 
-#### Page d'accueil
+### Page  d'accueil
 
 ![Page d'accueil](images/page-d-accueil-supervision.png)
 
-#### Page d'information de salle
+### Page d'information de salle
 
 ![Premier exemple de salle](images/page-salle-exemple-1-supervision.png)
 
@@ -157,7 +155,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ![Troisième exemple de salle](images/page-salle-exemple-3-supervision.png)
 
-#### Page d'édition de salle
+### Page d'édition de salle
 
 ![Page d'édition de salle](images/page-edition-salle-supervision.png)
 
@@ -165,13 +163,14 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ![Page modification de l'intensité du scénario](images/modif-scenario-2-supervision.png)
 
-#### Page de l'historique de consommation
+### Page de l'historique de consommation
 
 ![Page de l'historique de consommation](images/page-historique-supervision.png)
 
 ## Changelog
 
-#### v1.0.0 - 2025-06-04
+### v1.0.0 - 2025-06-04
+
 - Implémentation complète des modules de gestion par salle et de supervision
 - Fonctionnalités clés :
   - Création, suppression et gestion des scénarios d’éclairage
@@ -182,6 +181,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 - Documentation et modèles UML fournis
 
 ### Versions futures (à prévoir)
+
 - Corrections de bugs mineurs
 - Optimisations de la liaison sans fil
 - Ajout possible de fonctionnalités avancées
