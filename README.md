@@ -31,6 +31,8 @@
   - [Diagramme de classes](#diagramme-de-classes)
     - [Module de gestion par salle](#module-de-gestion-par-salle-2)
     - [Module de supervision](#module-de-supervision-2)
+  - [Protocole de communication](#protocole-de-communication)
+    - [Types de trames](#types-de-trames)
   - [Changelog](#changelog)
     - [v1.0.0 - 2025-06-04](#v100---2025-06-04)
     - [Versions futures (à prévoir)](#versions-futures-à-prévoir)
@@ -97,8 +99,6 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 | Modèle UML complet                            |         |          | X      |
 | Code source commenté                          |         |          | X      |
 | Documentations associées                      |         |          | X      |
-
----
 
 ### Module de supervision
 
@@ -186,7 +186,44 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ### Module de gestion par salle
 
+![Diagramme de classes module de gestion](images/diagramme-de-classe-module-de-gestion.png)
+
 ### Module de supervision
+
+## Protocole de communication
+
+Ce protocole permet l’échange de données entre une **application de gestion** (logiciel) et un **contrôleur de segment** (matériel), via une **trame normalisée transmise par Wi-Fi** utilisant le **protocole UDP**. Les deux modules utilisent le même protocole de communication.
+
+Les trames suivent le format suivant : `#TYPE;DONNEE\r\n`
+
+
+Chaque élément de la trame a un rôle précis :
+
+| Nom       | Forme        | Description                                                                 | Exemple      |
+|-----------|--------------|------------------------------------------------------------------------------|--------------|
+| Début     | `#`          | Caractère de début de trame, sert à la **synchronisation**.                 | `#`          |
+| Type      | `TYPE`       | Lettre indiquant **l’action à exécuter**.                                   | `P`, `I`, `A`|
+| Séparateur| `;`          | Permet de **séparer** le type de la donnée utile.                           | `;`          |
+| Donnée    | `DONNEE`     | Contenu utile, valeur numérique transmise.                                  | `300`        |
+| Fin       | `\r\n`       | Fin de trame. Convention utilisée pour **délimiter** la fin du message.     | `\r\n`       |
+
+---
+
+### Types de trames
+
+| Nom du type | Forme     | Description                                                            | Exemple        |
+|-------------|-----------|------------------------------------------------------------------------|----------------|
+| Puissance (req) | `#P;0\r\n`  | Requête envoyée par l’application pour obtenir la **puissance instantanée** d’un segment. | `#P;0\r\n`     |
+| Puissance (rep) | `#P;xxx\r\n`| Réponse envoyée par le segment avec la valeur de **puissance mesurée**.               | `#P;300\r\n`   |
+| Intensité      | `#I;xxx\r\n`| Ordre envoyé à un segment pour appliquer une **intensité donnée**.                    | `#I;400\r\n`   |
+| Accusé (ACK)   | `#A;0\r\n`  | Confirme la **réception d’une trame** ou indique la **fin de communication**.        | `#A;0\r\n`     |
+
+Bien que le protocole **UDP** soit rapide, il ne garantit **ni la réception ni l’ordre des paquets**.
+Pour améliorer la fiabilité :
+
+- Chaque trame de réponse envoyée par le **contrôleur** est attendue avec un **accusé de réception** (ACK) par l'application.
+- En **l’absence d’ACK** dans un délai défini, la trame est **renvoyée automatiquement**.
+- Ce mécanisme garantit une meilleure **sécurité applicative** et limite les **pertes de données**, notamment pour les mesures critiques (ex. puissance).
 
 ## Changelog
 
