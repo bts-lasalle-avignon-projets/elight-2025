@@ -120,7 +120,7 @@ QComboBox::drop-down {
 }
 
 QComboBox::down-arrow {
-    image: url(/home/btssn2/Documents/EnzoSB/elight-2025/module-de-gestion/eLightControl/ressources/down_arrow.svg);
+    image: url(./ressources/down_arrow.svg);
     width: 20px;
     height: 20px;
 }
@@ -151,4 +151,36 @@ QLabel#nouvelleIntensiteModifierScenario {
     padding: 4px 8px;
     color: #333333;
     font-weight: bold;
+}
+
+QLabel#labelReponseGuide {
+    color: #333333;
+    font-weight: bold;
+}
+
+QPushButton#boutonFAQferme {
+    background-color: #dfdfdf;
+    border: 2px solid #b8b8b8;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: left;
+}
+
+QPushButton#boutonFAQouvert {
+    background-color: #dfdfdf;
+    border: 2px solid #b8b8b8;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding: 10px;
+    text-align: left;
+}
+
+QFrame#cadreReponseFAQ {
+    background-color: #ffffff;
+    border: 2px solid #b8b8b8;
+    border-radius: 12px;
+    margin-top: -10px;
+    padding: 12px;
 }

@@ -40,6 +40,8 @@ PageGestionScenario::PageGestionScenario(QWidget* parent) :
     texteEnregistrerScenario->setFont(police);
     nomEnregistrerScenario->setFont(police);
     intensiteEnregistrerScenario->setFont(police);
+    boiteNomScenario->setFont(police);
+    boiteIntensiteScenario->setFont(police);
     titreModificationSuppressionScenario->setFont(police);
     texteListeScenarios->setFont(police);
     listeScenarios->setFont(police);
