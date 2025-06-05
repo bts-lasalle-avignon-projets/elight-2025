@@ -10,13 +10,21 @@
 class BlocFAQ : public QWidget
 {
     Q_OBJECT
-public:
-    BlocFAQ(const QString& question, const QString& reponse, QWidget* parent = nullptr);
+  public:
+    BlocFAQ(const QString& question,
+            const QString& reponse,
+            QWidget*       parent = nullptr);
+    void ouvrir();
+    void fermer();
+    void basculer();
 
-private:
-    QPushButton* bouton;
+  private:
+    QPushButton* boutonQuestion;
     QFrame*      cadreReponse;
     QLabel*      labelReponse;
+
+  signals:
+    void demandeOuverture(BlocFAQ* source);
 };
 
 #endif // BLOCFAQ_H
