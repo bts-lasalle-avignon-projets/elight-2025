@@ -131,15 +131,15 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ### Page d'accueil
 
-![Page d'accueil](images/page-d-accueil-module-de-gestion.png)
+![Page d'accueil](images/pageAccueilModuleGestion.png)
 
 ### Page gestion des scénarios
 
-![Page d'accueil](images/page-des-scenarios-module-de-gestion.png)
+![Page d'accueil](images/pageGestionModuleGestion.png)
 
 ### Page guide d'utilisation
 
-![Page d'accueil](images/page-de-guide-d-utilisation-module-de-gestion.png)
+![Page d'accueil](images/pageGuideModuleGestion.png)
 
 ## IHM - Module de supervision
 
