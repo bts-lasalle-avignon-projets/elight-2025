@@ -138,10 +138,6 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ![Guide d'installation](base-de-donnees/GUIDE-D-INSTALLATION.md)
 
-## Utilisation
-
-> TODO
-
 ## IHM - Module de gestion par salle
 
 ### Page d'accueil
@@ -172,7 +168,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ### Page d'édition de salle
 
-![Page d'édition de salle](images/page-edition-salle-supervision.png)
+![Page d'édition de salle](images/page-d-edition-de-salle-module-supervision.png)
 
 ![Page modification du nom du scénario](images/modif-scenario-1-supervision.png)
 
@@ -189,6 +185,8 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 ![Diagramme de classes module de gestion](images/diagramme-de-classe-module-de-gestion.png)
 
 ### Module de supervision
+
+![Diagramme de classes module de supervision](images/diagramme-de-classe-supervision.png)
 
 ## Protocole de communication
 
@@ -227,7 +225,7 @@ Pour améliorer la fiabilité :
 
 ## Changelog
 
-### v1.0.0 - 2025-06-04
+### v1.0.0 - 2025-06-06
 
 - Implémentation complète des modules de gestion par salle et de supervision
 - Fonctionnalités clés :
