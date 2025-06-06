@@ -1,6 +1,6 @@
 format 224
 "module-de-supervision"
-  revision 2
+  revision 4
   modified_by 2 "btssn2"
   cpp_root_dir "../../module-de-supervision/eLightApp/"
 
@@ -85,8 +85,8 @@ ${inlines}
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} * ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} * ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -100,7 +100,7 @@ ${inlines}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -121,8 +121,8 @@ ${inlines}
 	    defaultvalue "NOM_HOTE"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -136,7 +136,7 @@ ${inlines}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -150,7 +150,7 @@ ${inlines}
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -167,8 +167,8 @@ ${inlines}
 	  param inout name "motDePasse" explicit_type "QString"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} & ${p0}${v0}, ${t1} & ${p1}${v1}, ${t2} & ${p2}${v2}, ${t3} & ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} & ${p0}, ${t1} & ${p1}, ${t2} & ${p2}, ${t3} & ${p3}${)}${const}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -181,8 +181,8 @@ ${inlines}
 	nparams 0
 	cpp_decl "    ${comment}${inline}${name}${(}${)}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${throw}{
+${body}}
 "
 	
 	
@@ -195,8 +195,8 @@ ${inlines}
 	nparams 0
 	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${throw}{
+${body}}
 "
 	
 	
@@ -239,7 +239,7 @@ ${inlines}
       end
     end
 
-    class 128130 "CommunicationWiFi"
+    class 134786 "CommunicationWiFi"
       visibility package 
       cpp_decl "${comment}${template}class ${name}${inherit} {
 ${members}};
@@ -252,15 +252,15 @@ ${inlines}
       explicit_switch_type ""
       mysql_decl ""
       
-      classrelation 128130 // <generalisation>
-	relation 128130 ---|>
+      classrelation 135426 // <generalisation>
+	relation 135426 ---|>
 	  a public
 	    cpp default "${type}"
-	    classrelation_ref 128130 // <generalisation>
-	  b parent class_ref 128258 // typedef1
+	    classrelation_ref 135426 // <generalisation>
+	  b parent class_ref 134914 // typedef1
       end
 
-      extra_member 128002 "Q_OBJECT"
+      extra_member 134786 "Q_OBJECT"
 	
 	cpp "  Q_OBJECT" ""
 	java ""
@@ -270,7 +270,7 @@ ${inlines}
 	mysql ""
       end
 
-      operation 129026 "CommunicationWiFi"
+      operation 139522 "CommunicationWiFi"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 1
 	  param inout name "parent" explicit_type "QObject"
@@ -278,9 +278,6 @@ ${inlines}
 	cpp_decl "    ${comment}${inline}${name}${(}${t0} * ${p0}${v0}${)}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${t0} * ${p0}${)} :
-    QObject(parent), udpSocket(nullptr), portSocket(PORT_DEFAUT),
-    rafraichissement(RAFRAICHISSEMENT_DEFAUT)
- :
     QObject(parent), udpSocket(nullptr), portSocket(PORT_DEFAUT),
     rafraichissement(RAFRAICHISSEMENT_DEFAUT)
 ${throw}{
@@ -292,13 +289,13 @@ ${body}}
 	
       end
 
-      operation 129154 "~CommunicationWiFi"
+      operation 139650 "~CommunicationWiFi"
 	preserve_cpp_body_indent public explicit_return_type ""
 	nparams 0
 	cpp_decl "    ${comment}${inline}${virtual}${name}${(}${)}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${volatile}${throw} {
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${class}::${name}${(}${)}${throw}{
+${body}}
 "
 	
 	
@@ -306,7 +303,7 @@ ${body}}
 	
       end
 
-      operation 129282 "envoyerDatagramme"
+      operation 139778 "envoyerDatagramme"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 4
 	  param in name "type" explicit_type "QString"
@@ -315,8 +312,8 @@ ${body}}
 	  param in name "port" explicit_type "quint16"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, const ${t2} & ${p2}${v2}, ${t3} ${p3}${v3}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, const ${t2} & ${p2}, ${t3} ${p3}${)}${const}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -324,14 +321,14 @@ ${body}}
 	
       end
 
-      operation 129410 "recupererIdSegment"
+      operation 139906 "recupererIdSegment"
 	preserve_cpp_body_indent public explicit_return_type "int"
 	nparams 1
 	  param in name "adresseIPSegment" explicit_type "QString"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -339,15 +336,33 @@ ${body}}
 	
       end
 
-      operation 129538 "traiterPuissanceTrame"
+      operation 140034 "traiterDatagramme"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 3
+	  param in name "datagramme" explicit_type "QString"
+	  param in name "adresse" explicit_type "QHostAddress"
+	  param in name "port" explicit_type "quint16"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${const}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 140162 "envoyerTrameDemandePuissance"
 	preserve_cpp_body_indent public explicit_return_type "void"
 	nparams 2
-	  param in name "adresseIPSegment" explicit_type "QString"
-	  param in name "donnees" explicit_type "QString"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+	  param in name "adresse" explicit_type "QString"
+	  param in name "port" explicit_type "quint16"
+	    defaultvalue "PORT_DEFAUT"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
 "
 	
 	
@@ -355,7 +370,102 @@ ${body}}
 	
       end
 
-      extra_member 128130 "slots"
+      operation 140290 "envoyerTrameIntensite"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 3
+	  param in name "intensite" explicit_type "int"
+	  param in name "adresse" explicit_type "QString"
+	  param in name "port" explicit_type "quint16"
+	    defaultvalue "PORT_DEFAUT"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}, const ${t1} & ${p1}, ${t2} ${p2}${)}${const}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 140418 "recupererAdresseDestination"
+	preserve_cpp_body_indent public explicit_return_type "QString"
+	nparams 1
+	  param in name "idSegment" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}const ${t0} & ${p0}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 140546 "recupererAdressesDestinations"
+	public explicit_return_type "QStringList"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 140674 "recupererNomSalle"
+	public explicit_return_type "bool"
+	nparams 1
+	  param inout name "adresse" explicit_type "QString"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} & ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 140802 "recupererAdresseDestination"
+	public explicit_return_type "QString"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 140930 "chargerConfiguration"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 141058 "initialiserSocket"
+	preserve_cpp_body_indent public explicit_return_type "void"
+	nparams 0
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      extra_member 134914 "slots"
 	
 	cpp "  private slots:" ""
 	java ""
@@ -365,13 +475,13 @@ ${body}}
 	mysql ""
       end
 
-      operation 129666 "lireDatagramme"
+      operation 141186 "lireDatagramme"
 	preserve_cpp_body_indent private explicit_return_type "void"
 	nparams 0
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
 "
 	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
+${body}}
 "
 	
 	
@@ -379,7 +489,59 @@ ${body}}
 	
       end
 
-      attribute 128258 "udpSocket"
+      operation 141314 "traiterPuissance"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 3
+	  param in name "adresse" explicit_type "QString"
+	  param in name "idSegment" explicit_type "int"
+	  param in name "puissance" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}${)}${const}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 141442 "traiterAcquittement"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 2
+	  param in name "adresse" explicit_type "QString"
+	  param in name "idSegment" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}${)}${const}${volatile}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      operation 141570 "traiterConfiguration"
+	preserve_cpp_body_indent private explicit_return_type "void"
+	nparams 5
+	  param in name "adresse" explicit_type "QString"
+	  param in name "nomSalle" explicit_type "QString"
+	  param in name "numeroSegment" explicit_type "QString"
+	  param in name "nbSegments" explicit_type "QString"
+	  param in name "superficie" explicit_type "QString"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}, ${t4} ${p4}${v4}${)}${const}${volatile}${throw}${abstract};
+"
+	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${t0} ${p0}, ${t1} ${p1}, ${t2} ${p2}, ${t3} ${p3}, ${t4} ${p4}${)}${const}${throw}${staticnl}{
+${body}}
+"
+	
+	
+	
+	
+      end
+
+      attribute 136322 "udpSocket"
 	private explicit_type "QUdpSocket"
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
 "
@@ -391,7 +553,7 @@ ${body}}
 	MysqlColumn
       end
 
-      attribute 128386 "portSocket"
+      attribute 136450 "portSocket"
 	private explicit_type "quint16"
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -403,7 +565,7 @@ ${body}}
 	MysqlColumn
       end
 
-      attribute 128514 "rafraichissement"
+      attribute 136578 "rafraichissement"
 	private explicit_type "quint32"
 	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
@@ -415,52 +577,44 @@ ${body}}
 	MysqlColumn
       end
 
-      operation 129794 "chargerConfiguration"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+      attribute 136706 "udpSocketEmission"
+	private explicit_type "QUdpSocket"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
 
-      operation 129922 "initialiserSocket"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 0
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${)}${const}${volatile}${throw}${abstract};
+      attribute 136834 "portWebSocket"
+	private explicit_type "int"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
 
-      operation 130050 "traiterDatagramme"
-	preserve_cpp_body_indent private explicit_return_type "void"
-	nparams 3
-	  param in name "datagramme" explicit_type "QString"
-	  param in name "adresse" explicit_type "QHostAddress"
-	  param in name "port" explicit_type "quint16"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}const ${t0} & ${p0}${v0}, const ${t1} & ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+      attribute 136962 "m_lastTimestampParSegment"
+	private explicit_type "int, QDateTime"
+	stereotype "QHash"
+	cpp_decl "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${stereotype}<${type}> ${name}${value};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
       end
 
-      extra_member 128258 "signals"
+      extra_member 135042 "signals"
 	
 	cpp "  signals:" ""
 	java ""
@@ -470,38 +624,34 @@ ${body}}
 	mysql ""
       end
 
-      operation 130178 "puissanceInstantaneeSegmentRecue"
+      operation 141698 "puissanceInstantaneeSegmentRecue"
 	private explicit_return_type "void"
-	nparams 2
+	nparams 3
+	  param in name "adresse" explicit_type "QString"
 	  param in name "idSegment" explicit_type "int"
 	  param in name "puissance" explicit_type "int"
+	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}${)}${const}${volatile}${throw}${abstract};
+"
+	
+	
+	
+	
+      end
+
+      operation 141826 "acquittementRecue"
+	private explicit_return_type "void"
+	nparams 2
+	  param in name "adresse" explicit_type "QString"
+	  param in name "idSegment" explicit_type "int"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
 	
 	
 	
 	
       end
 
-      operation 130306 "acquittementRecue"
-	private explicit_return_type "void"
-	nparams 1
-	  param in name "idSegment" explicit_type "int"
-	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}${)}${const}${volatile}${throw}${abstract};
-"
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
-	
-	
-	
-	
-      end
-
-      operation 130434 "configurationRecue"
+      operation 141954 "configurationRecue"
 	private explicit_return_type "void"
 	nparams 5
 	  param in name "adresse" explicit_type "QString"
@@ -511,9 +661,6 @@ ${body}}
 	  param in name "superficieSalle" explicit_type "QString"
 	cpp_decl "    ${comment}${friend}${static}${inline}${virtual}${typeprefix}${type} ${name}${(}${t0} ${p0}${v0}, ${t1} ${p1}${v1}, ${t2} ${p2}${v2}, ${t3} ${p3}${v3}, ${t4} ${p4}${v4}${)}${const}${volatile}${throw}${abstract};
 "
-	cpp_def "${comment}${inline}${typeprefix}${type} ${class}::${name}${(}${)}${const}${volatile}${throw}${staticnl}{
-  ${body}}
-"
 	
 	
 	
@@ -521,7 +668,7 @@ ${body}}
       end
     end
 
-    class 128258 "typedef1"
+    class 134914 "typedef1"
       visibility package stereotype "typedef" explicit_base_type "QObject"
       cpp_decl "${comment}typedef ${type} ${name};
 "
@@ -562,7 +709,7 @@ ${namespace_end}"
       end
     end
 
-    artifact 128130 "communicationwifi"
+    artifact 134658 "communicationwifi"
       stereotype "source"
       cpp_h "#ifndef ${NAMESPACE}_${NAME}_H
 #define ${NAMESPACE}_${NAME}_H
@@ -581,8 +728,7 @@ ${namespace_start}
 ${members}
 ${namespace_end}"
       associated_elems
-	class_ref 128258 // typedef1
-	class_ref 128130 // CommunicationWiFi
+	class_ref 134786 // CommunicationWiFi
       end
     end
   end
