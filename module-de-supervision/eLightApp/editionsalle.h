@@ -38,8 +38,10 @@ class EditionSalle : public QWidget
     void fermerFenetre();
     void sauvegarderFenetreScenarios();
     void sauvegarderFenetreSegments();
+    void envoyerDemandePuissanceSegment();
 
   signals:
+    void scenarioModifie();
 };
 
 #endif // EDITIONSALLE_H

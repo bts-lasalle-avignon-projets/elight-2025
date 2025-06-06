@@ -9,6 +9,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     communicationbasededonnees.cpp \
+    communicationwifi.cpp \
     editionsalle.cpp \
     historique.cpp \
     main.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     communicationbasededonnees.h \
+    communicationwifi.h \
     config.h \
     editionsalle.h \
     elight.h \
@@ -29,7 +31,7 @@ ressources.path = $$OUT_PWD/ressources
 INSTALLS += ressources
 
 COPIES += configIni
-configIni.files = $$PWD/config-base-de-donnees.ini
+configIni.files = $$PWD/config-elightapp.ini
 configIni.path = $$OUT_PWD
 INSTALLS += configIni
 

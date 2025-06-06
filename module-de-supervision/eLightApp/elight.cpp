@@ -9,6 +9,8 @@
 #include "elight.h"
 #include "historique.h"
 #include "salle.h"
+#include "communicationbasededonnees.h"
+#include "communicationwifi.h"
 #include <QDebug>
 
 /**
@@ -20,7 +22,8 @@
  */
 ELight::ELight(QWidget* parent) :
     QWidget(parent), historiquePage(nullptr),
-    baseDeDonnees(CommunicationBaseDeDonnees::creerInstance())
+    baseDeDonnees(CommunicationBaseDeDonnees::creerInstance()),
+    communicationWiFi(new CommunicationWiFi(this))
 {
     qDebug() << Q_FUNC_INFO << this;
 

@@ -47,7 +47,7 @@ Salle::Salle(QString nom, QWidget* parent) :
     layout->addWidget(boutonEdition);
 
     segments->setText("Segments :");
-    scenarios->setText("Scénarios :");
+    scenarios->setText("Scénario actif :");
 
     if(baseDeDonnees->connecter())
     {
@@ -164,6 +164,7 @@ void Salle::chargerScenariosDepuisBDD()
         QString intensiteScenario =
           requete.value(COLONNE_INTENSITE_SCENARIO).toString();
 
+        // Extraction IP dans le texte format : "Segment #X - ip : 192.168.1.Y"
         menuScenario->addItem("Scénario #" + idScenario + " - " + nomScenario +
                               " - " + intensiteScenario + " lux");
     }
@@ -258,6 +259,8 @@ void Salle::chargerConsommationDepuisBDD()
     }
     else
     {
+        consommation->setText(QString::number(consommationTotale, '0', 2) +
+                              " kWh");
         qDebug() << Q_FUNC_INFO << "Aucune donnée trouvée pour la consommation";
     }
 }

@@ -28,11 +28,12 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     ajoutScenario                = new QLineEdit(this);
     ajoutIntensiteScenario       = new QLineEdit(this);
     QPushButton* validerSegment  = new QPushButton("Ajouter", this);
-    QPushButton* modifSegment    = new QPushButton("Modifier", this);
     QPushButton* supprSegment    = new QPushButton("Supprimer", this);
     QPushButton* validerScenario = new QPushButton("Ajouter", this);
     QPushButton* modifScenario   = new QPushButton("Modifier", this);
     QPushButton* supprScenario   = new QPushButton("Supprimer", this);
+    QPushButton* boutonDemandePuissance =
+      new QPushButton("Demande puissance", this);
 
     QVBoxLayout* layout          = new QVBoxLayout(this);
     QHBoxLayout* entete          = new QHBoxLayout;
@@ -44,7 +45,7 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
     entete->addWidget(labelLogoeLight);
     entete->addWidget(titreEdition, Qt::AlignBaseline);
 
-    editionSegment->addWidget(modifSegment, 0, 0);
+    editionSegment->addWidget(boutonDemandePuissance);
     editionSegment->addWidget(supprSegment, 0, 1);
     editionSegment->addWidget(ajoutIPSegment, 1, 0);
     ajoutIPSegment->setPlaceholderText("xxx.xxx.xxx.xxx");
@@ -79,6 +80,8 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
         chargerSegmentsDepuisBDD();
     }
 
+    emit scenarioModifie();
+
     connect(boutonFermeture,
             &QPushButton::clicked,
             this,
@@ -104,11 +107,6 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
             this,
             &EditionSalle::supprimerSegmentsBDD);
 
-    connect(modifSegment,
-            &QPushButton::clicked,
-            this,
-            &EditionSalle::modifierSegmentsBDD);
-
     connect(validerScenario,
             &QPushButton::clicked,
             this,
@@ -124,14 +122,20 @@ EditionSalle::EditionSalle(Salle* salle, QWidget* parent) :
             this,
             &EditionSalle::supprimerScenariosBDD);
 
+    connect(boutonDemandePuissance,
+            &QPushButton::clicked,
+            this,
+            &EditionSalle::envoyerDemandePuissanceSegment);
+
     this->setStyleSheet("background-color: #FFFFFF;");
     titreEdition->setStyleSheet("font-weight: 900; font-size: 50px;");
     validerSegment->setStyleSheet("border: 1px solid black;");
-    modifSegment->setStyleSheet("border: 1px solid black;");
     supprSegment->setStyleSheet("border: 1px solid black;");
     validerScenario->setStyleSheet("border: 1px solid black;");
     modifScenario->setStyleSheet("border: 1px solid black;");
     supprScenario->setStyleSheet("border: 1px solid black;");
+    boutonDemandePuissance->setStyleSheet("border: 1px solid black;");
+
 #ifdef RASPBERRY_PI
     setWindowFlags(Qt::FramelessWindowHint |
                    Qt::Dialog); // Ajouter Qt::WindowStaysOnTopHint*/
@@ -180,7 +184,8 @@ void EditionSalle::sauvegarderFenetreScenarios()
 
         while(querySegments.next())
         {
-            QString idSegment = querySegments.value(COLONNE_ID_SEGMENT).toString();
+            QString idSegment =
+              querySegments.value(COLONNE_ID_SEGMENT).toString();
 
             QSqlQuery updateSegmentQuery;
             updateSegmentQuery.prepare(
@@ -199,6 +204,54 @@ void EditionSalle::sauvegarderFenetreScenarios()
         }
     }
     chargerScenariosDepuisBDD();
+
+    // Récupérer les lux du scénario sélectionné
+    QString luxStr =
+      partiesScenario.at(2).split(" ").at(0).trimmed(); // "intensité lux"
+    bool ok;
+    int  intensite = luxStr.toInt(&ok);
+    if(!ok)
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur conversion intensité lux";
+        return;
+    }
+
+    // Récupérer les IP des segments de la salle
+    QSqlQuery querySegments;
+    querySegments.prepare(
+      "SELECT ip_segment FROM segment WHERE id_salle = :id_salle");
+    querySegments.bindValue(":id_salle", idSalle);
+
+    if(!querySegments.exec())
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur SQL"
+                 << querySegments.lastError().text();
+        return;
+    }
+
+    while(querySegments.next())
+    {
+        QString ipSegment = querySegments.value(0).toString();
+
+        QString    trame   = "#I;" + QString::number(intensite) + "\r\n";
+        QByteArray donnees = trame.toUtf8();
+
+        QHostAddress adresse(ipSegment);
+        quint16      port = 5000;
+
+        QUdpSocket socket;
+        qint64     bytes = socket.writeDatagram(donnees, adresse, port);
+        if(bytes == -1)
+        {
+            qDebug() << Q_FUNC_INFO << "Erreur envoi vers" << ipSegment
+                     << socket.errorString();
+        }
+        else
+        {
+            qDebug() << Q_FUNC_INFO << "Trame envoyée à" << ipSegment << "->"
+                     << trame.trimmed();
+        }
+    }
 }
 
 void EditionSalle::sauvegarderFenetreSegments()
@@ -323,52 +376,6 @@ void EditionSalle::supprimerSegmentsBDD()
 
     QSqlQuery query;
     query.prepare("DELETE FROM segment WHERE id_segment = :id_segment");
-    query.bindValue(":id_segment", idSegment);
-
-    if(!query.exec())
-    {
-        qDebug() << Q_FUNC_INFO << "Erreur SQL" << query.lastError().text();
-        return;
-    }
-
-    chargerSegmentsDepuisBDD();
-}
-
-void EditionSalle::modifierSegmentsBDD()
-{
-    QString segmentChoisi = menuSegments->currentText();
-
-    QStringList partiesSegment = segmentChoisi.split(" - ");
-    QString     idSegment  = partiesSegment.at(0).split("#").at(1).trimmed();
-    QString     ipActuelle = partiesSegment.at(1).split(":").at(1).trimmed();
-    qDebug() << Q_FUNC_INFO << "idSegment" << idSegment << "ipActuelle"
-             << ipActuelle;
-
-    if(idSegment.isEmpty())
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "Aucun segment sélectionné pour modification";
-        return;
-    }
-    bool    ok;
-    QString nouvelleIp = QInputDialog::getText(this,
-                                               "Modifier l'adresse IP",
-                                               "Nouvelle adresse IP:",
-                                               QLineEdit::Normal,
-                                               ipActuelle,
-                                               &ok);
-
-    if(!ok || nouvelleIp.isEmpty())
-    {
-        qDebug() << Q_FUNC_INFO
-                 << "Modification annulée ou adresse IP invalide.";
-        return;
-    }
-
-    QSqlQuery query;
-    query.prepare("UPDATE segment SET ip_segment = :ip_segment WHERE "
-                  "id_segment = :id_segment");
-    query.bindValue(":ip_segment", nouvelleIp);
     query.bindValue(":id_segment", idSegment);
 
     if(!query.exec())
@@ -519,4 +526,43 @@ void EditionSalle::ajouterScenariosBDD()
     ajoutIntensiteScenario->clear();
 
     chargerScenariosDepuisBDD();
+}
+
+void EditionSalle::envoyerDemandePuissanceSegment()
+{
+    qDebug() << Q_FUNC_INFO;
+    QString     segmentChoisi  = menuSegments->currentText();
+    QStringList partiesSegment = segmentChoisi.split(" - ");
+    if(partiesSegment.size() < 2)
+    {
+        qDebug() << Q_FUNC_INFO << "Format du segment invalide";
+        return;
+    }
+
+    QString ipSegment = partiesSegment.at(1).split("ip :").last().trimmed();
+    if(ipSegment.isEmpty())
+    {
+        qDebug() << Q_FUNC_INFO << "IP segment vide ou invalide";
+        return;
+    }
+
+    QString    trame   = "#P;0\r\n";
+    QByteArray donnees = trame.toUtf8();
+
+    QHostAddress adresse(ipSegment);
+    quint16      port = 5000;
+
+    QUdpSocket socket;
+    qint64     bytesEnvoyes = socket.writeDatagram(donnees, adresse, port);
+
+    if(bytesEnvoyes == -1)
+    {
+        qDebug() << Q_FUNC_INFO << "Erreur lors de l'envoi de la trame à"
+                 << ipSegment << socket.errorString();
+    }
+    else
+    {
+        qDebug() << Q_FUNC_INFO << "Trame envoyée à" << ipSegment << "->"
+                 << trame.trimmed();
+    }
 }
