@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Projet elight:  Fichier source de pagegestionscenario.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="projet-logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Projet elight
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">BTS CIEL IR LaSalle Avignon 2025</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('pagegestionscenario_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">pagegestionscenario.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="pagegestionscenario_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef PAGEGESTIONSCENARIO_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define PAGEGESTIONSCENARIO_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QtWidgets&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="module-de-supervision_2e_light_app_2communicationbasededonnees_8h.html">communicationbasededonnees.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="pagegestionscenario_8h.html#ade000f17193dad4d985185b9958a6ac4">   11</a></span>&#160;<span class="preprocessor">#define INTENSITE_MIN 0</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="pagegestionscenario_8h.html#a401327028a092448828ece40fa3282fe">   17</a></span>&#160;<span class="preprocessor">#define INTENSITE_MAX 750</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="pagegestionscenario_8h.html#a3e772ac505f23ea7a73a1a8d8f8f86ae">   23</a></span>&#160;<span class="preprocessor">#define ICONE_VALIDER_GESTION &quot;valider.png&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="pagegestionscenario_8h.html#a8989b4730a59857f3731eb45779950f2">   29</a></span>&#160;<span class="preprocessor">#define ICONE_SUPPRIMER_GESTION &quot;poubelle.png&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="pagegestionscenario_8h.html#a082a376e048880f2efff47d78ab355e5">   35</a></span>&#160;<span class="preprocessor">#define LARGEUR_ICONES_BOUTONS_GESTION 50</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="pagegestionscenario_8h.html#a97ebf4c828d8beafdc22f9d363fc2368">   41</a></span>&#160;<span class="preprocessor">#define HAUTEUR_ICONES_BOUTONS_GESTION 50</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="pagegestionscenario_8h.html#a6a4dffb39dacc96a0722ed3956f542e1">   47</a></span>&#160;<span class="preprocessor">#define PADDING_ICONES_GESTION 15</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_page_gestion_scenario.html">PageGestionScenario</a> : <span class="keyword">public</span> <a class="code" href="class_q_widget.html">QWidget</a></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_page_gestion_scenario.html#a01f4fa6f7aab8f0af8b5076be2822058">PageGestionScenario</a>(<a class="code" href="class_q_widget.html">QWidget</a>* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_page_gestion_scenario.html#a5f1f8c4b09d8b347f688737565c6986e">chargerScenariosDepuisBDD</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_page_gestion_scenario.html#aea22292d7468fd594c0bc67e7ecec7c4">enregistrerScenario</a>();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_page_gestion_scenario.html#ae6274a9c49f467bc700e58d7d4a648ab">supprimerScenario</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_page_gestion_scenario.html#a3f745dc64a8f90dbabdd6855f8818b13">modifierScenario</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#abee598dec40a75deaf42b1a282e9405d">   60</a></span>&#160;    <a class="code" href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a>&amp; <a class="code" href="class_page_gestion_scenario.html#abee598dec40a75deaf42b1a282e9405d">baseDeDonnees</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#a19865285e4c6cadd7b68179331088f32">   61</a></span>&#160;    QLineEdit*                  <a class="code" href="class_page_gestion_scenario.html#a19865285e4c6cadd7b68179331088f32">boiteNomScenario</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#ab0623779cc1890e906483e6fcd88c64a">   62</a></span>&#160;    QSlider*                    <a class="code" href="class_page_gestion_scenario.html#ab0623779cc1890e906483e6fcd88c64a">sliderIntensiteScenario</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#a9067d45c0fc69a6e835bb35c71797b74">   63</a></span>&#160;    QLabel*                     <a class="code" href="class_page_gestion_scenario.html#a9067d45c0fc69a6e835bb35c71797b74">labelValeurIntensiteScenario</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#aaca127dabb944c2f7ab19ea5b207888a">   64</a></span>&#160;    QComboBox*                  <a class="code" href="class_page_gestion_scenario.html#aaca127dabb944c2f7ab19ea5b207888a">listeScenarios</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#abbaac2e6630a5af3d7b26dc72e089911">   65</a></span>&#160;    QLineEdit*                  <a class="code" href="class_page_gestion_scenario.html#abbaac2e6630a5af3d7b26dc72e089911">boiteNouveauNom</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#abaf8e9e52292272aabedc2ee37cd77bb">   66</a></span>&#160;    QSlider*                    <a class="code" href="class_page_gestion_scenario.html#abaf8e9e52292272aabedc2ee37cd77bb">sliderNouvelleIntensite</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_page_gestion_scenario.html#ab419334062533dae13c17b4fec8542fe">   67</a></span>&#160;    QLabel*                     <a class="code" href="class_page_gestion_scenario.html#ab419334062533dae13c17b4fec8542fe">labelValeurNouvelleIntensite</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  signals:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// PAGEGESTIONSCENARIO_H</span></div>
+<div class="ttc" id="aclass_communication_base_de_donnees_html"><div class="ttname"><a href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a></div><div class="ttdef"><b>Definition:</b> <a href="module-de-gestion_2e_light_control_2communicationbasededonnees_8h_source.html#l00034">module-de-gestion/eLightControl/communicationbasededonnees.h:35</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html"><div class="ttname"><a href="class_page_gestion_scenario.html">PageGestionScenario</a></div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00049">pagegestionscenario.h:50</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_a01f4fa6f7aab8f0af8b5076be2822058"><div class="ttname"><a href="class_page_gestion_scenario.html#a01f4fa6f7aab8f0af8b5076be2822058">PageGestionScenario::PageGestionScenario</a></div><div class="ttdeci">PageGestionScenario(QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8cpp_source.html#l00005">pagegestionscenario.cpp:5</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_a19865285e4c6cadd7b68179331088f32"><div class="ttname"><a href="class_page_gestion_scenario.html#a19865285e4c6cadd7b68179331088f32">PageGestionScenario::boiteNomScenario</a></div><div class="ttdeci">QLineEdit * boiteNomScenario</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00061">pagegestionscenario.h:61</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_a3f745dc64a8f90dbabdd6855f8818b13"><div class="ttname"><a href="class_page_gestion_scenario.html#a3f745dc64a8f90dbabdd6855f8818b13">PageGestionScenario::modifierScenario</a></div><div class="ttdeci">void modifierScenario()</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8cpp_source.html#l00321">pagegestionscenario.cpp:321</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_a5f1f8c4b09d8b347f688737565c6986e"><div class="ttname"><a href="class_page_gestion_scenario.html#a5f1f8c4b09d8b347f688737565c6986e">PageGestionScenario::chargerScenariosDepuisBDD</a></div><div class="ttdeci">void chargerScenariosDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8cpp_source.html#l00250">pagegestionscenario.cpp:250</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_a9067d45c0fc69a6e835bb35c71797b74"><div class="ttname"><a href="class_page_gestion_scenario.html#a9067d45c0fc69a6e835bb35c71797b74">PageGestionScenario::labelValeurIntensiteScenario</a></div><div class="ttdeci">QLabel * labelValeurIntensiteScenario</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00063">pagegestionscenario.h:63</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_aaca127dabb944c2f7ab19ea5b207888a"><div class="ttname"><a href="class_page_gestion_scenario.html#aaca127dabb944c2f7ab19ea5b207888a">PageGestionScenario::listeScenarios</a></div><div class="ttdeci">QComboBox * listeScenarios</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00064">pagegestionscenario.h:64</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_ab0623779cc1890e906483e6fcd88c64a"><div class="ttname"><a href="class_page_gestion_scenario.html#ab0623779cc1890e906483e6fcd88c64a">PageGestionScenario::sliderIntensiteScenario</a></div><div class="ttdeci">QSlider * sliderIntensiteScenario</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00062">pagegestionscenario.h:62</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_ab419334062533dae13c17b4fec8542fe"><div class="ttname"><a href="class_page_gestion_scenario.html#ab419334062533dae13c17b4fec8542fe">PageGestionScenario::labelValeurNouvelleIntensite</a></div><div class="ttdeci">QLabel * labelValeurNouvelleIntensite</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00067">pagegestionscenario.h:67</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_abaf8e9e52292272aabedc2ee37cd77bb"><div class="ttname"><a href="class_page_gestion_scenario.html#abaf8e9e52292272aabedc2ee37cd77bb">PageGestionScenario::sliderNouvelleIntensite</a></div><div class="ttdeci">QSlider * sliderNouvelleIntensite</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00066">pagegestionscenario.h:66</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_abbaac2e6630a5af3d7b26dc72e089911"><div class="ttname"><a href="class_page_gestion_scenario.html#abbaac2e6630a5af3d7b26dc72e089911">PageGestionScenario::boiteNouveauNom</a></div><div class="ttdeci">QLineEdit * boiteNouveauNom</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00065">pagegestionscenario.h:65</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_abee598dec40a75deaf42b1a282e9405d"><div class="ttname"><a href="class_page_gestion_scenario.html#abee598dec40a75deaf42b1a282e9405d">PageGestionScenario::baseDeDonnees</a></div><div class="ttdeci">CommunicationBaseDeDonnees &amp; baseDeDonnees</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8h_source.html#l00060">pagegestionscenario.h:60</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_ae6274a9c49f467bc700e58d7d4a648ab"><div class="ttname"><a href="class_page_gestion_scenario.html#ae6274a9c49f467bc700e58d7d4a648ab">PageGestionScenario::supprimerScenario</a></div><div class="ttdeci">void supprimerScenario()</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8cpp_source.html#l00302">pagegestionscenario.cpp:302</a></div></div>
+<div class="ttc" id="aclass_page_gestion_scenario_html_aea22292d7468fd594c0bc67e7ecec7c4"><div class="ttname"><a href="class_page_gestion_scenario.html#aea22292d7468fd594c0bc67e7ecec7c4">PageGestionScenario::enregistrerScenario</a></div><div class="ttdeci">void enregistrerScenario()</div><div class="ttdef"><b>Definition:</b> <a href="pagegestionscenario_8cpp_source.html#l00277">pagegestionscenario.cpp:277</a></div></div>
+<div class="ttc" id="aclass_q_widget_html"><div class="ttname"><a href="class_q_widget.html">QWidget</a></div></div>
+<div class="ttc" id="amodule-de-supervision_2e_light_app_2communicationbasededonnees_8h_html"><div class="ttname"><a href="module-de-supervision_2e_light_app_2communicationbasededonnees_8h.html">communicationbasededonnees.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b676d9623a1823538ea7b135468eb5dc.html">module-de-gestion</a></li><li class="navelem"><a class="el" href="dir_0fa03b09a58995f9192fbe8b39b75f22.html">eLightControl</a></li><li class="navelem"><a class="el" href="pagegestionscenario_8h.html">pagegestionscenario.h</a></li>
+    <li class="footer"><img class="footer" src="lasalle-logo.png" height="31" alt="La Salle Avignon"/>&nbsp;<b>Campus La Salle Avignon</b>&nbsp;-&nbsp;9 Rue Notre Dame des 7 douleurs&nbsp;-&nbsp;BP 50165&nbsp;-&nbsp;84008 Avignon&nbsp;-&nbsp;Généré le Vendredi 6 Juin 2025 16:01:19 pour Projet elight par&nbsp;<a href="https://www.doxygen.org/index.html">doxygen</a>&nbsp;1.9.1&nbsp;</li>
+  </ul>
+</div>
+</body>
+</html>

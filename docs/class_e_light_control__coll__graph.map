@@ -1,0 +1,12 @@
+<map id="ELightControl" name="ELightControl">
+<area shape="rect" id="node1" title="Déclaration de la classe ELightControl." alt="" coords="428,1315,607,1480"/>
+<area shape="rect" id="node2" href="$class_q_widget.html" title=" " alt="" coords="439,617,518,694"/>
+<area shape="rect" id="node3" href="$class_page_parametres.html" title=" " alt="" coords="344,1028,496,1105"/>
+<area shape="rect" id="node4" href="$class_page_guide.html" title=" " alt="" coords="520,1021,715,1113"/>
+<area shape="rect" id="node5" href="$class_page_gestion_scenario.html" title=" " alt="" coords="86,955,319,1179"/>
+<area shape="rect" id="node8" href="$class_page_accueil.html" title=" " alt="" coords="989,881,1224,1252"/>
+<area shape="rect" id="node10" href="$class_menu_navigation.html" title=" " alt="" coords="739,977,965,1157"/>
+<area shape="rect" id="node6" href="$class_communication_base_de_donnees.html" title=" " alt="" coords="706,132,974,429"/>
+<area shape="rect" id="node9" href="$class_communication_segments.html" title=" " alt="" coords="973,492,1241,819"/>
+<area shape="rect" id="node7" href="$class_q_object.html" title=" " alt="" coords="935,5,1009,83"/>
+</map>

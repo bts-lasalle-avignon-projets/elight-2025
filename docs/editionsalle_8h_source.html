@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Projet elight:  Fichier source de editionsalle.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="projet-logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Projet elight
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">BTS CIEL IR LaSalle Avignon 2025</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('editionsalle_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">editionsalle.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="editionsalle_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef EDITIONSALLE_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define EDITIONSALLE_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QtWidgets&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="module-de-supervision_2e_light_app_2config_8h.html">config.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span><a class="code" href="class_salle.html">Salle</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">class </span><a class="code" href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="class_edition_salle.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_edition_salle.html">EditionSalle</a> : <span class="keyword">public</span> <a class="code" href="class_q_widget.html">QWidget</a></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_edition_salle.html#a309ba403a7bf602fc838c36ef5f4d22e">EditionSalle</a>(<a class="code" href="class_salle.html">Salle</a>* <a class="code" href="class_edition_salle.html#af953ba0739c71d9c5ad5954a3b34106c">salle</a>, <a class="code" href="class_q_widget.html">QWidget</a>* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_edition_salle.html#ad87f2093c4101ad06cfc4b15eef8b3c6">~EditionSalle</a>();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="class_edition_salle.html#af953ba0739c71d9c5ad5954a3b34106c">   18</a></span>&#160;    <a class="code" href="class_salle.html">Salle</a>*                      <a class="code" href="class_edition_salle.html#af953ba0739c71d9c5ad5954a3b34106c">salle</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_edition_salle.html#a7a55474dcd369e0c2b7addf43cfa5d2f">   19</a></span>&#160;    <a class="code" href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a>* <a class="code" href="class_edition_salle.html#a7a55474dcd369e0c2b7addf43cfa5d2f">baseDeDonnees</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="class_edition_salle.html#a7c9dd0245f484fa0860721ad2eaf6f3f">   20</a></span>&#160;    QComboBox*                  <a class="code" href="class_edition_salle.html#a7c9dd0245f484fa0860721ad2eaf6f3f">menuScenarios</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="class_edition_salle.html#a3549b0d53ea4699c3b4f1caac4eec9ba">   21</a></span>&#160;    QComboBox*                  <a class="code" href="class_edition_salle.html#a3549b0d53ea4699c3b4f1caac4eec9ba">menuSegments</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_edition_salle.html#a28fd829ab22aafe712993a7e404b9301">   22</a></span>&#160;    QLineEdit*                  <a class="code" href="class_edition_salle.html#a28fd829ab22aafe712993a7e404b9301">ajoutIPSegment</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_edition_salle.html#a22cf1879b98985369ad6932198a1efea">   23</a></span>&#160;    QLineEdit*                  <a class="code" href="class_edition_salle.html#a22cf1879b98985369ad6932198a1efea">ajoutScenario</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_edition_salle.html#a7ed4a7f15892c75e985219c7028aa6cf">   24</a></span>&#160;    QLineEdit*                  <a class="code" href="class_edition_salle.html#a7ed4a7f15892c75e985219c7028aa6cf">ajoutIntensiteScenario</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a3bac795d09c99fda4933536cb8320ec6">chargerScenariosDepuisBDD</a>();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#abe9a194fdc11552ba5e5a606f5447126">chargerSegmentsDepuisBDD</a>();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a1ad4f01e6587a5b8b5e31d23836b6409">supprimerSegmentsBDD</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_edition_salle.html#a766e8c973f218fcaa6f16d9909c881c1">   30</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a766e8c973f218fcaa6f16d9909c881c1">modifierSegmentsBDD</a>();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a438e18cc96c17ab82ad60b83874e103e">ajouterSegmentsBDD</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#ac5aa7715c3046d7f8620fb411ec89af6">supprimerScenariosBDD</a>();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a2dd9b716bb55681ae5f42e4f7f9f810c">modifierScenariosBDD</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a8862561233d620319dc091d753481374">ajouterScenariosBDD</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a32ba18aee023f06eb7a2731331f755e8">fermerFenetre</a>();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#aae5b8c068fd33646ae21a4a36924db6d">sauvegarderFenetreScenarios</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#a78a69bd4ef3f5dbf8985a2d1d89a6774">sauvegarderFenetreSegments</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#ad5db96cb134779b14feab5fd59c931fb">envoyerDemandePuissanceSegment</a>();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  signals:</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_edition_salle.html#aa6fb967a9145f161f176e5f34d18dc22">   44</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_edition_salle.html#aa6fb967a9145f161f176e5f34d18dc22">scenarioModifie</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// EDITIONSALLE_H</span></div>
+<div class="ttc" id="aclass_communication_base_de_donnees_html"><div class="ttname"><a href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a></div><div class="ttdef"><b>Definition:</b> <a href="module-de-gestion_2e_light_control_2communicationbasededonnees_8h_source.html#l00034">module-de-gestion/eLightControl/communicationbasededonnees.h:35</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html"><div class="ttname"><a href="class_edition_salle.html">EditionSalle</a></div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00010">editionsalle.h:11</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a1ad4f01e6587a5b8b5e31d23836b6409"><div class="ttname"><a href="class_edition_salle.html#a1ad4f01e6587a5b8b5e31d23836b6409">EditionSalle::supprimerSegmentsBDD</a></div><div class="ttdeci">void supprimerSegmentsBDD()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00363">editionsalle.cpp:363</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a22cf1879b98985369ad6932198a1efea"><div class="ttname"><a href="class_edition_salle.html#a22cf1879b98985369ad6932198a1efea">EditionSalle::ajoutScenario</a></div><div class="ttdeci">QLineEdit * ajoutScenario</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00023">editionsalle.h:23</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a28fd829ab22aafe712993a7e404b9301"><div class="ttname"><a href="class_edition_salle.html#a28fd829ab22aafe712993a7e404b9301">EditionSalle::ajoutIPSegment</a></div><div class="ttdeci">QLineEdit * ajoutIPSegment</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00022">editionsalle.h:22</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a2dd9b716bb55681ae5f42e4f7f9f810c"><div class="ttname"><a href="class_edition_salle.html#a2dd9b716bb55681ae5f42e4f7f9f810c">EditionSalle::modifierScenariosBDD</a></div><div class="ttdeci">void modifierScenariosBDD()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00442">editionsalle.cpp:442</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a309ba403a7bf602fc838c36ef5f4d22e"><div class="ttname"><a href="class_edition_salle.html#a309ba403a7bf602fc838c36ef5f4d22e">EditionSalle::EditionSalle</a></div><div class="ttdeci">EditionSalle(Salle *salle, QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00006">editionsalle.cpp:6</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a32ba18aee023f06eb7a2731331f755e8"><div class="ttname"><a href="class_edition_salle.html#a32ba18aee023f06eb7a2731331f755e8">EditionSalle::fermerFenetre</a></div><div class="ttdeci">void fermerFenetre()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00155">editionsalle.cpp:155</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a3549b0d53ea4699c3b4f1caac4eec9ba"><div class="ttname"><a href="class_edition_salle.html#a3549b0d53ea4699c3b4f1caac4eec9ba">EditionSalle::menuSegments</a></div><div class="ttdeci">QComboBox * menuSegments</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00021">editionsalle.h:21</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a3bac795d09c99fda4933536cb8320ec6"><div class="ttname"><a href="class_edition_salle.html#a3bac795d09c99fda4933536cb8320ec6">EditionSalle::chargerScenariosDepuisBDD</a></div><div class="ttdeci">void chargerScenariosDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00302">editionsalle.cpp:302</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a438e18cc96c17ab82ad60b83874e103e"><div class="ttname"><a href="class_edition_salle.html#a438e18cc96c17ab82ad60b83874e103e">EditionSalle::ajouterSegmentsBDD</a></div><div class="ttdeci">void ajouterSegmentsBDD()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00390">editionsalle.cpp:390</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a766e8c973f218fcaa6f16d9909c881c1"><div class="ttname"><a href="class_edition_salle.html#a766e8c973f218fcaa6f16d9909c881c1">EditionSalle::modifierSegmentsBDD</a></div><div class="ttdeci">void modifierSegmentsBDD()</div></div>
+<div class="ttc" id="aclass_edition_salle_html_a78a69bd4ef3f5dbf8985a2d1d89a6774"><div class="ttname"><a href="class_edition_salle.html#a78a69bd4ef3f5dbf8985a2d1d89a6774">EditionSalle::sauvegarderFenetreSegments</a></div><div class="ttdeci">void sauvegarderFenetreSegments()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00257">editionsalle.cpp:257</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a7a55474dcd369e0c2b7addf43cfa5d2f"><div class="ttname"><a href="class_edition_salle.html#a7a55474dcd369e0c2b7addf43cfa5d2f">EditionSalle::baseDeDonnees</a></div><div class="ttdeci">CommunicationBaseDeDonnees * baseDeDonnees</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00019">editionsalle.h:19</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a7c9dd0245f484fa0860721ad2eaf6f3f"><div class="ttname"><a href="class_edition_salle.html#a7c9dd0245f484fa0860721ad2eaf6f3f">EditionSalle::menuScenarios</a></div><div class="ttdeci">QComboBox * menuScenarios</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00020">editionsalle.h:20</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a7ed4a7f15892c75e985219c7028aa6cf"><div class="ttname"><a href="class_edition_salle.html#a7ed4a7f15892c75e985219c7028aa6cf">EditionSalle::ajoutIntensiteScenario</a></div><div class="ttdeci">QLineEdit * ajoutIntensiteScenario</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00024">editionsalle.h:24</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_a8862561233d620319dc091d753481374"><div class="ttname"><a href="class_edition_salle.html#a8862561233d620319dc091d753481374">EditionSalle::ajouterScenariosBDD</a></div><div class="ttdeci">void ajouterScenariosBDD()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00498">editionsalle.cpp:498</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_aa6fb967a9145f161f176e5f34d18dc22"><div class="ttname"><a href="class_edition_salle.html#aa6fb967a9145f161f176e5f34d18dc22">EditionSalle::scenarioModifie</a></div><div class="ttdeci">void scenarioModifie()</div></div>
+<div class="ttc" id="aclass_edition_salle_html_aae5b8c068fd33646ae21a4a36924db6d"><div class="ttname"><a href="class_edition_salle.html#aae5b8c068fd33646ae21a4a36924db6d">EditionSalle::sauvegarderFenetreScenarios</a></div><div class="ttdeci">void sauvegarderFenetreScenarios()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00160">editionsalle.cpp:160</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_abe9a194fdc11552ba5e5a606f5447126"><div class="ttname"><a href="class_edition_salle.html#abe9a194fdc11552ba5e5a606f5447126">EditionSalle::chargerSegmentsDepuisBDD</a></div><div class="ttdeci">void chargerSegmentsDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00334">editionsalle.cpp:334</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_ac5aa7715c3046d7f8620fb411ec89af6"><div class="ttname"><a href="class_edition_salle.html#ac5aa7715c3046d7f8620fb411ec89af6">EditionSalle::supprimerScenariosBDD</a></div><div class="ttdeci">void supprimerScenariosBDD()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00414">editionsalle.cpp:414</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_ad5db96cb134779b14feab5fd59c931fb"><div class="ttname"><a href="class_edition_salle.html#ad5db96cb134779b14feab5fd59c931fb">EditionSalle::envoyerDemandePuissanceSegment</a></div><div class="ttdeci">void envoyerDemandePuissanceSegment()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00531">editionsalle.cpp:531</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_ad87f2093c4101ad06cfc4b15eef8b3c6"><div class="ttname"><a href="class_edition_salle.html#ad87f2093c4101ad06cfc4b15eef8b3c6">EditionSalle::~EditionSalle</a></div><div class="ttdeci">virtual ~EditionSalle()</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8cpp_source.html#l00149">editionsalle.cpp:149</a></div></div>
+<div class="ttc" id="aclass_edition_salle_html_af953ba0739c71d9c5ad5954a3b34106c"><div class="ttname"><a href="class_edition_salle.html#af953ba0739c71d9c5ad5954a3b34106c">EditionSalle::salle</a></div><div class="ttdeci">Salle * salle</div><div class="ttdef"><b>Definition:</b> <a href="editionsalle_8h_source.html#l00018">editionsalle.h:18</a></div></div>
+<div class="ttc" id="aclass_q_widget_html"><div class="ttname"><a href="class_q_widget.html">QWidget</a></div></div>
+<div class="ttc" id="aclass_salle_html"><div class="ttname"><a href="class_salle.html">Salle</a></div><div class="ttdef"><b>Definition:</b> <a href="salle_8h_source.html#l00027">salle.h:28</a></div></div>
+<div class="ttc" id="amodule-de-supervision_2e_light_app_2config_8h_html"><div class="ttname"><a href="module-de-supervision_2e_light_app_2config_8h.html">config.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_925c2c72bcc34cac258ac93b3f2e6df2.html">module-de-supervision</a></li><li class="navelem"><a class="el" href="dir_d2b6274792d7a00ab27ac15c7b182e5d.html">eLightApp</a></li><li class="navelem"><a class="el" href="editionsalle_8h.html">editionsalle.h</a></li>
+    <li class="footer"><img class="footer" src="lasalle-logo.png" height="31" alt="La Salle Avignon"/>&nbsp;<b>Campus La Salle Avignon</b>&nbsp;-&nbsp;9 Rue Notre Dame des 7 douleurs&nbsp;-&nbsp;BP 50165&nbsp;-&nbsp;84008 Avignon&nbsp;-&nbsp;Généré le Vendredi 6 Juin 2025 16:01:19 pour Projet elight par&nbsp;<a href="https://www.doxygen.org/index.html">doxygen</a>&nbsp;1.9.1&nbsp;</li>
+  </ul>
+</div>
+</body>
+</html>

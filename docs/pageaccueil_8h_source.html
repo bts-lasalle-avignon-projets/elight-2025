@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Projet elight:  Fichier source de pageaccueil.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="projet-logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Projet elight
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">BTS CIEL IR LaSalle Avignon 2025</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('pageaccueil_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">pageaccueil.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="pageaccueil_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef PAGEACCUEIL_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define PAGEACCUEIL_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QtWidgets&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="module-de-supervision_2e_light_app_2communicationbasededonnees_8h.html">communicationbasededonnees.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="communicationsegments_8h.html">communicationsegments.h</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="pageaccueil_8h.html#a969192f6cf28d08a228600512f35da98">   12</a></span>&#160;<span class="preprocessor">#define COLONNES_MAX 3</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="pageaccueil_8h.html#ad9e5b9647fe4123bf9c259ce72dd0f58">   18</a></span>&#160;<span class="preprocessor">#define PUISSANCE_DEFAUT 0</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="pageaccueil_8h.html#aff082df187650692122d1a6515a3bc6f">   24</a></span>&#160;<span class="preprocessor">#define ICONE_VALIDER_ACCUEIL &quot;valider.png&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="pageaccueil_8h.html#a4cae748e2fa8cf16c38dbfc815a003cd">   30</a></span>&#160;<span class="preprocessor">#define ICONE_RETIRER_ACCUEIL &quot;retirer.png&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="pageaccueil_8h.html#a678e33b3a6c98118cfbd086d672ed0e4">   36</a></span>&#160;<span class="preprocessor">#define LARGEUR_ICONES_BOUTONS_ACCUEIL 50</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="pageaccueil_8h.html#a49d0de898f3d7593b440fe250951055c">   42</a></span>&#160;<span class="preprocessor">#define HAUTEUR_ICONES_BOUTONS_ACCUEIL 50</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="pageaccueil_8h.html#ad568e1b63278dc8df6f3a2ecb3210e28">   48</a></span>&#160;<span class="preprocessor">#define PADDING_ICONES_ACCUEIL 15</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">class </span><a class="code" href="class_boite_segment.html">BoiteSegment</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_page_accueil.html">   52</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_page_accueil.html">PageAccueil</a> : <span class="keyword">public</span> <a class="code" href="class_q_widget.html">QWidget</a></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_page_accueil.html#aa9e789dd2641e519e6ad9a3593d8730d">PageAccueil</a>(<a class="code" href="class_q_widget.html">QWidget</a>* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_page_accueil.html#a812b9711d3c04faa010f1642d27f7cc5">~PageAccueil</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a1a101de4ead41033f3d157ca63598ee2">   58</a></span>&#160;    QPushButton* <a class="code" href="class_page_accueil.html#a1a101de4ead41033f3d157ca63598ee2">getBoutonGererScenarios</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span>         <a class="code" href="class_page_accueil.html#a36c1fc3d7cf0bd25db80bfab3f2f3470">chargerScenariosDepuisBDD</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span>         <a class="code" href="class_page_accueil.html#af27dc163911ab269a94bead1f51e59c9">chargerSegmentsDepuisBDD</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span>         <a class="code" href="class_page_accueil.html#a781c49356c66fcb17b1c5953bca02367">recupererNomSalle</a>(QString&amp; nomSalle);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span>         <a class="code" href="class_page_accueil.html#a849dd65a5e86caa4e6281b2732d5a9ec">chargerScenarioActifDepuisBDD</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span>         <a class="code" href="class_page_accueil.html#a227c1c3277345d19c07114a9237ec626">selectionnerScenarioActif</a>();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span>         <a class="code" href="class_page_accueil.html#a2f73b39bec976ba93671f1488403d752">retirerScenarioActif</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a7e1f0c5d22f351cb669abc6ae5eb0324">   67</a></span>&#160;    QGridLayout*                <a class="code" href="class_page_accueil.html#a7e1f0c5d22f351cb669abc6ae5eb0324">layoutSegments</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="class_page_accueil.html#aef6e0fbb950e78a7be1b7fe1bf8d9cdc">   68</a></span>&#160;    QList&lt;BoiteSegment*&gt;        <a class="code" href="class_page_accueil.html#aef6e0fbb950e78a7be1b7fe1bf8d9cdc">listeSegments</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a550e50a058d820cab55b13c2db0ee7b4">   69</a></span>&#160;    QComboBox*                  <a class="code" href="class_page_accueil.html#a550e50a058d820cab55b13c2db0ee7b4">menuDeroulantScenarios</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a157b67d31f706c0f2794aac22f799edb">   70</a></span>&#160;    <a class="code" href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a>&amp; <a class="code" href="class_page_accueil.html#a157b67d31f706c0f2794aac22f799edb">baseDeDonnees</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a4c1e7e4b8feec38721ec3d3539c18f20">   71</a></span>&#160;    QLabel*                     <a class="code" href="class_page_accueil.html#a4c1e7e4b8feec38721ec3d3539c18f20">nomScenarioActif</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a16a78f48027fe930ccb4c7aed363b799">   72</a></span>&#160;    QLabel*                     <a class="code" href="class_page_accueil.html#a16a78f48027fe930ccb4c7aed363b799">intensiteScenarioActif</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a1763373043bfd6aada04c5f33c5856d3">   73</a></span>&#160;    <span class="keywordtype">int</span>                         <a class="code" href="class_page_accueil.html#a1763373043bfd6aada04c5f33c5856d3">intensiteScenarioActifEntier</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a5d425a794490843c0d36c2c2b1d2ee1d">   74</a></span>&#160;    QPushButton*                <a class="code" href="class_page_accueil.html#a5d425a794490843c0d36c2c2b1d2ee1d">boutonRetirerScenarioActif</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a8a06e2d2a557f4c75d293d7ad7161ee7">   75</a></span>&#160;    QPushButton*                <a class="code" href="class_page_accueil.html#a8a06e2d2a557f4c75d293d7ad7161ee7">boutonConfirmerSelectionScenario</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="class_page_accueil.html#ac032ca11bb2efa04574cd4005b7f6663">   76</a></span>&#160;    QVector&lt;int&gt;                <a class="code" href="class_page_accueil.html#ac032ca11bb2efa04574cd4005b7f6663">idsSegmentsSalle</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_page_accueil.html#ab3a879655fb326c0bd5c9a793361204e">   78</a></span>&#160;    <a class="code" href="class_communication_segments.html">CommunicationSegments</a>* <a class="code" href="class_page_accueil.html#ab3a879655fb326c0bd5c9a793361204e">communicationSegments</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a46cda6d200c84f6e5671d812d2f00f09">   80</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_page_accueil.html#a46cda6d200c84f6e5671d812d2f00f09">creerSegments</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> nombreScenarios);</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_page_accueil.html#aa07d5eac0eb694b001264ec1b2bcc0c2">   81</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_page_accueil.html#aa07d5eac0eb694b001264ec1b2bcc0c2">placerSegments</a>();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  signals:</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="class_page_accueil.html#a3c3d831f80596db3973295e0f6d9f031">   84</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_page_accueil.html#a3c3d831f80596db3973295e0f6d9f031">signalEnvoyerTrameIntensite</a>(<span class="keywordtype">int</span> idSegment, <span class="keywordtype">int</span> intensite);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// PAGEACCUEIL_H</span></div>
+<div class="ttc" id="aclass_boite_segment_html"><div class="ttname"><a href="class_boite_segment.html">BoiteSegment</a></div><div class="ttdef"><b>Definition:</b> <a href="boitesegment_8h_source.html#l00024">boitesegment.h:25</a></div></div>
+<div class="ttc" id="aclass_communication_base_de_donnees_html"><div class="ttname"><a href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a></div><div class="ttdef"><b>Definition:</b> <a href="module-de-gestion_2e_light_control_2communicationbasededonnees_8h_source.html#l00034">module-de-gestion/eLightControl/communicationbasededonnees.h:35</a></div></div>
+<div class="ttc" id="aclass_communication_segments_html"><div class="ttname"><a href="class_communication_segments.html">CommunicationSegments</a></div><div class="ttdef"><b>Definition:</b> <a href="communicationsegments_8h_source.html#l00059">communicationsegments.h:60</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html"><div class="ttname"><a href="class_page_accueil.html">PageAccueil</a></div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00052">pageaccueil.h:53</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a157b67d31f706c0f2794aac22f799edb"><div class="ttname"><a href="class_page_accueil.html#a157b67d31f706c0f2794aac22f799edb">PageAccueil::baseDeDonnees</a></div><div class="ttdeci">CommunicationBaseDeDonnees &amp; baseDeDonnees</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00070">pageaccueil.h:70</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a16a78f48027fe930ccb4c7aed363b799"><div class="ttname"><a href="class_page_accueil.html#a16a78f48027fe930ccb4c7aed363b799">PageAccueil::intensiteScenarioActif</a></div><div class="ttdeci">QLabel * intensiteScenarioActif</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00072">pageaccueil.h:72</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a1763373043bfd6aada04c5f33c5856d3"><div class="ttname"><a href="class_page_accueil.html#a1763373043bfd6aada04c5f33c5856d3">PageAccueil::intensiteScenarioActifEntier</a></div><div class="ttdeci">int intensiteScenarioActifEntier</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00073">pageaccueil.h:73</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a1a101de4ead41033f3d157ca63598ee2"><div class="ttname"><a href="class_page_accueil.html#a1a101de4ead41033f3d157ca63598ee2">PageAccueil::getBoutonGererScenarios</a></div><div class="ttdeci">QPushButton * getBoutonGererScenarios() const</div></div>
+<div class="ttc" id="aclass_page_accueil_html_a227c1c3277345d19c07114a9237ec626"><div class="ttname"><a href="class_page_accueil.html#a227c1c3277345d19c07114a9237ec626">PageAccueil::selectionnerScenarioActif</a></div><div class="ttdeci">void selectionnerScenarioActif()</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00247">pageaccueil.cpp:247</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a2f73b39bec976ba93671f1488403d752"><div class="ttname"><a href="class_page_accueil.html#a2f73b39bec976ba93671f1488403d752">PageAccueil::retirerScenarioActif</a></div><div class="ttdeci">void retirerScenarioActif()</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00276">pageaccueil.cpp:276</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a36c1fc3d7cf0bd25db80bfab3f2f3470"><div class="ttname"><a href="class_page_accueil.html#a36c1fc3d7cf0bd25db80bfab3f2f3470">PageAccueil::chargerScenariosDepuisBDD</a></div><div class="ttdeci">void chargerScenariosDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00165">pageaccueil.cpp:165</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a3c3d831f80596db3973295e0f6d9f031"><div class="ttname"><a href="class_page_accueil.html#a3c3d831f80596db3973295e0f6d9f031">PageAccueil::signalEnvoyerTrameIntensite</a></div><div class="ttdeci">void signalEnvoyerTrameIntensite(int idSegment, int intensite)</div></div>
+<div class="ttc" id="aclass_page_accueil_html_a46cda6d200c84f6e5671d812d2f00f09"><div class="ttname"><a href="class_page_accueil.html#a46cda6d200c84f6e5671d812d2f00f09">PageAccueil::creerSegments</a></div><div class="ttdeci">void creerSegments(const int nombreScenarios)</div></div>
+<div class="ttc" id="aclass_page_accueil_html_a4c1e7e4b8feec38721ec3d3539c18f20"><div class="ttname"><a href="class_page_accueil.html#a4c1e7e4b8feec38721ec3d3539c18f20">PageAccueil::nomScenarioActif</a></div><div class="ttdeci">QLabel * nomScenarioActif</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00071">pageaccueil.h:71</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a550e50a058d820cab55b13c2db0ee7b4"><div class="ttname"><a href="class_page_accueil.html#a550e50a058d820cab55b13c2db0ee7b4">PageAccueil::menuDeroulantScenarios</a></div><div class="ttdeci">QComboBox * menuDeroulantScenarios</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00069">pageaccueil.h:69</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a5d425a794490843c0d36c2c2b1d2ee1d"><div class="ttname"><a href="class_page_accueil.html#a5d425a794490843c0d36c2c2b1d2ee1d">PageAccueil::boutonRetirerScenarioActif</a></div><div class="ttdeci">QPushButton * boutonRetirerScenarioActif</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00074">pageaccueil.h:74</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a781c49356c66fcb17b1c5953bca02367"><div class="ttname"><a href="class_page_accueil.html#a781c49356c66fcb17b1c5953bca02367">PageAccueil::recupererNomSalle</a></div><div class="ttdeci">bool recupererNomSalle(QString &amp;nomSalle)</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00402">pageaccueil.cpp:402</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a7e1f0c5d22f351cb669abc6ae5eb0324"><div class="ttname"><a href="class_page_accueil.html#a7e1f0c5d22f351cb669abc6ae5eb0324">PageAccueil::layoutSegments</a></div><div class="ttdeci">QGridLayout * layoutSegments</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00067">pageaccueil.h:67</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a812b9711d3c04faa010f1642d27f7cc5"><div class="ttname"><a href="class_page_accueil.html#a812b9711d3c04faa010f1642d27f7cc5">PageAccueil::~PageAccueil</a></div><div class="ttdeci">virtual ~PageAccueil()</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00160">pageaccueil.cpp:160</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a849dd65a5e86caa4e6281b2732d5a9ec"><div class="ttname"><a href="class_page_accueil.html#a849dd65a5e86caa4e6281b2732d5a9ec">PageAccueil::chargerScenarioActifDepuisBDD</a></div><div class="ttdeci">void chargerScenarioActifDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00192">pageaccueil.cpp:192</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_a8a06e2d2a557f4c75d293d7ad7161ee7"><div class="ttname"><a href="class_page_accueil.html#a8a06e2d2a557f4c75d293d7ad7161ee7">PageAccueil::boutonConfirmerSelectionScenario</a></div><div class="ttdeci">QPushButton * boutonConfirmerSelectionScenario</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00075">pageaccueil.h:75</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_aa07d5eac0eb694b001264ec1b2bcc0c2"><div class="ttname"><a href="class_page_accueil.html#aa07d5eac0eb694b001264ec1b2bcc0c2">PageAccueil::placerSegments</a></div><div class="ttdeci">void placerSegments()</div></div>
+<div class="ttc" id="aclass_page_accueil_html_aa9e789dd2641e519e6ad9a3593d8730d"><div class="ttname"><a href="class_page_accueil.html#aa9e789dd2641e519e6ad9a3593d8730d">PageAccueil::PageAccueil</a></div><div class="ttdeci">PageAccueil(QWidget *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00006">pageaccueil.cpp:6</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_ab3a879655fb326c0bd5c9a793361204e"><div class="ttname"><a href="class_page_accueil.html#ab3a879655fb326c0bd5c9a793361204e">PageAccueil::communicationSegments</a></div><div class="ttdeci">CommunicationSegments * communicationSegments</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00078">pageaccueil.h:78</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_ac032ca11bb2efa04574cd4005b7f6663"><div class="ttname"><a href="class_page_accueil.html#ac032ca11bb2efa04574cd4005b7f6663">PageAccueil::idsSegmentsSalle</a></div><div class="ttdeci">QVector&lt; int &gt; idsSegmentsSalle</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00076">pageaccueil.h:76</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_aef6e0fbb950e78a7be1b7fe1bf8d9cdc"><div class="ttname"><a href="class_page_accueil.html#aef6e0fbb950e78a7be1b7fe1bf8d9cdc">PageAccueil::listeSegments</a></div><div class="ttdeci">QList&lt; BoiteSegment * &gt; listeSegments</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8h_source.html#l00068">pageaccueil.h:68</a></div></div>
+<div class="ttc" id="aclass_page_accueil_html_af27dc163911ab269a94bead1f51e59c9"><div class="ttname"><a href="class_page_accueil.html#af27dc163911ab269a94bead1f51e59c9">PageAccueil::chargerSegmentsDepuisBDD</a></div><div class="ttdeci">void chargerSegmentsDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="pageaccueil_8cpp_source.html#l00299">pageaccueil.cpp:299</a></div></div>
+<div class="ttc" id="aclass_q_widget_html"><div class="ttname"><a href="class_q_widget.html">QWidget</a></div></div>
+<div class="ttc" id="acommunicationsegments_8h_html"><div class="ttname"><a href="communicationsegments_8h.html">communicationsegments.h</a></div></div>
+<div class="ttc" id="amodule-de-supervision_2e_light_app_2communicationbasededonnees_8h_html"><div class="ttname"><a href="module-de-supervision_2e_light_app_2communicationbasededonnees_8h.html">communicationbasededonnees.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b676d9623a1823538ea7b135468eb5dc.html">module-de-gestion</a></li><li class="navelem"><a class="el" href="dir_0fa03b09a58995f9192fbe8b39b75f22.html">eLightControl</a></li><li class="navelem"><a class="el" href="pageaccueil_8h.html">pageaccueil.h</a></li>
+    <li class="footer"><img class="footer" src="lasalle-logo.png" height="31" alt="La Salle Avignon"/>&nbsp;<b>Campus La Salle Avignon</b>&nbsp;-&nbsp;9 Rue Notre Dame des 7 douleurs&nbsp;-&nbsp;BP 50165&nbsp;-&nbsp;84008 Avignon&nbsp;-&nbsp;Généré le Vendredi 6 Juin 2025 16:01:19 pour Projet elight par&nbsp;<a href="https://www.doxygen.org/index.html">doxygen</a>&nbsp;1.9.1&nbsp;</li>
+  </ul>
+</div>
+</body>
+</html>
