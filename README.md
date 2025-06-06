@@ -28,22 +28,20 @@
     </tr>
 </table>
 
-# Projet eLight 💡
+# Projet BTS CIEL 2025 : eLight 💡
 
-- [Projet eLight 💡](#projet-elight-)
+- [Projet BTS CIEL 2025 : eLight 💡](#projet-bts-ciel-2025--elight-)
   - [Présentation](#présentation)
     - [Module de gestion par salle](#module-de-gestion-par-salle)
     - [Module de supervision](#module-de-supervision)
-  - [Itérations](#itérations)
+  - [Gestion de projet](#gestion-de-projet)
     - [Itération 1](#itération-1)
-    - [Itérations 2](#itérations-2)
-    - [Itérations 3](#itérations-3)
-    - [Itérations 4](#itérations-4)
+    - [Itération 2](#itération-2)
+    - [Itération 3](#itération-3)
+    - [Itération 4](#itération-4)
   - [Recette](#recette)
     - [Module de gestion par salle](#module-de-gestion-par-salle-1)
-    - [Production attendue](#production-attendue)
     - [Module de supervision](#module-de-supervision-1)
-    - [Production attendue](#production-attendue-1)
   - [Diagrammes](#diagrammes)
     - [Diagrammes de cas d'utilisation - Module de gestion par salle](#diagrammes-de-cas-dutilisation---module-de-gestion-par-salle)
     - [Diagrammes de cas d'utilisation - Module de supervision](#diagrammes-de-cas-dutilisation---module-de-supervision)
@@ -61,7 +59,6 @@
     - [Module de gestion par salle](#module-de-gestion-par-salle-2)
     - [Module de supervision](#module-de-supervision-2)
   - [Protocole de communication](#protocole-de-communication)
-    - [Types de trames](#types-de-trames)
   - [Changelog](#changelog)
     - [v1.0.0 - 2025-06-06](#v100---2025-06-06)
     - [Versions futures (à prévoir)](#versions-futures-à-prévoir)
@@ -81,7 +78,9 @@ Ce module permet au client de gérer l’éclairage d’une salle. Il peut ainsi
 
 Ce module permet au client de superviser toutes les salles équipées de système elight. Il peut visualiser les états de tous les segments, gérer les scénarios de toutes les salles, gérer les attributions de segment à une salle, suivre la consommation de toute l’installation à l’instant T et visualiser l’historique des consommations pour toute l’installation.
 
-## Itérations
+## Gestion de projet
+
+[GitHub Project](https://github.com/orgs/bts-lasalle-avignon-projets/projects/28)
 
 ### Itération 1
 
@@ -90,18 +89,18 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 - **Mettre à jour des scénarios** : L'utilisateur peut mettre à jour un scénario.
 - **Afficher les scénarios enregistrés** : L'utilisateur peut visualiser les scénarios disponibles.
 
-### Itérations 2
+### Itération 2
 
 - **Sélectionner un scénario** : L'utilisateur peut sélectionner pour la salle.
 - **Afficher le scénario actif** : L'utilisateur peut visualiser le scénario actif de la salle.
 - **Afficher la consommation des segments** : L'utilisateur peut visualiser la consommation des segments dans la salle.
 
-### Itérations 3
+### Itération 3
 
 - **Afficher la consommation instantanée** : L'utilisateur peut voir la consommation à un instant T via l'application de supervision.
 - **Afficher une page de guide** : L'utilisateur peut accéder à une page d'aide.
 
-### Itérations 4
+### Itération 4
 
 - **Interface graphique revisitée** : Amélioration de l'interface graphique.
 
@@ -120,7 +119,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 | La synchronisation des scénarios avec la BDD centrale est possible            |         |          | X      |
 | La liaison sans fil est opérationnelle                                        |         |          | X      |
 
-### Production attendue
+- Production attendue :
 
 | Livrable                                      | À faire | En cours | Achevé |
 |-----------------------------------------------| :-----: | :------: | :----: |
@@ -142,7 +141,7 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 | L’historique des consommations d’éclairage est visualisable                   |         |          | X      |
 | La liaison sans fil est opérationnelle                                        |         | X        |        |
 
-### Production attendue
+- Production attendue :
 
 | Livrable                                      | À faire | En cours | Achevé |
 |-----------------------------------------------| :-----: | :------: | :----: |
@@ -163,9 +162,11 @@ Ce module permet au client de superviser toutes les salles équipées de systèm
 
 ## Base de données
 
+cf. [eLight.sql](./base-de-donnees/eLight.sql)
+
 ![Schéma de la base de données](images/diagramme-de-la-base-de-donnees.png)
 
-![Guide d'installation](base-de-donnees/GUIDE-D-INSTALLATION.md)
+> [Guide d'installation](base-de-donnees/GUIDE-D-INSTALLATION.md)
 
 ## IHM - Module de gestion par salle
 
@@ -223,7 +224,6 @@ Ce protocole permet l’échange de données entre une **application de gestion*
 
 Les trames suivent le format suivant : `#TYPE;DONNEE\r\n`
 
-
 Chaque élément de la trame a un rôle précis :
 
 | Nom       | Forme        | Description                                                                 | Exemple      |
@@ -234,9 +234,7 @@ Chaque élément de la trame a un rôle précis :
 | Donnée    | `DONNEE`     | Contenu utile, valeur numérique transmise.                                  | `300`        |
 | Fin       | `\r\n`       | Fin de trame. Convention utilisée pour **délimiter** la fin du message.     | `\r\n`       |
 
----
-
-### Types de trames
+- Types de trames :
 
 | Nom du type | Forme     | Description                                                            | Exemple        |
 |-------------|-----------|------------------------------------------------------------------------|----------------|
@@ -245,7 +243,8 @@ Chaque élément de la trame a un rôle précis :
 | Intensité      | `#I;xxx\r\n`| Ordre envoyé à un segment pour appliquer une **intensité donnée**.                    | `#I;400\r\n`   |
 | Accusé (ACK)   | `#A;0\r\n`  | Confirme la **réception d’une trame** ou indique la **fin de communication**.        | `#A;0\r\n`     |
 
-Bien que le protocole **UDP** soit rapide, il ne garantit **ni la réception ni l’ordre des paquets**.
+> Bien que le protocole **UDP** soit rapide, il ne garantit **ni la réception ni l’ordre des paquets**.
+
 Pour améliorer la fiabilité :
 
 - Chaque trame de réponse envoyée par le **contrôleur** est attendue avec un **accusé de réception** (ACK) par l'application.
@@ -275,3 +274,6 @@ Pour améliorer la fiabilité :
 
 - **[Soria Bonet Enzo](https://github.com/esoriabonet)** : *Module de gestion par salle*
 - **[Blondel Joshua](https://github.com/JBLONDEL04)** : *Module de supervision*
+
+---
+&copy; 2024-2025 LaSalle Avignon
