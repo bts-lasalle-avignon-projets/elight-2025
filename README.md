@@ -1,3 +1,33 @@
+<table style="width:100%">
+    <tr>
+        <th colspan="3">eLight</th>
+    </tr>
+    <tr>
+        <td>
+        <a href="https://fr.wikipedia.org/wiki/Qt"><img src="https://img.shields.io/badge/Qt-%23217346.svg?style=for-the-badge&logo=Qt&logoColor=white" alt="Qt"/></a>
+        </td>
+        <td>
+        <a href="https://github.com/bts-lasalle-avignon-projets/elight-2025/"><img src="https://img.shields.io/badge/Projet-BTS%20CIEL-darkviolet.svg" alt="Projet BTS CIEL"/></a>
+        </td>
+        <td>
+        <a href="https://github.com/bts-lasalle-avignon-projets/elight-2025/releases"><img src="https://img.shields.io/github/v/release/bts-lasalle-avignon-projets/elight-2025" alt="release"/></a>
+        </td>
+    </tr>
+</table>
+<table style="width:100%">
+    <tr>
+        <th colspan="2">GitHub Actions</th>
+    </tr>
+    <tr>
+        <td>
+        <a href="https://github.com/bts-lasalle-avignon-projets/elight-2025/actions/workflows/qt-build-eLightControl.yml"><img src="https://github.com/bts-lasalle-avignon-projets/elight-2025/actions/workflows/qt-build-eLightControl.yml/badge.svg" alt="build Qt gestion"/></a>
+        </td>
+        <td>
+        <a href="https://github.com/bts-lasalle-avignon-projets/elight-2025/actions/workflows/qt-build-eLightApp.yml"><img src="https://github.com/bts-lasalle-avignon-projets/elight-2025/actions/workflows/qt-build-eLightApp.yml/badge.svg" alt="build Qt supervision"/></a>
+        </td>
+    </tr>
+</table>
+
 # Projet eLight 💡
 
 - [Projet eLight 💡](#projet-elight-)
@@ -18,7 +48,6 @@
     - [Diagrammes de cas d'utilisation - Module de gestion par salle](#diagrammes-de-cas-dutilisation---module-de-gestion-par-salle)
     - [Diagrammes de cas d'utilisation - Module de supervision](#diagrammes-de-cas-dutilisation---module-de-supervision)
   - [Base de données](#base-de-données)
-  - [Utilisation](#utilisation)
   - [IHM - Module de gestion par salle](#ihm---module-de-gestion-par-salle)
     - [Page d'accueil](#page-daccueil)
     - [Page gestion des scénarios](#page-gestion-des-scénarios)
@@ -34,7 +63,7 @@
   - [Protocole de communication](#protocole-de-communication)
     - [Types de trames](#types-de-trames)
   - [Changelog](#changelog)
-    - [v1.0.0 - 2025-06-04](#v100---2025-06-04)
+    - [v1.0.0 - 2025-06-06](#v100---2025-06-06)
     - [Versions futures (à prévoir)](#versions-futures-à-prévoir)
   - [Créateurs](#créateurs)
 
