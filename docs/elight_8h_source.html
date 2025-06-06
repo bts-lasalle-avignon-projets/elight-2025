@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Projet elight:  Fichier source de elight.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="projet-logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Projet elight
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">BTS CIEL IR LaSalle Avignon 2025</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('elight_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">elight.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="elight_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef ELIGHT_H</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define ELIGHT_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QtWidgets&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QVector&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QMap&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="module-de-supervision_2e_light_app_2config_8h.html">config.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span><a class="code" href="class_historique.html">Historique</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">class </span><a class="code" href="class_salle.html">Salle</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span><a class="code" href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span><a class="code" href="class_communication_wi_fi.html">CommunicationWiFi</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_e_light.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_e_light.html">ELight</a> : <span class="keyword">public</span> <a class="code" href="class_q_widget.html">QWidget</a></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="class_e_light.html#a54b073043afca1e7823b61f6be635790">ELight</a>(<a class="code" href="class_q_widget.html">QWidget</a>* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="class_e_light.html#a90e8242fea1a848ab6fd3e09d9230b2d">~ELight</a>();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_e_light.html#a31eff12366943df9e57482283dc436b6">afficherHistorique</a>();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_e_light.html#aff2f717fac1763145147570d8da73741">afficherSalle</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_e_light.html#abca20830f0f741dace05f2d0873b2581">   27</a></span>&#160;    <a class="code" href="class_historique.html">Historique</a>*                 <a class="code" href="class_e_light.html#abca20830f0f741dace05f2d0873b2581">historiquePage</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="class_e_light.html#a8de6964592a8784aaff1e89fb3f4ec1e">   28</a></span>&#160;    QMap&lt;QPushButton*, Salle*&gt;  <a class="code" href="class_e_light.html#a8de6964592a8784aaff1e89fb3f4ec1e">salles</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_e_light.html#aff062d58161bc402214f3fd5d4e2bed1">   29</a></span>&#160;    QVector&lt;QPushButton*&gt;       <a class="code" href="class_e_light.html#aff062d58161bc402214f3fd5d4e2bed1">boutonsSalles</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_e_light.html#a4201b2e3568c419edf5b04f9d189f8d4">   30</a></span>&#160;    <a class="code" href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a>* <a class="code" href="class_e_light.html#a4201b2e3568c419edf5b04f9d189f8d4">baseDeDonnees</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="class_e_light.html#a2b1c86cb3f909f6941c1cdaff8b894ba">   31</a></span>&#160;    <a class="code" href="class_communication_wi_fi.html">CommunicationWiFi</a>*          <a class="code" href="class_e_light.html#a2b1c86cb3f909f6941c1cdaff8b894ba">communicationWiFi</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_e_light.html#a744dc8c3f501028e0c19ca80af537ace">   32</a></span>&#160;    QLabel*                     <a class="code" href="class_e_light.html#a744dc8c3f501028e0c19ca80af537ace">consommationTotaleLabel</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_e_light.html#a3ed5f899cb38b19916be6d1a0592bd22">chargerSallesDepuisBDD</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_e_light.html#ae500bae0f258a6393f2393a48b94f728">estSalleActive</a>(<span class="keywordtype">int</span> idSalle);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_e_light.html#ac928613c20d833a83d103eeb3eaee02b">chargerConsommationTotaleDepuisBDD</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// ELIGHT_H</span></div>
+<div class="ttc" id="aclass_communication_base_de_donnees_html"><div class="ttname"><a href="class_communication_base_de_donnees.html">CommunicationBaseDeDonnees</a></div><div class="ttdef"><b>Definition:</b> <a href="module-de-gestion_2e_light_control_2communicationbasededonnees_8h_source.html#l00034">module-de-gestion/eLightControl/communicationbasededonnees.h:35</a></div></div>
+<div class="ttc" id="aclass_communication_wi_fi_html"><div class="ttname"><a href="class_communication_wi_fi.html">CommunicationWiFi</a></div><div class="ttdef"><b>Definition:</b> <a href="communicationwifi_8h_source.html#l00039">communicationwifi.h:40</a></div></div>
+<div class="ttc" id="aclass_e_light_html"><div class="ttname"><a href="class_e_light.html">ELight</a></div><div class="ttdef"><b>Definition:</b> <a href="elight_8h_source.html#l00014">elight.h:15</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a2b1c86cb3f909f6941c1cdaff8b894ba"><div class="ttname"><a href="class_e_light.html#a2b1c86cb3f909f6941c1cdaff8b894ba">ELight::communicationWiFi</a></div><div class="ttdeci">CommunicationWiFi * communicationWiFi</div><div class="ttdef"><b>Definition:</b> <a href="elight_8h_source.html#l00031">elight.h:31</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a31eff12366943df9e57482283dc436b6"><div class="ttname"><a href="class_e_light.html#a31eff12366943df9e57482283dc436b6">ELight::afficherHistorique</a></div><div class="ttdeci">void afficherHistorique()</div><div class="ttdef"><b>Definition:</b> <a href="elight_8cpp_source.html#l00094">elight.cpp:94</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a3ed5f899cb38b19916be6d1a0592bd22"><div class="ttname"><a href="class_e_light.html#a3ed5f899cb38b19916be6d1a0592bd22">ELight::chargerSallesDepuisBDD</a></div><div class="ttdeci">void chargerSallesDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="elight_8cpp_source.html#l00136">elight.cpp:136</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a4201b2e3568c419edf5b04f9d189f8d4"><div class="ttname"><a href="class_e_light.html#a4201b2e3568c419edf5b04f9d189f8d4">ELight::baseDeDonnees</a></div><div class="ttdeci">CommunicationBaseDeDonnees * baseDeDonnees</div><div class="ttdef"><b>Definition:</b> <a href="elight_8h_source.html#l00030">elight.h:30</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a54b073043afca1e7823b61f6be635790"><div class="ttname"><a href="class_e_light.html#a54b073043afca1e7823b61f6be635790">ELight::ELight</a></div><div class="ttdeci">ELight(QWidget *parent=nullptr)</div><div class="ttdoc">Constructeur de la classe ELight.</div><div class="ttdef"><b>Definition:</b> <a href="elight_8cpp_source.html#l00023">elight.cpp:23</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a744dc8c3f501028e0c19ca80af537ace"><div class="ttname"><a href="class_e_light.html#a744dc8c3f501028e0c19ca80af537ace">ELight::consommationTotaleLabel</a></div><div class="ttdeci">QLabel * consommationTotaleLabel</div><div class="ttdef"><b>Definition:</b> <a href="elight_8h_source.html#l00032">elight.h:32</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a8de6964592a8784aaff1e89fb3f4ec1e"><div class="ttname"><a href="class_e_light.html#a8de6964592a8784aaff1e89fb3f4ec1e">ELight::salles</a></div><div class="ttdeci">QMap&lt; QPushButton *, Salle * &gt; salles</div><div class="ttdef"><b>Definition:</b> <a href="elight_8h_source.html#l00028">elight.h:28</a></div></div>
+<div class="ttc" id="aclass_e_light_html_a90e8242fea1a848ab6fd3e09d9230b2d"><div class="ttname"><a href="class_e_light.html#a90e8242fea1a848ab6fd3e09d9230b2d">ELight::~ELight</a></div><div class="ttdeci">virtual ~ELight()</div><div class="ttdef"><b>Definition:</b> <a href="elight_8cpp_source.html#l00088">elight.cpp:88</a></div></div>
+<div class="ttc" id="aclass_e_light_html_abca20830f0f741dace05f2d0873b2581"><div class="ttname"><a href="class_e_light.html#abca20830f0f741dace05f2d0873b2581">ELight::historiquePage</a></div><div class="ttdeci">Historique * historiquePage</div><div class="ttdef"><b>Definition:</b> <a href="elight_8h_source.html#l00027">elight.h:27</a></div></div>
+<div class="ttc" id="aclass_e_light_html_ac928613c20d833a83d103eeb3eaee02b"><div class="ttname"><a href="class_e_light.html#ac928613c20d833a83d103eeb3eaee02b">ELight::chargerConsommationTotaleDepuisBDD</a></div><div class="ttdeci">void chargerConsommationTotaleDepuisBDD()</div><div class="ttdef"><b>Definition:</b> <a href="elight_8cpp_source.html#l00178">elight.cpp:178</a></div></div>
+<div class="ttc" id="aclass_e_light_html_ae500bae0f258a6393f2393a48b94f728"><div class="ttname"><a href="class_e_light.html#ae500bae0f258a6393f2393a48b94f728">ELight::estSalleActive</a></div><div class="ttdeci">bool estSalleActive(int idSalle)</div><div class="ttdef"><b>Definition:</b> <a href="elight_8cpp_source.html#l00111">elight.cpp:111</a></div></div>
+<div class="ttc" id="aclass_e_light_html_aff062d58161bc402214f3fd5d4e2bed1"><div class="ttname"><a href="class_e_light.html#aff062d58161bc402214f3fd5d4e2bed1">ELight::boutonsSalles</a></div><div class="ttdeci">QVector&lt; QPushButton * &gt; boutonsSalles</div><div class="ttdef"><b>Definition:</b> <a href="elight_8h_source.html#l00029">elight.h:29</a></div></div>
+<div class="ttc" id="aclass_e_light_html_aff2f717fac1763145147570d8da73741"><div class="ttname"><a href="class_e_light.html#aff2f717fac1763145147570d8da73741">ELight::afficherSalle</a></div><div class="ttdeci">void afficherSalle()</div><div class="ttdef"><b>Definition:</b> <a href="elight_8cpp_source.html#l00101">elight.cpp:101</a></div></div>
+<div class="ttc" id="aclass_historique_html"><div class="ttname"><a href="class_historique.html">Historique</a></div><div class="ttdef"><b>Definition:</b> <a href="historique_8h_source.html#l00015">historique.h:16</a></div></div>
+<div class="ttc" id="aclass_q_widget_html"><div class="ttname"><a href="class_q_widget.html">QWidget</a></div></div>
+<div class="ttc" id="aclass_salle_html"><div class="ttname"><a href="class_salle.html">Salle</a></div><div class="ttdef"><b>Definition:</b> <a href="salle_8h_source.html#l00027">salle.h:28</a></div></div>
+<div class="ttc" id="amodule-de-supervision_2e_light_app_2config_8h_html"><div class="ttname"><a href="module-de-supervision_2e_light_app_2config_8h.html">config.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.9.1-->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_925c2c72bcc34cac258ac93b3f2e6df2.html">module-de-supervision</a></li><li class="navelem"><a class="el" href="dir_d2b6274792d7a00ab27ac15c7b182e5d.html">eLightApp</a></li><li class="navelem"><a class="el" href="elight_8h.html">elight.h</a></li>
+    <li class="footer"><img class="footer" src="lasalle-logo.png" height="31" alt="La Salle Avignon"/>&nbsp;<b>Campus La Salle Avignon</b>&nbsp;-&nbsp;9 Rue Notre Dame des 7 douleurs&nbsp;-&nbsp;BP 50165&nbsp;-&nbsp;84008 Avignon&nbsp;-&nbsp;Généré le Vendredi 6 Juin 2025 16:01:19 pour Projet elight par&nbsp;<a href="https://www.doxygen.org/index.html">doxygen</a>&nbsp;1.9.1&nbsp;</li>
+  </ul>
+</div>
+</body>
+</html>
