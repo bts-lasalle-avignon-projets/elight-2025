@@ -1,0 +1,79 @@
+# Fichiers temporaires
+*.bak
+*.swp
+*.swo
+*.swn
+*.~*
+.DS_Store
+
+# C++ objects and libs
+*.slo
+*.lo
+*.o
+*.obj
+*.a
+*.la
+*.lai
+*.lo
+*.so
+*.so.*
+*.dll
+*.dylib
+
+# Qt
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+*.qm
+*.prl
+target_wrapper.*
+*.autosave
+*.qmlproject.user
+*.qmlproject.user.*
+CMakeLists.txt.user*
+compile_commands.json
+*creator.user*
+*.creator*
+*.kdev4
+*.qmake
+qtc_*
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Dossiers spécifiques aux IDE
+.idea/
+.vscode/
+*.user
+*.userprefs
+*.vscode/
+*.vs/
+
+# Fichiers temporaires et autres fichiers générés
+*.log
+*.dSYM/
+
+# BOUML
+*.d
+*.b
+*.lock
+*.session
+idl_includes
+*.user

@@ -1,0 +1,3 @@
+class CommunicationSegments
+!!!128298.cpp!!!	CommunicationSegments(inout parent : QObject = nullptr)
+    qDebug() << Q_FUNC_INFO << this << "parent" << parent;
